@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  3 OCT 2026 15:10
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  3 OCT 2026 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -972,7 +972,7 @@ Package: fancyvrb 2026/08/13 4.7 verbatim text (tvz,hv)
 (C:\Program Files\MiKTeX\tex/latex/needspace\needspace.sty
 Package: needspace 2025/03/13 v1.3e reserve vertical space
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 76.
+Package hyperref Info: Option `colorlinks' set `true' on input line 84.
 \c@stepsi=\count382
 \c@stepsii=\count383
 \enitdp@steps=\count384
@@ -1132,10 +1132,16 @@ il's Windows 10 workstation
 
 ] [8
 
-] [9
+]
+Overfull \hbox (8.21051pt too wide) detected at line 423
+\TU/Consolas(0)/m/n/10 &Login=Login:Login failed:H=Cookie: security=low; PHPSES
+SID=<paste_session_id_here>" 
+ []
+
+[9
 
 ]
-Underfull \hbox (badness 3612) in paragraph at lines 488--493
+Underfull \hbox (badness 3612) in paragraph at lines 499--504
 []\TU/Consolas(0)/m/n/10.95 find ... -perm -4000 \TU/Calibri(0)/m/n/10.95 lists
  SUID binaries; one of them (or a kernel exploit matched by
  []
@@ -1144,31 +1150,29 @@ Underfull \hbox (badness 3612) in paragraph at lines 488--493
 
 ] [11
 
-]
-Underfull \hbox (badness 4013) in paragraph at lines 592--597
-[]\TU/Calibri(0)/m/n/10.95 The filtered Wireshark/tshark view isolates the SYN 
-floods and HTTP requests from Bruno’s
- []
-
-[12
-
-] [13
+] [12
 
 ]
-Overfull \hbox (11.88025pt too wide) in paragraph at lines 674--677
+
+LaTeX Warning: Reference `sec:pc3' on page 13 undefined on input line 658.
+
+[13] [14] [15
+
+]
+Overfull \hbox (11.88025pt too wide) in paragraph at lines 819--822
 []\TU/Calibri(0)/m/n/10.95 Structure the report: Executive Summary, Scope, Meth
 odology (reference PTES/NIST SP 800-115/OWASP
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 693--695
+Underfull \hbox (badness 5316) in paragraph at lines 838--840
 []\TU/Calibri(0)/b/n/10.95 SCREENSHOT \TU/Calibri(0)/m/n/10.95 — final report t
 itle page and table of contents, confirming all required sec-
  []
 
-[14
+[16
 
-] [15
+] [17
 
 ] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
@@ -1177,18 +1181,22 @@ enddocument/afterlastpage (AED): lastpage setting LastPage.
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `post-configuration-execution-guide.out' has 
 not changed.
-(rerunfilecheck)             Checksum: 8DF63D26DFA8A6CCC85F846D6AB1EACF;4750.
+(rerunfilecheck)             Checksum: E430AA8922271015611989100600E754;6704.
  ) 
 Here is how much of TeX's memory you used:
- 33131 strings out of 402807
- 702713 string characters out of 5449482
- 1223546 words of memory out of 5000000
- 61524 multiletter control sequences out of 15000+600000
+ 33147 strings out of 402807
+ 702961 string characters out of 5449482
+ 1229573 words of memory out of 5000000
+ 61540 multiletter control sequences out of 15000+600000
  632456 words of font info for 89 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 91i,12n,101p,527b,941s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 91i,12n,101p,527b,1056s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on post-configuration-execution-guide.xdv (16 pages, 555180 byte
+Output written on post-configuration-execution-guide.xdv (18 pages, 743852 byte
 s).

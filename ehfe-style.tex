@@ -4,6 +4,14 @@
 \usepackage[margin=2.2cm,headheight=28pt]{geometry}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{fontspec}
+
+% force the PDF's copy/search text layer to record the exact original input
+% characters (ActualText), not whatever codepoint xdvipdfmx's font-cmap
+% heuristic would otherwise pick for a shared glyph (this is what was turning
+% a typed ASCII hyphen-minus "-" into a copy-pasted Unicode hyphen "‐" U+2010,
+% silently breaking every copy-pasted shell command that uses a "-flag")
+\XeTeXgenerateactualtext=1
+
 \setmainfont{Calibri}[
   BoldFont = Calibri Bold,
   ItalicFont = Calibri Italic,

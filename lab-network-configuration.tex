@@ -312,7 +312,7 @@ sensor --- it is never used to attack, only to listen.
   \texttt{192.168.50.1}.
 \end{steps}
 
-\begin{cmdbox}[Suricata installation \& IDS mode]
+\begin{cmdbox}[Suricata installation \& ruleset update]
 \begin{cmdverb}
 # update package lists and install Suricata
 sudo apt update && sudo apt install -y suricata jq
@@ -320,9 +320,54 @@ sudo apt update && sudo apt install -y suricata jq
 # confirm the interface that should see LAN traffic
 ip -brief addr show
 
-# point Suricata at the lab subnet (HOME_NET)
-sudo sed -i 's/^HOME_NET.*/HOME_NET: "[192.168.50.0\/24]"/' \
+# point Suricata at the lab subnet (HOME_NET line is indented under
+# vars: address-groups: in suricata.yaml, so the pattern must allow
+# leading whitespace or the substitution silently matches nothing)
+sudo sed -i 's/^\( *HOME_NET:\).*/\1 "[192.168.50.0\/24]"/' \
     /etc/suricata/suricata.yaml
+
+# confirm the substitution actually took effect
+grep "HOME_NET:" /etc/suricata/suricata.yaml
+
+# pull the current ET-open ruleset (a fresh install ships almost no rules)
+sudo suricata-update
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{notebox}[Why \texttt{suricata-update} is required]
+A freshly installed Suricata only ships a handful of example rules. Without running
+\texttt{suricata-update} at least once, most ET-open signatures referenced later in
+this guide and in Task 11 of the Execution Guide (scan, exploit, and web-attack
+categories) simply do not exist yet, so nothing would alert regardless of how the
+sensor is wired up.
+\end{notebox}
+
+\begin{cmdbox}[Custom local rule: detect a port-scan threshold]
+Suricata does not flag a plain SYN scan out of the box the way a scanner-detection
+engine would --- this has to be added as a local rule using a \texttt{threshold}
+clause, which counts matching packets per source over a time window.
+\begin{cmdverb}
+sudo nano /etc/suricata/rules/local.rules
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Contents of local.rules]
+\begin{cmdverb}
+alert tcp any any -> $HOME_NET any (msg:"LOCAL Potential TCP Port Scan"; \
+  flags:S; threshold:type threshold, track by_src, count 20, seconds 10; \
+  classtype:attempted-recon; sid:1000001; rev:1;)
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Confirm local.rules is loaded, then start Suricata]
+\begin{cmdverb}
+# the default rule-files list may not reference local.rules yet --
+# add it right after the "rule-files:" line only if it's missing
+grep -qxF '  - local.rules' /etc/suricata/suricata.yaml || \
+  sudo sed -i '/rule-files:/a\  - local.rules' /etc/suricata/suricata.yaml
+
+# validate the configuration and new rule before going live
+sudo suricata -T -c /etc/suricata/suricata.yaml -v
 
 # enable and start Suricata in IDS (listen-only) mode on the bridged interface
 sudo systemctl enable --now suricata
@@ -680,9 +725,11 @@ sudo resize2fs /dev/sda1
 sudo gvm-check-setup
 
 # re-trigger feed synchronization if any feed reported stale/incomplete
-sudo greenbone-feed-sync --type GVMD_DATA
-sudo greenbone-feed-sync --type SCAP
-sudo greenbone-feed-sync --type CERT
+# (--type values are lowercase: nvt, scap, cert, gvmd-data)
+sudo greenbone-feed-sync --type nvt
+sudo greenbone-feed-sync --type scap
+sudo greenbone-feed-sync --type cert
+sudo greenbone-feed-sync --type gvmd-data
 \end{cmdverb}
 \end{troublebox}
 

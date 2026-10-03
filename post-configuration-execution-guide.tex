@@ -262,16 +262,19 @@ sudo gvm-start
 \begin{cmdbox}[Cross-check at least 2 findings manually]
 \begin{cmdverb}
 searchsploit apache 2.4
-nmap -sV --script=vulners 192.168.50.30
+
+# nmap's built-in "vuln" script category - ships with nmap, no extra
+# install required (unlike third-party scripts such as vulners.nse)
+nmap -sV --script vuln 192.168.50.30
 \end{cmdverb}
 \end{cmdbox}
 
 \begin{expectbox}
 The scan dashboard lists findings sorted High $\to$ Low with CVSS scores. Select and
 document at least 5 with supporting evidence (scan detail page screenshot).
-\texttt{searchsploit}/\texttt{vulners} output either corroborates a scanner finding
-(strengthens it) or surfaces something the automated scan missed --- either way, feed
-the confirmed list into Task 6's exploit selection.
+\texttt{searchsploit}/\texttt{nmap --script vuln} output either corroborates a scanner
+finding (strengthens it) or surfaces something the automated scan missed --- either
+way, feed the confirmed list into Task 6's exploit selection.
 \end{expectbox}
 
 \begin{notebox}[Difficulty encountered building PC5]
@@ -405,11 +408,19 @@ passwords''). Brute-forcing DVWA's login and SSH on Metasploitable both target
 accounts with no lockout policy --- exactly the gap Blue Team is asked to close.
 \end{redbox}
 
+\begin{steps}
+\item DVWA's brute-force page requires an authenticated session --- log in to DVWA in
+  a browser first (any valid account, security level \textbf{low}), open DevTools
+  $\to$ Application/Storage $\to$ Cookies, and copy the \texttt{PHPSESSID} value.
+  Without this cookie, every Hydra attempt just hits the login redirect and ``fails''
+  regardless of the password tried.
+\end{steps}
+
 \begin{cmdbox}[Brute-force the DVWA login form]
 \begin{cmdverb}
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.50.30 \
   http-post-form "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^\
-&Login=Login:Login failed"
+&Login=Login:Login failed:H=Cookie: security=low; PHPSESSID=<paste_session_id_here>"
 \end{cmdverb}
 \end{cmdbox}
 
@@ -522,10 +533,22 @@ ip route
 \end{cmdverb}
 \end{cmdbox}
 
-\begin{cmdbox}[Identify and use a pivot target]
+\begin{cmdbox}[Open a SOCKS pivot through the compromised host]
 \begin{cmdverb}
+# dynamic port forward: opens a local SOCKS proxy on 1080 that routes
+# through the Metasploitable host's own network view
+ssh -D 1080 msfadmin@192.168.50.40
+
+# point proxychains at that listener: confirm /etc/proxychains4.conf's last
+# line reads "socks5 127.0.0.1 1080", then route a scan through the pivot
 proxychains nmap -sT 192.168.50.0/24
-ssh -L 8080:192.168.50.250:80 user@192.168.50.40
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Alternative: forward one specific service through the pivot]
+\begin{cmdverb}
+ssh -L 8080:192.168.50.250:80 msfadmin@192.168.50.40
+# then browse http://127.0.0.1:8080 on Bruno's own machine
 \end{cmdverb}
 \end{cmdbox}
 
@@ -548,58 +571,180 @@ if performed, evidence of reaching (or being blocked from) the second host.
 
 % ===================== TASK 11 =====================
 \section{Task 11 --- Blue Team Investigation: Traffic \& Logs (5 marks)}
-\textbf{Runs on:} \marshall\ (Suricata-on-Kali, PC1, \texttt{192.168.50.200}).
-\quad\textbf{Goal:} capture and analyze evidence of the Red Team's activity from the
-defensive side.
+\textbf{Runs on:} \marshall\ (Suricata-on-Kali, PC1, \texttt{192.168.50.200}) with
+supporting log pulls by \amina\ and \fahdil. \quad\textbf{Goal:} reconstruct Red Team's
+\emph{entire} campaign from its first packet in Task 2 through Task 10, using traffic
+captures and logs only --- not prior knowledge of what Bruno/Rayan did.
 
 \begin{bluebox}
-Marshall's Suricata sensor sits in promiscuous mode on the LAN backbone (see
-\emph{Lab Network Configuration}, Section 5), so it sees Bruno and Rayan's traffic
-regardless of which host they attack from or to. The goal is to show the same attack
-twice: once from the attacker's shell (Tasks 6--10) and once from the defender's
-packet/log evidence here --- this pairing is what makes detection credible in the
-final report.
+Marshall's Suricata sensor has been running in promiscuous IDS mode on the LAN backbone
+since before Task 2 even started (see \emph{Lab Network Configuration}, Section 5), so
+\texttt{eve.json} already holds a timestamped record of the whole engagement. Rather
+than capturing one snapshot, Blue Team's job here is to walk that timeline
+\emph{chronologically} and show which log entry corresponds to which Red Team task ---
+this is what makes the detection story credible instead of a single disconnected
+screenshot.
 \end{bluebox}
 
-\begin{cmdbox}[Live packet capture during/alongside an earlier attack]
-\begin{cmdverb}
-tshark -i eth0 -w capture.pcap
-\end{cmdverb}
-\end{cmdbox}
+\subsection{Pull the full alert timeline first}
+Before filtering for anything specific, get the whole picture in time order so later,
+narrower queries can be justified by what this first pass shows.
 
-\begin{cmdbox}[Filter for the relevant traffic signature]
+\begin{cmdbox}[Full Suricata alert timeline, oldest first]
 \begin{cmdverb}
-tshark -r capture.pcap -Y "http.request or tcp.flags.syn==1"
-# Wireshark GUI filter bar: ip.addr==192.168.50.30 and tcp.flags.syn==1
-\end{cmdverb}
-\end{cmdbox}
-
-\begin{cmdbox}[Live Suricata alerts matching the same activity]
-\begin{cmdverb}
-sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
-\end{cmdverb}
-\end{cmdbox}
-
-\begin{cmdbox}[Matching evidence from target-side logs]
-\begin{cmdverb}
-tail -f /var/log/auth.log
-# Windows: Event Viewer > Windows Logs > Security, or:
-wevtutil qe Security /f:text /c:20
+# every alert since Suricata started, oldest first, readable fields only
+# (note: signature/category/severity live under the nested .alert object)
+jq -s 'sort_by(.timestamp) | .[] | select(.event_type=="alert") |
+  {timestamp, src_ip, dest_ip, dest_port, signature: .alert.signature}' \
+  /var/log/suricata/eve.json
 \end{cmdverb}
 \end{cmdbox}
 
 \begin{expectbox}
-The filtered Wireshark/tshark view isolates the SYN floods and HTTP requests from
-Bruno's scans/exploitation. \texttt{eve.json} shows matching Suricata alert objects
-timestamped to the same window. The target's own \texttt{auth.log}/Security event log
-shows the corresponding failed/successful login entries. Explain, in the report, how
-this traffic/log pattern would be detected and alerted on in production.
+This returns one JSON object per alert in chronological order. Expect the very first
+entries to be \texttt{LOCAL Potential TCP Port Scan} hits with \texttt{src\_ip} =
+Bruno's \texttt{192.168.50.100} --- that is Task 2's \texttt{nmap -sn} sweep. Keep this
+output; Sections 11.2--11.5 below re-query the same file narrowed to one task at a
+time so each finding can be cited by task number in the report.
+\end{expectbox}
+
+\subsection{Task 2/3 --- Reconnaissance and enumeration}
+\begin{cmdbox}[Isolate scan-detection alerts from Bruno's host]
+\begin{cmdverb}
+jq 'select(.event_type=="alert" and .src_ip=="192.168.50.100" and
+  (.alert.signature | test("Port Scan")))' /var/log/suricata/eve.json
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+Expect a burst of \texttt{LOCAL Potential TCP Port Scan} alerts starting at the
+timestamp of Bruno's \texttt{nmap -sn} sweep, with a second, larger burst later
+matching the \texttt{-p-} full-port scan in Task 3 (same signature, far higher alert
+count in a shorter window because every port is probed, not just a host-discovery
+ping). The destination IPs across both bursts cover the whole \texttt{192.168.50.0/24}
+range for the first sweep, narrowing to \texttt{.20/.30/.40} for the Task 3 pass ---
+that narrowing is itself evidence Red Team moved from discovery to targeting.
+\end{expectbox}
+
+\subsection{Task 6 --- Exploitation evidence}
+\begin{cmdbox}[Suricata: exploit-category alerts against the Metasploitable host]
+\begin{cmdverb}
+jq 'select(.event_type=="alert" and .dest_ip=="192.168.50.40")' \
+  /var/log/suricata/eve.json
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Target-side evidence of the vsftpd backdoor connection]
+\begin{cmdverb}
+# on the Metasploitable target itself (or its syslog if forwarded)
+grep -i ftp /var/log/syslog | tail -n 20
+who -a
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+If the full ET-open ruleset was pulled via \texttt{suricata-update}
+(\emph{Lab Network Configuration}, Section 5.5), an exploit/trojan-category alert for
+the known vsftpd 2.3.4 backdoor pattern typically appears around the timestamp Bruno
+ran \texttt{exploit/unix/ftp/vsftpd\_234\_backdoor}. Whether or not that specific
+signature is present, \texttt{/var/log/syslog} on the target shows the FTP service
+accepting the crafted username, and \texttt{who -a}/process listings show the
+unexpected shell session --- this is the same access Bruno confirmed with
+\texttt{whoami}/\texttt{id} in Task 6, now shown from the defender's side.
+\end{expectbox}
+
+\subsection{Task 7 --- Web application attack evidence}
+Because DVWA runs as a Docker container (\emph{Lab Network Configuration},
+Section~\ref{sec:pc3}), its request log is read via \texttt{docker logs}, not a host
+file path.
+
+\begin{cmdbox}[Grep the DVWA container log for payload patterns]
+\begin{cmdverb}
+sudo docker logs dvwa 2>&1 | grep -iE "union|select|<script>|or 1=1|or '1'='1'"
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The log lines show the literal SQLi (\texttt{' OR '1'='1}) and/or XSS
+(\texttt{<script>alert('XSS')</script>}) payloads exactly as Bruno submitted them in
+Task 7, each on a request line with a timestamp and the requesting IP
+(\texttt{192.168.50.100}). This is direct, literal evidence --- no signature matching
+required, the payload is the log entry.
+\end{expectbox}
+
+\subsection{Task 8 --- Credential attack evidence}
+\begin{cmdbox}[Count DVWA brute-force attempts by request volume]
+\begin{cmdverb}
+sudo docker logs dvwa 2>&1 | grep -c "vulnerabilities/brute"
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Count and rank failed SSH logins on the Metasploitable target]
+\begin{cmdverb}
+grep "Failed password" /var/log/auth.log | tail -n 20
+grep "Failed password" /var/log/auth.log | \
+  awk '{print $(NF-3)}' | sort | uniq -c | sort -rn
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The DVWA request count (often hundreds within seconds) is itself the indicator --- no
+legitimate user submits a login form that fast. The \texttt{auth.log} grep returns one
+``Failed password'' line per Hydra attempt against SSH, and the ranked count confirms
+\texttt{192.168.50.100} as the single source responsible for nearly all of them,
+immediately followed by one successful ``Accepted password'' line once Hydra finds the
+weak credential.
+\end{expectbox}
+
+\subsection{Tasks 9/10 --- Privilege escalation and lateral movement}
+\begin{cmdbox}[Confirm the escalation and check for any lateral-movement attempt]
+\begin{cmdverb}
+# on the target: shell/command history left behind by Bruno's escalation steps
+cat ~/.bash_history 2>/dev/null | tail -n 30
+
+# on pfSense: Status > System Logs > Firewall, filtered to source 192.168.50.40,
+# confirms whether the Task 10 proxychains sweep was permitted or blocked by
+# rule 5 of the ACL (Lab Network Configuration, Section 10.2)
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{.bash\_history} (if not cleared) shows the \texttt{sudo -l}/\texttt{find ...
+-perm -4000}/\texttt{searchsploit} commands from Task 9 in order. The pfSense firewall
+log is the key piece of evidence for Task 10: it should show the lateral
+\texttt{proxychains} sweep either passing only within \texttt{Target\_Hosts} (rule 4)
+or being blocked and logged everywhere else (rule 5) --- confirming the segmentation
+held even from an already-compromised host.
+\end{expectbox}
+
+\subsection{Packet-level corroboration (optional, any task)}
+For any of the above, a raw packet capture adds a second, independent evidence source
+alongside the log/alert evidence.
+
+\begin{cmdbox}[Live capture and signature-based filtering]
+\begin{cmdverb}
+# start capture on the bridged sensor interface
+# (confirm the name first with: ip -brief addr show)
+sudo tshark -i eth0 -w capture.pcap
+
+# afterward, filter for the same window/signature being documented
+tshark -r capture.pcap -Y "http.request or tcp.flags.syn==1"
+# Wireshark GUI filter bar equivalent:
+# ip.addr==192.168.50.30 and tcp.flags.syn==1
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The filtered capture isolates the SYN bursts (Task 2/3) and HTTP requests (Task 7)
+down to individual packets, timestamped to line up with the \texttt{eve.json} alerts
+and target-side log entries already gathered --- three independent sources agreeing on
+the same timeline is what the report's Evidence section should present per finding.
 \end{expectbox}
 
 \begin{notebox}[Video/Screenshot]
-\textbf{VIDEO} --- record the live capture running alongside (or replaying) the attack,
-then the filtered Wireshark view and the matching log entries. \textbf{SCREENSHOT} ---
-filtered capture showing the attack signature, and the corresponding log entries.
+\textbf{VIDEO} --- record walking the full alert timeline (11.1), then narrate each
+narrower query (11.2--11.6) as evidence for its matching task. \textbf{SCREENSHOT} ---
+the full timeline output, and one filtered query result per task (2/3, 6, 7, 8, 9/10).
 \end{notebox}
 
 \clearpage
