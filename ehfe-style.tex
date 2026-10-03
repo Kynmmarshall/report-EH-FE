@@ -1,0 +1,140 @@
+% Shared preamble for CYS 4151 lab reports (network config + execution guide)
+\NeedsTeXFormat{LaTeX2e}
+
+\usepackage[margin=2.2cm,headheight=28pt]{geometry}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{fontspec}
+\setmainfont{Calibri}[
+  BoldFont = Calibri Bold,
+  ItalicFont = Calibri Italic,
+  BoldItalicFont = Calibri Bold Italic
+]
+\setmonofont{Consolas}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[hypcap=false]{caption}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{pifont}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{lastpage}
+\usepackage{fancyvrb}
+\usepackage{needspace}
+
+\providecommand{\DocShortTitle}{}
+
+% ---------- colour palette ----------
+\definecolor{navy}{HTML}{1B2A4A}
+\definecolor{steel}{HTML}{2E5C8A}
+\definecolor{blueteam}{HTML}{1F6FB2}
+\definecolor{blueteamlight}{HTML}{DCEBF7}
+\definecolor{redteam}{HTML}{B23A2E}
+\definecolor{redteamlight}{HTML}{FBE2DF}
+\definecolor{targetgrey}{HTML}{5A5A5A}
+\definecolor{targetlight}{HTML}{E9E9E9}
+\definecolor{accentgold}{HTML}{C8922A}
+\definecolor{lightgrey}{HTML}{F4F6F8}
+\definecolor{codebg}{HTML}{F7F7F9}
+\definecolor{codeborder}{HTML}{C9CDD3}
+\definecolor{okgreen}{HTML}{2E7D32}
+\definecolor{warnamber}{HTML}{B8860B}
+
+% ---------- column helpers ----------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ---------- headings ----------
+\titleformat{\section}{\large\bfseries\color{navy}}{\thesection}{0.6em}{}[{\color{steel}\titlerule[0.8pt]}]
+\titleformat{\subsection}{\normalsize\bfseries\color{steel}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{navy}}{\thesubsubsection}{0.6em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{\small\color{navy}\textbf{CYS 4151 -- Ethical Hacking Lab}}
+\rhead{\small\color{navy}\DocShortTitle}
+\lfoot{\small\color{targetgrey}SecureTech Solutions Ltd. Security Assessment}
+\rfoot{\small\color{targetgrey}Page \thepage\ of \pageref{LastPage}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=steel,
+  citecolor=steel,
+  urlcolor=steel,
+  pdfborder={0 0 0}
+}
+
+% ---------- command/comment boxes ----------
+\newtcolorbox{cmdbox}[1][]{
+  enhanced, breakable, colback=codebg, colframe=codeborder, boxrule=0.5pt,
+  arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries\small, coltitle=navy,
+  title={#1}
+}
+
+\newtcolorbox{expectbox}{
+  enhanced, breakable, colback=blueteamlight!60, colframe=blueteam, boxrule=0.5pt,
+  arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=blueteam,
+  title={Expected Outcome}
+}
+
+\newtcolorbox{troublebox}{
+  enhanced, breakable, colback=redteamlight!50, colframe=redteam, boxrule=0.5pt,
+  arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=redteam,
+  title={Difficulty Encountered}
+}
+
+\newtcolorbox{notebox}[1][Note]{
+  enhanced, breakable, colback=lightgrey, colframe=accentgold, boxrule=0.5pt,
+  arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=accentgold,
+  title={#1}
+}
+
+\newtcolorbox{redbox}[1][Red Team Strategy]{
+  enhanced, breakable, colback=redteamlight!40, colframe=redteam, boxrule=0.7pt,
+  arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=redteam,
+  title={#1}
+}
+
+\newtcolorbox{bluebox}[1][Blue Team Strategy]{
+  enhanced, breakable, colback=blueteamlight!50, colframe=blueteam, boxrule=0.7pt,
+  arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=blueteam,
+  title={#1}
+}
+
+% ---------- nickname badges ----------
+\newcommand{\pcbadge}[2]{%
+  \tikz[baseline=-0.6ex]\node[rectangle,rounded corners=2pt,inner sep=3pt,
+    fill=#1!85!black,text=white,font=\scriptsize\bfseries]{#2};%
+}
+\newcommand{\marshall}{\pcbadge{blueteam}{PC1 Marshall}}
+\newcommand{\fahdil}{\pcbadge{blueteam}{PC2 Fahdil}}
+\newcommand{\rayan}{\pcbadge{redteam}{PC3 Rayan}}
+\newcommand{\bruno}{\pcbadge{redteam}{PC4 Bruno}}
+\newcommand{\amina}{\pcbadge{blueteam}{PC5 Amina}}
+
+\newcommand{\thd}[1]{\textcolor{white}{\textbf{#1}}}
+
+% ---------- verbatim command blocks (safe for #, $, %, &, ^, _, ~, {, }, \) ----------
+\DefineVerbatimEnvironment{cmdverb}{Verbatim}{fontsize=\small}
+
+\newlist{steps}{enumerate}{2}
+\setlist[steps]{label=\arabic*., left=1.2em, itemsep=2pt, topsep=3pt}
+
+\AtBeginDocument{\renewcommand{\arraystretch}{1.25}}

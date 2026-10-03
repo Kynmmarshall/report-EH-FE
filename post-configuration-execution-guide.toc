@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}How to Use This Guide}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Before You Start Any Task}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Task 2 --- Reconnaissance \& Asset Discovery (4 marks)}{3}{section.2}%
+\contentsline {section}{\numberline {3}Task 3 --- Service Enumeration (4 marks)}{4}{section.3}%
+\contentsline {section}{\numberline {4}Task 4 --- Threat Modeling \& Risk Identification (4 marks)}{5}{section.4}%
+\contentsline {section}{\numberline {5}Task 5 --- Vulnerability Assessment (6 marks)}{6}{section.5}%
+\contentsline {section}{\numberline {6}Task 6 --- Controlled Exploitation / Initial Access (6 marks)}{7}{section.6}%
+\contentsline {section}{\numberline {7}Task 7 --- Web Application Security Assessment (6 marks)}{8}{section.7}%
+\contentsline {section}{\numberline {8}Task 8 --- Credential Security Assessment (4 marks)}{9}{section.8}%
+\contentsline {section}{\numberline {9}Task 9 --- Privilege Escalation \& Persistence Analysis (5 marks)}{10}{section.9}%
+\contentsline {section}{\numberline {10}Task 10 --- Post-Exploitation \& Lateral Movement Analysis (5 marks)}{11}{section.10}%
+\contentsline {section}{\numberline {11}Task 11 --- Blue Team Investigation: Traffic \& Logs (5 marks)}{12}{section.11}%
+\contentsline {section}{\numberline {12}Task 12 --- Security Hardening \& Incident Response (5 marks)}{13}{section.12}%
+\contentsline {section}{\numberline {13}Task 13 --- Professional Penetration Testing Report (11 marks)}{14}{section.13}%
+\contentsline {section}{\numberline {14}Final Submission Checklist}{15}{section.14}%
