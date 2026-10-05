@@ -1,0 +1,1294 @@
+\documentclass[11pt,a4paper]{article}
+\input{ehfe-style.tex}
+\usepackage{pdflscape}
+\geometry{margin=1.8cm,headheight=24pt,footskip=26pt}
+\definecolor{navy}{HTML}{193238}
+\definecolor{steel}{HTML}{176E75}
+\definecolor{ink}{HTML}{182B30}
+\definecolor{muted}{HTML}{536368}
+\definecolor{pale}{HTML}{E8F2F1}
+\definecolor{goldpale}{HTML}{FFF0C9}
+\renewcommand{\DocShortTitle}{Penetration Testing Report}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\setcounter{tocdepth}{2}
+\setlist[itemize]{leftmargin=1.3em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=3pt,topsep=3pt}
+\renewcommand{\tabularxcolumn}[1]{>{\raggedright\arraybackslash}p{#1}}
+\captionsetup{font=small,labelfont=bf,justification=raggedright,singlelinecheck=false}
+\renewtcolorbox{notebox}[1][Note]{enhanced,breakable,colback=goldpale!35!white,colframe=accentgold,colbacktitle=goldpale,coltitle=ink,fonttitle=\small\bfseries,boxrule=0.5pt,arc=2pt,title={#1}}
+\renewtcolorbox{cmdbox}[1][]{enhanced,colback=codebg,colframe=codeborder,colbacktitle=codebg,coltitle=ink,fonttitle=\small\bfseries,boxrule=0.5pt,arc=2pt,title={#1}}
+\DefineVerbatimEnvironment{reportcode}{Verbatim}{fontsize=\small,tabsize=2}
+\newcommand{\ev}[1]{\hyperref[ev:#1]{\textbf{#1}}}
+\newcommand{\src}[2]{\hyperref[src:#1]{\textbf{#1}}, p.~#2}
+\newcommand{\referenceurl}[1]{\par{\footnotesize\ttfamily\href{#1}{#1}}\par}
+\newcommand{\partheading}[2]{\clearpage\noindent{\small\bfseries\color{steel}#1}\par\section{#2}}
+\newcommand{\insight}[2]{\begin{notebox}[#1]#2\end{notebox}}
+\newcommand{\screenshot}[1]{%
+  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}
+  \centering\includegraphics[width=\linewidth,height=9.8cm,keepaspectratio]{_report-build/evidence/#1.png}\par
+  \captionof{figure}{#1 - \csname EvidenceTitle#1\endcsname}\label{ev:#1}
+  \raggedright\small\textbf{Comment.} \csname EvidenceObservation#1\endcsname\par
+  \textbf{Evidence Limit.} \csname EvidenceLimitation#1\endcsname\par
+  \end{minipage}\par\addvspace{8pt}
+}
+\newcommand{\reportfigure}[3]{\screenshot{#1}\textbf{Interpretation.} #3\par}
+\fancyhf{}
+\lhead{\small\bfseries\color{navy}SECURETECH / CYS 4151}
+\rhead{\small\color{muted}Penetration Testing Report}
+\lfoot{\footnotesize\color{muted}Confidential - Academic Lab Use Only}
+\rfoot{\footnotesize\color{muted}\thepage\ / \pageref{LastPage}}
+\hypersetup{pdftitle={CYS 4151 - SecureTech Penetration Testing Report},pdfauthor={Marshall; Fahdil; Rayan; Bruno; Amina},pdfsubject={Authorized laboratory assessment, 03 October 2026},linkcolor=steel,urlcolor=steel}
+\input{_report-build/report-metrics.tex}
+\input{_report-build/evidence-data.tex}
+
+\begin{document}
+\color{ink}
+\raggedright
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[ink] (current page.north west) rectangle ($(current page.north east)+(0,-13.8cm)$);
+  \fill[steel] ($(current page.north west)+(0,-13.8cm)$) rectangle ($(current page.north east)+(0,-14.05cm)$);
+  \draw[white!22!ink,line width=0.6pt] ($(current page.north east)+(-5.4cm,-2cm)$) -- ++(2.8cm,0) -- ++(0,-6.9cm) -- ++(-1.4cm,0);
+  \draw[white!22!ink,line width=0.6pt] ($(current page.north east)+(-4.3cm,-3.8cm)$) -- ++(2.8cm,0) -- ++(0,-6.2cm) -- ++(-2.5cm,0);
+  \foreach \offset in {2,3.8,8.9,10} {
+    \fill[accentgold] ($(current page.north east)+(-2.6cm,-\offset cm)$) circle (2pt);
+  }
+\end{tikzpicture}
+\vspace*{0.7cm}
+{\small\bfseries\color{white}THE ICT UNIVERSITY\hfill SUMMER 2026}\par
+\vspace{1.7cm}
+{\Large\color{white}SecureTech Solutions Ltd.}\par
+\vspace{0.55cm}
+{\fontsize{42}{45}\selectfont\bfseries\color{white}Penetration\\Testing Report}\par
+\vspace{0.7cm}
+{\Large\color{white}Enterprise Security Assessment}\par
+\vspace{0.3cm}
+{\normalsize\color{white}Red Team operations. Blue Team detection and containment.}\par
+\vspace{0.65cm}
+{\small\color{white}\textbf{CYS 4151 - Ethical Hacking}\quad /\quad Setting A\par
+Instructor: Dr. Nkandeu Pascal\quad /\quad Cisco Lab\par
+Testing: 03 October 2026\quad /\quad Issued: 05 October 2026}\par
+\vspace{1.8cm}
+{\small\bfseries\color{steel}ASSESSMENT TEAM}\par
+\vspace{0.35cm}
+\renewcommand{\arraystretch}{1.55}
+\begin{tabularx}{\linewidth}{@{}L{0.9cm}X L{3.2cm}L{1.3cm}@{}}
+\textbf{PC1} & Kamdeu Yamdjeuson Neil Marshall & ICTU20241386 & \textcolor{blueteam}{Blue}\\
+\textbf{PC2} & Tuheu Tchoubi Pempeme Moussa Fahdil & ICTU20241393 & \textcolor{blueteam}{Blue}\\
+\textbf{PC3} & Kwete Ngnouba Junior Rayan & ICTU20241377 & \textcolor{redteam}{Red*}\\
+\textbf{PC4} & Djemtchimo Noukui Bruno Jonatan & ICTU20241585 & \textcolor{redteam}{Red}\\
+\textbf{PC5} & Amina Boubakary & ICTU20241870 & \textcolor{blueteam}{Blue}\\
+\end{tabularx}
+\vspace{0.3cm}
+{\footnotesize\color{muted}*Rayan prepared the shared server infrastructure before joining the Red Team.}\par
+\vfill
+{\small\bfseries\color{ink}CONFIDENTIAL - ACADEMIC LAB USE ONLY}\par
+{\footnotesize\color{muted}Version 1.0\quad |\quad Evidence-led assessment\quad |\quad Authorized scope: 192.168.50.0/24}
+\end{titlepage}
+
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\section*{Document Control}
+\addcontentsline{toc}{section}{Document Control}
+\begin{tabularx}{\linewidth}{@{}L{3.6cm}X@{}}
+\toprule
+\textbf{Engagement} & SecureTech Solutions Ltd. enterprise-security scenario; academic laboratory only.\\
+\textbf{Report ID} & CYS4151-ST-2026-01\\
+\textbf{Testing / Issue} & Evidence dated 03 October 2026 / report issued 05 October 2026.\\
+\textbf{Recipients} & Assessment team and course examiner. Not approved for public distribution.\\
+\textbf{Input record} & Seven supplied PDFs (five unique SHA-256 hashes); 90 screenshots (80 unique hashes).\\
+\textbf{Assessment status} & Root compromise demonstrated; manual service findings and defensive containment documented. OpenVAS scan incomplete.\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Reading the Evidence}
+This report consolidates the examination brief, both preparatory guides, the Red Team report, Amina's OpenVAS report, and every supplied screenshot. The guides describe intended procedures; they are not execution logs. Directly visible results take precedence over their expected outcomes. Observations, operator-reported steps, and recommended follow-up are identified separately.
+
+Every screenshot is reproduced in full, exactly as supplied, with its original aspect ratio and no added cropping. Screenshots appear immediately after the matching setup step, command or observation, followed by a comment and an evidence limit. IDs E001--E090 identify original files; exact duplicates retain their own inventory entries and point to the same inline figure. Some supplied files were already close-up captures; those are also reproduced without modification. The final source index and accompanying CSV manifests preserve the original paths, dimensions and SHA-256 hashes.
+
+\insight{Important Scope Boundary}{The assessment began with the Red Team already connected to the authorized lab. It did not demonstrate an Internet perimeter breach, real bank access, or transfers of real funds. The lab's flat bridged subnet is not evidence of enterprise-grade segmentation.}
+
+\clearpage
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\pagenumbering{arabic}
+
+\section{Executive Summary}
+The exercise demonstrated a direct path from local-network discovery to root-level control of the Metasploitable2 target at \texttt{192.168.50.40}. Bruno and Rayan selected the FTP service after identifying its version and assessing exposed services. A first exploit attempt did not create a session; a subsequent attempt connected to the backdoor listener and returned \texttt{uid=0(root)}. A password-change test and a separate SSH session demonstrated the practical account-control impact.
+
+The second path examined VulnBank at \texttt{192.168.50.20}. One SQL-injection login payload was rejected. Hydra reported an \texttt{admin/admin} candidate while also emitting HTTP 401 errors. The Red Team report records a successful manual login, and the screenshots show an administrator session and a simulated 5,000 FCFA transfer. These results support a weak-default-credential concern; the error-laden Hydra run is not treated as an independently validated brute-force workflow.
+
+Marshall's Suricata sensor detected Nmap-labelled HTTP traffic from \texttt{192.168.50.100} to the pfSense gateway. The Blue Team used the pfSense web portal to configure a source-based LAN block. A packet-capture sequence shows gateway ICMP replies before the change and requests without visible replies afterward, consistent with gateway containment. The anti-lockout exception and same-subnet traffic paths prevent a claim that all Red Team requests across the entire lab were blocked.
+
+Amina brought up the scanner services and web interface but could not create the intended OpenVAS target. Missing feed data, an unset feed-owner warning and unavailable default port lists blocked the scan. Resource increases did not establish readiness. \textbf{No OpenVAS vulnerability results or scanner-derived CVSS totals are claimed.}
+
+\insight{Management Priority}{Remove or rebuild the backdoored service first; replace default administrative credentials; require HTTPS; restrict anonymous shares; and make containment verifiable with rule logging and fresh connection tests. Repair scanner readiness before accepting any assertion of comprehensive vulnerability coverage.}
+
+\subsection{Assessment at a Glance}
+\begin{tabularx}{\linewidth}{@{}L{2.7cm}X@{}}
+\toprule
+\textbf{8 live addresses} & Discovery includes the attacker, gateway, sensor, scanner and four target or workstation addresses.\\
+\textbf{1 root target} & Metasploitable2 compromise is demonstrated, not inferred from a banner.\\
+\textbf{0 completed scans} & OpenVAS task creation remained blocked in the supplied PC5 record.\\
+\textbf{Scoped containment} & Gateway ICMP response change observed; broader traffic denial needs retesting.\\
+\bottomrule
+\end{tabularx}
+
+\partheading{01 / ENGAGEMENT}{Scope, Methodology and Evidence}
+\label{sec:scope}
+\subsection{Authorization and Starting Position}
+The examination brief authorizes testing only inside the provided laboratory. SecureTech's approximately 120 employees and reported business incidents are scenario context, not production assets tested by this team. Testing used the lab subnet \texttt{192.168.50.0/24}; Red Team operators were already connected when reconnaissance began. Internet addresses seen in background captures and feed downloads are excluded from the target scope.
+
+\begin{tabularx}{\linewidth}{@{}L{3.3cm}X@{}}
+\toprule
+\textbf{Included} & Eight identified lab addresses, the hosted VulnBank application, Metasploitable2 services, defensive tooling and the documented gateway rule change.\\
+\textbf{Excluded} & Campus or home networks, upstream routers, public feed servers, third-party websites, real banking credentials, real mobile-money services and destructive availability testing.\\
+\textbf{Restrictions} & Use only seeded demo accounts and disposable target VMs. Account modification requires restoration. No new attacks or changes to live lab devices were performed to prepare this report.\\
+\textbf{Approach} & Internal-network assessment combining reconnaissance, service enumeration, controlled exploitation, application checks, defensive observation and remediation analysis.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Methodology and Decision Gates}
+The sequence follows the planning, discovery, testing and reporting principles of NIST SP 800-115, with PTES-style engagement stages and OWASP guidance for the application assessment. The exam's 13 tasks remain traceable in the coverage table; the report does not equate a documented procedure with a completed task.
+\begin{enumerate}
+\item \textbf{Establish scope and a usable baseline.} Confirm addresses, ownership, adapters, access and evidence capture before testing.
+\item \textbf{Discover, then enumerate.} Identify reachable assets before selecting service-specific checks; a banner is a lead, not proof of compromise.
+\item \textbf{Validate narrowly.} Use a controlled test against a chosen service; stop and document rejected or inconclusive attempts.
+\item \textbf{Demonstrate bounded impact.} Verify target identity and effective privileges, then record limited account or demo-transaction effects.
+\item \textbf{Observe and contain.} Correlate source, destination, protocol and time; configure a scoped rule and verify the specific affected path.
+\item \textbf{Recommend and retest.} Distinguish deployed changes from proposals; require before/after evidence before closing a finding.
+\end{enumerate}
+
+\subsection{Source Reconciliation}
+\begin{tabularx}{\linewidth}{@{}L{3.7cm}X@{}}
+\toprule
+\textbf{Source conflict} & \textbf{Treatment in this report}\\
+\midrule
+DVWA in the guides & The actual web target was VulnBank on \texttt{192.168.50.20}; the team confirmed this and the screenshots corroborate it. No DVWA or Juice Shop exploitation is claimed.\\
+Scanner success expected & Amina's dedicated report and screenshots establish incomplete feed readiness and zero completed scan tasks.\\
+Hydra success described & Preserve the candidate line, HTTP 401 errors and reported manual login separately. The API's exact authentication mechanism is not established by the error alone.\\
+Root followed by escalation & The FTP session already returned root. Account modification is post-exploitation, not a separate low-to-high privilege escalation.\\
+Network-wide firewall control & A flat same-subnet path may bypass the gateway. The observed verification concerns ICMP to pfSense, not every host or protocol.\\
+All logs assumed complete & Missing JSON lines, disabled rule logging, unknown capture visibility and unavailable raw traces limit completeness.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Evidence Strength and Handling}
+\textbf{Observed} means a specific configuration, command or result is visible in an original screenshot. \textbf{Corroborated} combines a screenshot with an operator's narrative. \textbf{Reported} is a source-PDF or team statement without independent captured proof. \textbf{Recommended} means a future action; it is not a claim of execution.
+
+The visible capture date is 03 October 2026. Host and guest clocks differ; some Nmap and shell timestamps specify EDT or \texttt{-0400}, while other views show a local clock without an offset. Original values are preserved. No detection or response-time metric is calculated from unsynchronized clocks. Screenshot filenames are identifiers, not a reliable execution sequence.
+
+The supplied set contains no raw PCAP files, full command transcripts, Greenbone scan exports, application source, firewall configuration export or task videos. These omissions limit replay and independent verification. Screenshot hashes establish the identity of the supplied files, not the truth or completeness of events before they were captured. The report preserves demo credentials only where already present in the authorized lab evidence; real credentials must never be used in this environment.
+
+\partheading{02 / ARCHITECTURE}{Asset Inventory and Network Design}
+\label{sec:architecture}
+\subsection{People, Machines and Addresses}
+\small
+\begin{longtable}{@{}L{2.1cm}L{3.4cm}L{3.2cm}L{7.4cm}@{}}
+\toprule
+\textbf{Owner} & \textbf{Guest / role} & \textbf{Lab IPv4} & \textbf{Observed basis and operating note}\\
+\midrule\endhead
+PC1 Marshall & pfSense gateway & 192.168.50.1/24 & NAT WAN plus bridged LAN; web GUI and gateway capture in \ev{E003}--\ev{E005}. The blocking session displays pfSense 2.9.0.\\
+PC1 Marshall & Kali / Suricata & 192.168.50.200/24 & Separate passive IDS VM; ownership confirmed by team. Configuration-test output and live alerts: \ev{E007}, \ev{E009}.\\
+PC2 Fahdil & Windows 10 workstation & 192.168.50.10/24 & Team-confirmed address; discovery includes it. Windows 10 browser use is visible in \ev{E017}--\ev{E019}.\\
+PC3 Rayan & Ubuntu application VM & 192.168.50.20/24 & Netplan in \ev{E022}; VulnBank on TCP 80 and 3000, SSH on 22 in \ev{E031} and \ev{E034}.\\
+PC3 Rayan & Ubuntu2 VM & 192.168.50.30/24 & Address, default route and DNS in \ev{E023}. The visible initial scan shows SSH; it does not establish a DVWA deployment.\\
+PC3 Rayan & Metasploitable2 & 192.168.50.40/24 & Legacy network configuration in \ev{E024}; vulnerable services and root shell in \ev{E032}, \ev{E039}, \ev{E040}.\\
+PC4 Bruno & Kali attack workstation & 192.168.50.100/24 & Discovery and session source address in \ev{E030} and \ev{E039}. Rayan joins offensive analysis after setup.\\
+PC5 Amina & Kali / OpenVAS & 192.168.50.250/24 & Address corroborated by Wireshark \ev{E050}. GSA is shown locally at \texttt{127.0.0.1:9392}; remote UI binding is not established.\\
+\bottomrule
+\end{longtable}
+\normalsize
+All lab addresses use prefix \texttt{/24}, equivalent to \texttt{255.255.255.0}. The intended default gateway is \texttt{192.168.50.1}. DNS \texttt{192.168.50.1} is visible for Ubuntu2 and prescribed by the guides for the other guests; actual client resolver settings require verification. Nmap explicitly warned that no DNS servers were available in some scans, but numeric-IP testing still completed.
+
+\subsection{What the Network Can and Cannot Enforce}
+Bridging connected guests across separate physical PCs, solving the initial reachability problem reported by the team. It did \emph{not} force traffic between two \texttt{192.168.50.0/24} guests through their default gateway. They can resolve each other's MAC address and communicate at layer 2. Host ownership, team membership and network segmentation are different concepts.
+
+PC1's pfSense is the default router, and controls packets addressed to or routed through it. The separate Suricata VM is an observation point, not an inline forwarding device. Promiscuous mode allows processing of frames delivered to the guest, but does not compel a switched network or Wi-Fi access point to deliver every other host's traffic. The actual captured Nmap traffic proves visibility of those flows only.
+
+\begin{landscape}
+\subsection{As-Built Logical Topology}
+\label{sec:topology-new}
+\begin{center}
+\begin{tikzpicture}[font=\small,
+ guest/.style={draw=steel,fill=white,rounded corners=2pt,text width=3.3cm,minimum height=1.1cm,align=center,inner sep=4pt},
+ host/.style={draw=blueteam,fill=blueteamlight!30,rounded corners=3pt,line width=0.8pt},
+ wire/.style={draw=steel,line width=0.8pt},
+ title/.style={font=\small\bfseries,align=center}]
+\draw[host] (0,2) rectangle (4.4,6.4);
+\draw[host] (4.85,2) rectangle (9.25,6.4);
+\draw[host,draw=redteam,fill=redteamlight!30] (9.7,2) rectangle (14.1,6.4);
+\draw[host,draw=redteam,fill=redteamlight!30] (14.55,2) rectangle (18.95,6.4);
+\draw[host] (19.4,2) rectangle (23.8,6.4);
+\node[title,text=blueteam] at (2.2,6.0) {PC1 / Marshall / Blue};
+\node[title,text=blueteam] at (7.05,6.0) {PC2 / Fahdil / Blue};
+\node[title,text=redteam] at (11.9,6.0) {PC3 / Rayan / Red*};
+\node[title,text=redteam] at (16.75,6.0) {PC4 / Bruno / Red};
+\node[title,text=blueteam] at (21.6,6.0) {PC5 / Amina / Blue};
+\node[guest] (gw) at (2.1,5.05) {pfSense VM\\LAN: \texttt{192.168.50.1}};
+\node[guest] (ids) at (2.1,3.2) {Kali / Suricata VM\\\texttt{192.168.50.200}};
+\node[guest] (win) at (7.05,4.45) {Windows 10 VM\\\texttt{192.168.50.10}};
+\node[guest] (app) at (11.8,5.1) {Ubuntu / VulnBank\\\texttt{192.168.50.20}};
+\node[guest] (ubu) at (11.8,3.85) {Ubuntu2 VM\\\texttt{192.168.50.30}};
+\node[guest] (meta) at (11.8,2.6) {Metasploitable2 VM\\\texttt{192.168.50.40}};
+\node[guest] (atk) at (16.75,4.45) {Kali workstation\\\texttt{192.168.50.100}};
+\node[guest] (gvm) at (21.6,4.45) {Kali / OpenVAS VM\\\texttt{192.168.50.250}};
+\node[guest,draw=targetgrey,fill=lightgrey,text width=7cm] (up) at (4.5,8.05) {Host uplink / external network (out of test scope)\\pfSense WAN: VirtualBox NAT; address assigned by NAT};
+\draw[wire,-{Latex}] (gw.north) -- (2.1,7.35) -- (up.south west);
+\node[font=\scriptsize,fill=white] at (1.0,7.1) {WAN / em0};
+\draw[wire,line width=2pt] (0,0.85) -- (23.8,0.85);
+\node[fill=white,font=\small\bfseries] at (11.9,0.85) {BRIDGED LAB LAN / 192.168.50.0/24};
+\draw[wire] (gw.east) -- (4.15,5.05) -- (4.15,0.85);
+\draw[wire] (ids.south) -- (2.1,0.85);
+\draw[wire] (win.south) -- (7.05,0.85);
+\draw[wire] (app.east) -- (13.85,5.1) -- (13.85,0.85);
+\draw[wire] (ubu.east) -- (13.85,3.85);
+\draw[wire] (meta.east) -- (13.85,2.6);
+\draw[wire] (atk.south) -- (16.75,0.85);
+\draw[wire] (gvm.south) -- (21.6,0.85);
+\node[font=\scriptsize,align=center,text width=3.6cm] at (7.05,2.7) {Client and defensive\\application observation};
+\node[font=\scriptsize,align=center,text width=3.6cm] at (16.75,2.7) {Authorized testing source\\already inside the lab};
+\node[font=\scriptsize,align=center,text width=3.6cm] at (21.6,2.7) {UI: localhost:9392\\Feed readiness blocked scan};
+\node[align=left,text width=23cm,anchor=north west,font=\small] at (0,-0.1) {\textbf{Legend:} outer enclosures = physical PC ownership; inner nodes = separate guests; solid lines = logical connectivity, not a guaranteed packet path through pfSense. Blue/red text identifies the assigned team. *Rayan built shared targets before joining Red.\\\textbf{Addressing:} mask 255.255.255.0; intended gateway 192.168.50.1; verify each client's DNS. IDS visibility is limited to delivered traffic. No VLAN, SPAN or transparent-bridge enforcement is claimed.};
+\end{tikzpicture}
+\captionof{figure}{As-built ownership and logical connectivity. All eight lab addresses are shown in full; WAN connectivity and endpoint traffic are deliberately distinguished.}
+\end{center}
+\end{landscape}
+
+\partheading{03 / BUILD JOURNEY}{Laboratory Setup and Readiness}
+\label{sec:setup}
+\subsection{Shared Preparation and the Host-Only Failure}
+The team first created the virtual router and attempted to connect guests using host-only networking. That arrangement did not join guests across five separate physical PCs. A host-only network is normally local to one hypervisor; a cross-PC lab needs an explicitly shared network. The later screenshots show bridged adapters connected to the relevant physical Wi-Fi interfaces. The earlier failure is \textbf{team-reported}; the later adapter configuration is \textbf{observed}.
+
+The repeatable setup order is: install the hypervisor, create/import each guest, connect the correct adapter, install the guest OS, set addressing, validate the gateway and peer path, install or start the role-specific tools, then take a clean snapshot. Use trusted installation media and keep vulnerable images on an authorized lab-only physical network. NAT on pfSense's WAN is not, by itself, proof that a bridged LAN is isolated from every non-lab device. The actual snapshots and installer wizard sequence were not supplied; the steps below are a reconstruction supported by the configuration evidence, not screenshots of every installer screen.
+
+\begin{tabularx}{\linewidth}{@{}L{2.9cm}X X@{}}
+\toprule
+\textbf{Machine} & \textbf{Build sequence} & \textbf{Readiness evidence}\\
+\midrule
+PC1 Marshall & Install pfSense in one guest and Kali in another; assign NAT WAN and bridged LAN to pfSense; configure gateway, then Suricata. & Adapter screenshots, configuration test, live logs and gateway capture.\\
+PC2 Fahdil & Create Windows 10 guest from authorized media; bridge the lab NIC; apply the workstation's static address; verify application access. & Windows 10 browser session; shared early gateway setup captures.\\
+PC3 Rayan & Create two Ubuntu guests; import Metasploitable2 as a separate guest; configure each address; start Apache/VulnBank. & Three adapter views, Netplan/interfaces files, Apache service and login page.\\
+PC4 Bruno & Install Kali; configure the lab NIC and address; verify Nmap and Metasploit; create an evidence folder. & Tool banners, discovery output and source address on exploit session.\\
+PC5 Amina & Install Kali/GVM; allocate disk and memory headroom; start services; complete feeds before target/task creation. & Service commands and working UI, but feed and target-creation gates failed.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{PC1: Marshall's Router and Separate Sensor}
+\textbf{pfSense VM.} Create a FreeBSD-compatible virtual machine, attach the installer, install to its virtual disk and remove the installation medium after reboot. Map WAN and LAN using the actual NIC identifiers. The final PC1 captures show Adapter 1 set to NAT and Adapter 2 bridged to the host's MediaTek Wi-Fi interface with cable connected (\ev{E004}, \ev{E005}). Earlier shared setup captures in Fahdil's folder show pfSense 2.5.2; the containment shell shows 2.9.0. These are stages in the supplied record, not proof of two concurrent gateways.
+\screenshot{E004}
+\textbf{Next setup step.} Connect the second adapter to the shared lab segment, keeping it distinct from the NAT uplink.
+\screenshot{E005}
+
+In the console, assign WAN and LAN, choose \textbf{Set interface(s) IP address}, select LAN and enter \texttt{192.168.50.1/24}. Use a DHCP pool outside the static-address reservations only if DHCP is intentionally enabled; do not introduce a competing DHCP server on a shared uplink. Open \texttt{https://192.168.50.1} from an approved management client, review certificate identity, configure DNS forwarding/resolution as intended, and replace the initial administrator password. The later screenshot still displays the default-password warning, so password replacement is a required remediation, not a completed action in this report.
+\textbf{Shared setup evidence.} The following console captures were supplied in Fahdil's folder. They illustrate interface assignment, LAN address entry and the resulting early console state; they are not attributed to the later PC1 session.
+\screenshot{E015}
+\textbf{Address entry.} Select the LAN interface and enter the intended gateway address.
+\screenshot{E016}
+\textbf{Console verification.} Check the displayed interface mapping and LAN address after configuration.
+\screenshot{E012}
+
+\textbf{Kali/Suricata VM.} Create a separate Linux guest on PC1, bridge its lab-facing interface and assign \texttt{192.168.50.200/24}. Determine the interface name from the guest rather than borrowing pfSense's \texttt{em1}. The observed Suricata configuration test is not proof that a long-running service has started; the later alert and statistics captures establish operation.
+\textbf{Package preparation.} During setup, review the service-restart prompt generated by package maintenance before proceeding to the sensor checks.
+\screenshot{E008}
+
+\begin{cmdbox}[PC1 Kali - reproducible installation and configuration checks]
+\begin{reportcode}
+sudo apt update
+sudo apt install suricata suricata-update jq tshark
+ip -brief address
+sudo nano /etc/suricata/suricata.yaml
+sudo suricata-update
+sudo suricata -T -c /etc/suricata/suricata.yaml -v
+sudo systemctl enable --now suricata
+sudo systemctl restart suricata
+sudo systemctl status suricata --no-pager
+\end{reportcode}
+\end{cmdbox}
+\textbf{Configuration decision.} Set the existing \texttt{vars: address-groups: HOME\_NET} entry to \texttt{[192.168.50.0/24]}, preserve valid YAML indentation, and set the capture interface in the configuration or service arguments actually used by the installed package. Inspect \texttt{systemctl cat suricata} if the service overrides the YAML. Enable the fast and EVE outputs needed for evidence. Do not add a second conflicting capture configuration or run two unintended Suricata instances.
+
+\textbf{Meaning of the commands.} Package installation provides the sensor and review tools; \texttt{suricata-update} supplies the configured rule feed; \texttt{-T} tests configuration and rule loading; service status and fresh log timestamps verify ongoing operation. \ev{E009} displays Suricata 8.0.7, 53,098 rules loaded, zero failed and zero skipped in test mode. \ev{E007} supplies the stronger operational evidence: actual Nmap-labelled alerts. A replay or peer-generated test observed at the sensor is still needed to validate any additional capture path.
+\screenshot{E009}
+
+\subsection{PC2: Fahdil's Windows 10 Workstation}
+Install Windows 10 in its own VirtualBox guest, finish the local lab-account setup, and bridge the lab NIC. In IPv4 properties set \texttt{192.168.50.10}, mask \texttt{255.255.255.0}, gateway \texttt{192.168.50.1}, and the verified lab DNS resolver. Install Guest Additions if required for display usability; shared clipboard/folders should be disabled during hostile testing unless explicitly needed.
+\textbf{Preparation inventory.} Fahdil's early VirtualBox view establishes which local guests were present. The selected settings describe the early pfSense guest, not the Windows guest's hardware.
+\screenshot{E013}
+\textbf{Shared gateway preparation.} The following bridged-adapter view belongs to that early pfSense configuration; the final PC1 arrangement was shown in the preceding subsection.
+\screenshot{E014}
+
+\begin{cmdbox}[PC2 Windows PowerShell - identity and connectivity checks]
+\begin{reportcode}
+hostname
+whoami
+Get-Date -Format o
+ipconfig /all
+ping -n 4 192.168.50.1
+Test-NetConnection 192.168.50.20 -Port 80
+Get-NetFirewallProfile | Select-Object Name, Enabled
+net accounts
+\end{reportcode}
+\end{cmdbox}
+These are \textbf{rebuild/verification instructions}, not claimed historical transcript lines. They establish identity, prefix, gateway, DNS, service reachability and the local firewall/password-policy baseline. \texttt{::} comments belong to Command Prompt, not PowerShell; PowerShell comments use \texttt{\#}. Preserve Windows Firewall while diagnosing any failed ping and use a narrowly scoped test rule instead of disabling all protection.
+
+\ev{E017}--\ev{E019} show Fahdil accessing VulnBank from a running Windows 10 guest and viewing an administrative application session. An earlier inventory has WINDOWS10 powered off, but that does not describe the whole test day. No Windows Security event export, applied password-policy change or host-firewall block was supplied, so those defensive controls remain verification items. In a production analogue, use a supported Windows release or documented extended support rather than assuming Windows 10 is currently patched.
+\screenshot{E017}
+
+\subsection{PC3: Rayan's Application and Target Guests}
+Rayan first prepared the shared infrastructure, then joined the Red Team. The evidence shows separate guests named \texttt{ubuntu\_server}, \texttt{Ubuntu2} and \texttt{METASPLOITABLE 2}; it does not show a nested-hypervisor or Docker/macvlan deployment. Their bridged NIC settings appear in \ev{E025}--\ev{E027}.
+\textbf{Connect the application guest.} Verify its bridged adapter and review the secondary NAT connection before testing.
+\screenshot{E027}
+\textbf{Connect Ubuntu2.} Use the shared lab interface and a distinct guest adapter identity.
+\screenshot{E026}
+\textbf{Connect Metasploitable2.} Review both adapters so the vulnerable guest has no unintended route outside the authorized segment.
+\screenshot{E025}
+
+\textbf{Ubuntu addressing.} The actual Netplan file is \texttt{/etc/netplan/50-cloud-init.yaml}, and the visible interface is \texttt{enp0s3}. The server screenshot shows its \texttt{192.168.50.20/24} address but not a route/DNS entry; Ubuntu2 explicitly shows \texttt{192.168.50.30/24}, gateway \texttt{192.168.50.1} and DNS \texttt{192.168.50.1}. Do not infer omitted fields from the other guest. For a repeatable rebuild, inspect existing cloud-init ownership and other Netplan files before editing; avoid two definitions competing for the same interface.
+\screenshot{E022}
+
+\begin{cmdbox}[Ubuntu2 - configuration transcribed from E023]
+\begin{reportcode}
+network:
+  version: 2
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      addresses:
+        - 192.168.50.30/24
+      routes:
+        - to: default
+          via: 192.168.50.1
+      nameservers:
+        addresses: [192.168.50.1]
+\end{reportcode}
+\end{cmdbox}
+      \screenshot{E023}
+\begin{cmdbox}[Ubuntu - validation steps for a controlled rebuild]
+\begin{reportcode}
+ip -brief address
+sudo netplan generate
+sudo netplan try
+ip route
+resolvectl status
+ping -c 4 192.168.50.1
+\end{reportcode}
+\end{cmdbox}
+\texttt{generate} checks configuration generation; \texttt{try} provides timed rollback if connectivity is lost. Review/confirm from the VM console. For the server, use its assigned \texttt{192.168.50.20/24}; add route/resolver values only after verifying the intended network. Do not rerun address-changing commands over the only remote administrative connection without recovery access.
+
+\textbf{Application service.} \ev{E029} shows the Apache sites \texttt{000-default.conf} and \texttt{vul-bank.conf}, followed by an active Apache service. \ev{E020} shows a local Windows hosts-file entry mapping \texttt{vul-bank.duckdns.org} to \texttt{192.168.50.20}; this is lab name resolution, not evidence of a DNS-spoofing attack. The initial \texttt{nodpath} typo is followed by \texttt{notepad hosts}. The screenshots do not preserve the application checkout, dependency install or Node service definition; no invented repository or installation command is supplied.
+\screenshot{E020}
+\textbf{Check application reachability.} After the local name mapping, open the lab hostname and confirm that the intended demo application is returned.
+\screenshot{E028}
+
+\begin{cmdbox}[PC3 Ubuntu - observed service check and recommended verification]
+\begin{reportcode}
+ls /etc/apache2/sites-enabled/*.conf
+systemctl status apache2
+
+# Follow-up checks; results were not supplied for these commands.
+sudo apache2ctl configtest
+sudo ss -lntp
+curl -I http://192.168.50.20
+curl -I http://192.168.50.20:3000
+\end{reportcode}
+\end{cmdbox}
+The service status establishes that Apache is running, not that VulnBank is secure. Later remote headers identify Apache 2.4.58 and Express on ports 80/3000. Exposing the application directly on 3000 is an additional route to assess; identical page lengths do not prove identical access controls.
+\screenshot{E029}
+
+\textbf{Metasploitable2.} Import the supplied vulnerable image into an isolated lab guest, verify its architecture, and keep it separate from production credentials. The legacy interfaces file in \ev{E024} uses \texttt{eth0} and includes loopback configuration. Preserve loopback and replace only the intended NIC stanza when reconstructing it.
+\begin{cmdbox}[Metasploitable2 - observed static interface stanza]
+\begin{reportcode}
+auto eth0
+iface eth0 inet static
+    address 192.168.50.40
+    netmask 255.255.255.0
+    gateway 192.168.50.1
+\end{reportcode}
+\end{cmdbox}
+  \screenshot{E024}
+The corresponding legacy restart is \texttt{sudo /etc/init.d/networking restart}; verify with \texttt{ifconfig eth0} and a peer connection. Netplan and modern systemd commands do not apply automatically to this old guest. The supplied VM inventory also shows a NAT adapter at one stage; review and remove unintended secondary uplinks before retesting because they can bypass the intended lab boundary. \ev{E021} shows failed console logins later in the exercise, consistent with access disruption but not sufficient on its own to identify the cause.
+
+\subsection{PC4: Bruno's Kali Attack Workstation}
+Install Kali from trusted media, allocate enough host resources for the tools without starving the other guests, bridge the lab NIC, and apply \texttt{192.168.50.100/24}. A typical Kali desktop uses NetworkManager; it should not be assumed to have Ubuntu's Netplan layout. Use the existing NetworkManager connection in the GUI to set manual IPv4, gateway and DNS, then reconnect from the local VM console. Exact VM disk/RAM values for PC4 were not captured and are not asserted as measured facts.
+\begin{cmdbox}[PC4 Kali - readiness before the recorded reconnaissance]
+\begin{reportcode}
+nmcli connection show --active
+ip -brief address
+ip route get 192.168.50.40
+ping -c 4 192.168.50.1
+nmap --version
+msfconsole --version
+hydra -h
+whatweb --version
+mkdir -p ~/CYS4151/evidence
+\end{reportcode}
+\end{cmdbox}
+These checks identify the actual NIC and route, verify the gateway and tool availability, and prepare a local evidence directory. Do not perform blanket upgrades midway through an assessment without a snapshot and a recorded version change. The execution screenshots identify Nmap 7.95, Hydra 9.5 and a Metasploit 6.4.84-dev banner. The corrupt Zsh history warning in \ev{E033} is a tooling issue, not proof the target resisted testing.
+
+\subsection{PC5: Amina's Kali/OpenVAS Scanner}
+Amina's dedicated PDF reports an initial RAM increase from 2,000 MB to 4,000 MB to clear an installation problem, followed by a disk increase from 30 GB to 80 GB, 8,000 MB RAM and two processors for the feed attempts. The earlier team account emphasized disk shortage. Both are recorded as \textbf{reported resource interventions}; neither explains all later errors. The screenshots of video-memory settings are not proof that VRAM caused GVM's feed failure.
+\textbf{Prepare evidence capture.} Amina first adjusted the host terminal's input and selection properties. These are recording-environment settings, not scanner results.
+\screenshot{E054}
+\textbf{Confirm terminal settings.} The second supplied view documents the same preparation at a closer scale; it is reproduced in full as received.
+\screenshot{E055}
+\textbf{Review VM settings.} The VirtualBox warning must be interpreted from its actual details before assigning a cause to it.
+\screenshot{E071}
+\textbf{Distinguish resource types.} The next settings screen concerns display memory, which must not be confused with system RAM or disk capacity.
+\screenshot{E072}
+
+\begin{cmdbox}[PC5 Kali - observed service and feed commands]
+\begin{reportcode}
+sudo systemctl start ospd-openvas
+sudo systemctl start notus-scanner
+sudo systemctl start gsad
+sudo tail -f /var/log/gvm/gvmd.log
+sudo greenbone-feed-sync --type all
+watch -n 15 sudo du -sh /var/lib/gvm/scap-data/
+\end{reportcode}
+\end{cmdbox}
+\textbf{Service startup evidence.} The first three commands in the block are visible in the following capture. The later log and synchronization operations are shown with their matching observations in the Blue Team investigation.
+\screenshot{E048}
+\textbf{Identity-bearing startup record.} A second, separately supplied capture preserves Amina's name alongside the startup commands.
+\screenshot{E056}
+Service starts are visible in \ev{E048}/\ev{E056}; the log path and sync command are visible in \ev{E073}/\ev{E074}. The screenshots show GSA at \texttt{127.0.0.1:9392}. Configure the lab-facing NIC as \texttt{192.168.50.250/24} and verify the route before scanning; \ev{E050} corroborates that address in ICMP traffic. A second NAT address is visible during feed troubleshooting, so direct uplinks should be reviewed before any containment test.
+\textbf{Open the local web interface.} An initial administrative login failed. This is part of bringing the scanner up, not an attack against a target host.
+\screenshot{E057}
+
+\textbf{Readiness gate.} An accessible GSA login is not a ready scanner. The feed owner, imported port lists, scan configurations, scanner connection and selected feed versions must be usable before a target/task can be created. Amina's target list attempt included additional lab hosts in some views; no complete successful target definition or scan launch is demonstrated. The final outcome is examined in the Blue Team chapter.
+
+\subsection{Problems Encountered and Lessons Applied}
+\begin{tabularx}{\linewidth}{@{}L{3.1cm}X X@{}}
+\toprule
+\textbf{Problem} & \textbf{Response and evidence} & \textbf{What remains important}\\
+\midrule
+Host-only across physical PCs & Team reported failed inter-PC reachability; later settings show bridged adapters. & Bridging fixes reachability, not security isolation or guaranteed IDS visibility.\\
+Resource pressure on PC5 & Disk/RAM increases reported; service and feed troubleshooting captured. & Check guest filesystem capacity as well as virtual disk size; do not assume feed import is fixed.\\
+Feed owner / port list absent & Repeated target creation, log inspection and full-feed synchronization. & No completed scan; preserve error evidence and rerun after readiness checks.\\
+Copy-pasted command flags & Earlier PDFs produced typographic hyphens; corrected PDF text mapping is retained here. & Verify extracted commands contain ASCII hyphen-minus, not just that glyphs look correct.\\
+Malformed EVE input & Team encountered a repeated JSON parse error; fast.log remained readable. & Preserve the bad line and investigate its origin. A partial write is only one hypothesis.\\
+Mixed local clocks & Guest EDT and other local/UTC displays appear together. & Preserve offsets and correlate carefully; do not invent response-time statistics.\\
+\bottomrule
+\end{tabularx}
+
+\partheading{04 / RED TEAM}{From Discovery to Demonstrated Impact}
+\label{sec:red}
+\subsection{Strategy and Initial Position}
+\textbf{Operators: Bruno (PC4), with Rayan (PC3) after infrastructure setup.} The attack workstation was \texttt{192.168.50.100}; the principal targets became VulnBank at \texttt{192.168.50.20} and Metasploitable2 at \texttt{192.168.50.40}. The goal was to test reachable services, obtain controlled access where justified, and demonstrate limited impact. The team did not first bypass an external perimeter: the starting point was an authorized connection to the lab LAN.
+
+The Red Team strategy was evidence-led target selection. Discovery reduced uncertainty about live assets; enumeration narrowed the work to a vulnerable server and a web application; protocol-specific checks supplied more precise leads; the FTP exploit was then validated against the actual target. After root access, the team demonstrated account control. It subsequently assessed VulnBank as a separate application, preserved a rejected injection attempt, and used the default-credential path reported in its own narrative. These are distinct attack paths, not a demonstrated pivot from Metasploitable into VulnBank.
+
+\begin{center}
+\begin{tikzpicture}[font=\small,stage/.style={draw=redteam,fill=redteamlight!30,rounded corners=2pt,text width=3.25cm,minimum height=1.25cm,align=center,inner sep=4pt}]
+\node[stage] (discover) at (0,0) {Discover live assets\\\textbf{8 addresses}};
+\node[stage] (enumerate) at (4.4,0) {Enumerate services\\\textbf{.20 and .40}};
+\node[stage] (select) at (8.8,0) {Choose exact test\\\textbf{FTP / web auth}};
+\node[stage] (verify) at (13.2,0) {Verify bounded impact\\\textbf{Root / demo funds}};
+\draw[-{Latex},redteam,thick] (discover) -- (enumerate);
+\draw[-{Latex},redteam,thick] (enumerate) -- (select);
+\draw[-{Latex},redteam,thick] (select) -- (verify);
+\end{tikzpicture}
+\captionof{figure}{Red Team decision sequence. Each transition requires an observed result rather than assuming the preparatory guide succeeded.}
+\end{center}
+
+\subsection{Reconnaissance: Establish the Asset Map}
+\begin{cmdbox}[Recorded on PC4 Kali - discovery]
+\begin{reportcode}
+nmap -sn 192.168.50.0/24
+\end{reportcode}
+\end{cmdbox}
+\texttt{-sn} performs host discovery without a subsequent port scan. On a directly connected Ethernet-style subnet, a privileged Nmap run normally uses ARP discovery; other probe behaviour depends on privilege and path. It is therefore inaccurate to promise a TCP port-scan signature for every discovery sweep. The command is still active traffic, not invisible reconnaissance.
+
+\reportfigure{E030}{Complete discovery screenshot, \ev{E030}.}{Eight hosts are reported up in 8.35 seconds, including the attacker's own address. The no-DNS-server warning does not invalidate discovery by numeric IP. MAC vendor labels repeat across several bridged guests and should not be treated as authoritative operating-system evidence.}
+
+\textbf{Decision.} The inventory established which addresses could be investigated next. The gateway, workstation, sensor and scanner remained part of the asset map, but the subsequent exploitation effort focused on \texttt{192.168.50.20} and \texttt{192.168.50.40} because of their exposed service profiles.
+
+The Red Team PDF also lists a per-host \texttt{-A} pass with saved text files. \texttt{-A} enables version detection, default scripts, OS detection and traceroute; some of these require privileges and sufficient responsive ports. Not every per-host output is preserved in the screenshots. The displayed results for the application, Ubuntu2 and Metasploitable are the basis used here; guessed OS labels are not promoted to confirmed asset identity.
+\screenshot{E031}
+\textbf{Inspect the second priority host.} Metasploitable's broader legacy-service footprint gives the team a distinct server-side path to investigate.
+\screenshot{E032}
+
+\subsection{Enumeration: Turn Service Leads into Specific Tests}
+\begin{cmdbox}[Recorded PC4 commands - service and web enumeration]
+\begin{reportcode}
+nmap -sV -sC -p- 192.168.50.20 192.168.50.40 -oN full_scan.txt
+whatweb 192.168.50.20
+whatweb 192.168.50.20:3000
+curl -I http://192.168.50.20
+curl -I http://192.168.50.20:3000
+\end{reportcode}
+\end{cmdbox}
+\texttt{-sV} identifies responding service versions; \texttt{-sC} runs default NSE scripts; \texttt{-p-} covers TCP ports 1--65535 in this scan; \texttt{-oN} saves normal text output. This does not scan all UDP services. A full-range TCP result is broader than the default port selection, not a complete assessment of every possible protocol or application route.
+\screenshot{E033}
+
+\begin{tabularx}{\linewidth}{@{}L{3.1cm}L{3.0cm}X@{}}
+\toprule
+\textbf{Target} & \textbf{Visible service} & \textbf{Decision supported}\\
+\midrule
+192.168.50.20 & 22/TCP, OpenSSH 9.6p1 & Administrative service; no successful SSH exploitation of this host is shown.\\
+192.168.50.20 & 80/TCP, Apache 2.4.58 & Inspect VulnBank and its login/administrative functions.\\
+192.168.50.20 & 3000/TCP, Express & Compare the direct application listener with the HTTP front end.\\
+192.168.50.30 & 22/TCP in initial view & Retain as Ubuntu2 infrastructure; the visible evidence does not justify a DVWA-specific attack.\\
+192.168.50.40 & 21/TCP, vsftpd 2.3.4 & Validate anonymous FTP and investigate the matching backdoor module.\\
+192.168.50.40 & SMB, old SSH and other services & Enumerate access policy; treat remaining services as leads pending individual validation.\\
+\bottomrule
+\end{tabularx}
+
+\reportfigure{E034}{Complete HTTP fingerprinting and header screenshot, \ev{E034}.}{Both HTTP listeners return 200 responses and a 2778-byte page; Apache and Express headers identify the stack. The displayed HTTPS connection refusal supports the cleartext-service concern. Matching lengths do not prove identical authorization or that traffic on port 3000 passes through Apache.}
+
+\begin{cmdbox}[Recorded PC4 commands - access-policy checks]
+\begin{reportcode}
+nmap --script=smb-enum-shares -p445 192.168.50.40
+nmap --script=ftp-anon -p21 192.168.50.40
+\end{reportcode}
+\end{cmdbox}
+The SMB script lists shares and access information; the FTP script attempts anonymous authentication. \ev{E035}--\ev{E036} show a \texttt{tmp} share classified as anonymous \texttt{READ/WRITE} and an FTP response \texttt{230} indicating anonymous login. These are configuration exposures, not proof that customer files were stolen. Anonymous FTP access and the vsftpd backdoor are separate weaknesses: disabling anonymous logins alone is not a sufficient remedy for a backdoored binary.
+\screenshot{E035}
+\textbf{Read the continuation and FTP result.} The second capture completes the share-access output and records the separate anonymous FTP check.
+\screenshot{E036}
+
+\textbf{Decision.} The exact FTP banner suggested a candidate exploit, while the share/FTP checks demonstrated permissive access policy. The team selected the known vsftpd module on the explicitly authorized target. The Red Team PDF mentions \texttt{distccd} as a backup lead; it was not demonstrated as an additional successful exploit and is not counted as one.
+
+\subsection{Initial Access: Validate the FTP Backdoor}
+\begin{cmdbox}[Recorded sequence - Metasploit console on PC4]
+\begin{reportcode}
+msfconsole
+search type:exploit vsftpd
+use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOSTS 192.168.50.40
+set PAYLOAD cmd/unix/interact
+show options
+run
+\end{reportcode}
+\end{cmdbox}
+The first line launches Metasploit; the remaining lines are \textbf{Metasploit-console commands}, not commands for a normal shell. \texttt{RHOSTS} selects the target and the displayed \texttt{RPORT} remains 21. \texttt{cmd/unix/interact} handles the shell exposed by this module; no reverse-payload \texttt{LHOST} is required for this bind-shell example. \texttt{show options} establishes the configured target before execution.
+\screenshot{E037}
+\textbf{Confirm scope before execution.} The configured target, port and payload are displayed before the test is run.
+\screenshot{E038}
+
+\ev{E037} is the module search, and \ev{E038} is configuration only. \ev{E039} shows an unsuccessful first run followed by a second \texttt{run} that connects to the existing backdoor listener and opens a shell. The test result, not the version string alone, establishes exploitation. CVE-2011-2523 concerns a tampered vsftpd distribution; it is not a statement that every installation reporting version 2.3.4 necessarily contains that backdoor.
+\screenshot{E039}
+
+\reportfigure{E040}{Complete shell and identity-check screenshot, \ev{E040}.}{The connection is from \texttt{192.168.50.100:45051} to \texttt{192.168.50.40:6200}. The session reports root and the hostname \texttt{metasploitable}, corroborating both privilege and target identity.}
+
+\begin{cmdbox}[Recorded inside the target session - identity checks]
+\begin{reportcode}
+whoami
+id
+hostname
+\end{reportcode}
+\end{cmdbox}
+The corresponding visible values are \texttt{root}, \texttt{uid=0(root) gid=0(root)}, and \texttt{metasploitable}. The session's timestamp is \texttt{2026-10-03 12:33:28 -0400}, equivalent to 16:33:28 UTC if that host clock was accurate. The supplied record does not establish why the first run failed; a mandatory retry is not presented as a universal exploit procedure.
+
+\subsection{Post-Exploitation: Demonstrate Account Control}
+\textbf{Decision.} Root identity alone establishes serious impact; the team chose a bounded account-control demonstration to show its practical consequence. The following historical commands ran \emph{inside the existing root shell}, not on Bruno's Kali host. The password shown is a disposable lab value already present in the source evidence; it must never be reused elsewhere.
+
+\begin{cmdbox}[Recorded inside the Metasploitable root shell]
+\begin{reportcode}
+echo "msfadmin:YouGotH@cked1234." | chpasswd
+grep msfadmin /etc/shadow
+\end{reportcode}
+\end{cmdbox}
+\texttt{chpasswd} accepts a username/password pair on standard input and changes the account password. Reading the shadow entry demonstrates privileged access to the account database; without a before-hash it is not, by itself, a before/after comparison. \ev{E046} records the action; the source report states it succeeded. The independent SSH session below corroborates that the account could subsequently be used, although the typed password is not visible.
+\screenshot{E046}
+
+\begin{cmdbox}[Recorded from a separate PC4 terminal]
+\begin{reportcode}
+ssh msfadmin@192.168.50.40
+\end{reportcode}
+\end{cmdbox}
+\ev{E047} shows a \texttt{msfadmin@metasploitable} shell. This is a second connection to the \emph{same target}, not lateral movement to another host. It also does not demonstrate new privilege escalation: root was obtained at initial access. No kernel exploit, persistent scheduled task or implanted SSH key is evidenced. Persistence mechanisms are discussed as risks only.
+\screenshot{E047}
+
+\textbf{Recovery requirement.} Restore the lab account or revert the clean target snapshot after preserving evidence; verify the original intended login and document restoration. No restoration capture was supplied. The late console-login failures in Rayan's inventory are relevant but cannot independently prove causality.
+\screenshot{E021}
+
+\subsection{Web Assessment: Reject One Path and Test Another}
+VulnBank on \texttt{192.168.50.20} was a separate application assessment, not the DVWA host described in the earlier guide. The login page explicitly describes simulated funds and advertises the seeded administrator credentials.
+
+\begin{cmdbox}[Observed browser input - not a shell command]
+\begin{reportcode}
+' OR '1'='1
+\end{reportcode}
+\end{cmdbox}
+\ev{E041} shows \texttt{Invalid credentials}. This records a negative result for the tested payload. It does not establish whether the application uses parameterized SQL, another database, validation, or a different protection, nor does it prove that all SQL-injection cases would fail.
+\screenshot{E041}
+
+\textbf{Decision.} The team shifted from the rejected injection attempt to the known login/account surface. The source report describes using a guessed administrator name and a password list, followed by manually trying the candidate credential. The page's public \texttt{admin/admin} hint is independently visible, so default-credential exposure is a simpler explanation of the path than a sophisticated injection exploit.
+
+\begin{cmdbox}[Historical Hydra invocation - retained to explain its mixed result]
+\begin{reportcode}
+hydra -l admin -P /usr/share/wordlists/rockyou.txt \
+  192.168.50.20 http-post-form \
+  "/api/login:username=^USER^&password=^PASS^:F=Invalid"
+\end{reportcode}
+\end{cmdbox}
+\texttt{-l} fixes the username, \texttt{-P} selects a password file, and the module string describes a POST body and a failure marker. This historical invocation is \textbf{not endorsed as a validated recipe} for VulnBank's endpoint. The request method, body type and failure test must match the real API, which cannot be established from this screenshot alone. The configured large wordlist does not prove that all entries were tried.
+
+\reportfigure{E042}{Complete Hydra screenshot showing the candidate and HTTP 401 errors, \ev{E042}.}{The candidate \texttt{login: admin password: admin} appears alongside repeated errors. An API can return 401 without using HTTP Basic authentication; the tool's suggestion is not proof of that protocol. A candidate line requires a controlled independent login check.}
+
+\textbf{Observed and reported outcome.} The Red Team PDF, physical pages 12--13, records a successful manual login with \texttt{admin/admin}. \ev{E043} shows the resulting administrator workspace, four demo accounts and a \texttt{DEMO PASSWORD} column heading. This corroborates administrative access, but the supplied frame does not show customer password values. Plaintext storage/extraction remains a reported concern requiring separate evidence; it is not silently promoted to a demonstrated password dump.
+\screenshot{E043}
+
+\textbf{Recommended retest, not performed here.} Capture the real request in browser developer tools, compare a known-invalid and known-valid lab login, verify the returned session and role, and only then evaluate throttling/lockout with an approved small attempt limit. Do not keep treating error responses as proof of successful password discovery or switch authentication mechanisms solely because Hydra suggests it.
+
+\subsection{Bounded Application Impact}
+\ev{E044} shows the transfer form; \ev{E045} shows a 5,000.00 FCFA simulated Orange Money receipt, reference \texttt{VB-ORANGE-000002}, dated \texttt{2026-10-03 17:47:35 UTC}. The page explicitly states: no real funds or SMS were sent. The receipt illustrates the impact of access to an administrator session, not a real-world payment or a separate proof of a transfer-authorization bypass.
+\screenshot{E044}
+
+\reportfigure{E045}{Complete simulated transfer receipt screenshot, \ev{E045}.}{The amount, receipt reference, timestamp and simulation warning are visible together. Other balance movements exist in the session, so the entire before/after balance difference is not attributed to this one transaction.}
+
+\subsection{Where the Evidence Ends}
+The supplied record demonstrates one compromised operating-system target, account modification and a second SSH connection to it, plus a reported default-credential application login corroborated by administrator access and a demo transaction. It does not demonstrate a SOCKS pivot, successful compromise of Fahdil's workstation, XSS execution, a separate local privilege-escalation exploit, or an actual credential-hash cracking run. Those expected tasks in the preparatory guides remain gaps or analytical discussion, not fabricated successful steps.
+
+\partheading{05 / BLUE TEAM}{Detection, Investigation and Containment}
+\label{sec:blue}
+\subsection{Strategy: Observe First, Then Apply a Scoped Control}
+\textbf{Owners: Marshall (PC1), Fahdil (PC2), Amina (PC5).} Marshall operated the separate Suricata/Kali sensor at \texttt{192.168.50.200} and administered pfSense at \texttt{192.168.50.1}. Fahdil provided Windows 10 and application-side observations. Amina prepared OpenVAS at \texttt{192.168.50.250} and investigated its feed readiness. The intended division combined network detection, endpoint context and vulnerability assessment; the evidence establishes different completion levels for each.
+
+The Blue Team's strategic objective was to recognize the attack source, constrain harmful traffic without losing legitimate management access, and verify the effect on a defined network path. Detection was not automatic prevention: Suricata operated as a passive IDS. The documented blocking action was configured \textbf{using the pfSense web portal}, not a demonstrated claim that the portal itself became inaccessible to all Red Team traffic.
+
+\begin{tabularx}{\linewidth}{@{}L{2.5cm}X X@{}}
+\toprule
+\textbf{Stage} & \textbf{Evidence and interpretation} & \textbf{Decision / next action}\\
+\midrule
+Prepare & Rule test succeeds; later logs and stats show sensor activity. & Establish a baseline and verify the actual interface receives the intended test traffic.\\
+Detect & Nmap-labelled HTTP requests from .100 to .1:80 appear in fast.log. & Investigate the source and target; distinguish approved scanner and background traffic.\\
+Contain & Alias editing and Blocked\_Attackers LAN rule are visible. & Place a source block before broad user allow rules; preserve trusted management access.\\
+Verify & ICMP replies visible before, not visible in the later gateway capture. & Record scoped evidence; retest other protocols separately with rule logging and fresh states.\\
+Recover & No completed target rebuild or account restoration is supplied. & Preserve evidence, restore the lab, close only findings with a documented retest.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Start Monitoring Before the Red Team Runs a Test}
+The early configuration output in \ev{E009} validates rule parsing. The later statistics show hours of sensor activity, and the live logs contain the Red source. These observations support preparation followed by detection, but not a complete minute-by-minute record of every test. In a repeat run, start the sensor and packet capture \emph{before} discovery, preserve the baseline time and agree the permitted test window with the Red Team.
+
+\begin{cmdbox}[PC1 Kali - observed monitoring command]
+\begin{reportcode}
+sudo tail -f /var/log/suricata/fast.log
+\end{reportcode}
+\end{cmdbox}
+This is the command the team demonstrated working. It displays recent log lines and then follows appended data until \texttt{Ctrl+C}. It does not start Suricata and it does not block packets. The fast output must be enabled and the file readable; no log format is guaranteed to exist on an unconfigured installation.
+\screenshot{E006}
+
+\begin{cmdbox}[PC1 Kali - recommended rotation-aware filtering]
+\begin{reportcode}
+sudo tail -n 50 -F /var/log/suricata/fast.log
+sudo grep -F '192.168.50.100:' /var/log/suricata/fast.log
+sudo tail -n 0 -F /var/log/suricata/fast.log | \
+  grep --line-buffered -F '192.168.50.100:'
+\end{reportcode}
+\end{cmdbox}
+Run each live follow command in its own terminal or stop it before running the next command. \texttt{-F} follows a filename across rotation; \texttt{-n 0} starts with new lines only. The fixed-string filter matches either endpoint, not just the source, and avoids treating the IP's dots as regex wildcards. It is appropriate to the supplied IPv4 \texttt{IP:port} log representation. Inspect the source-to-destination direction on each matching line.
+
+\reportfigure{E007}{Complete fast.log screenshot with the original identity overlay, \ev{E007}.}{SID \texttt{2024364} records \texttt{ET SCAN Possible Nmap User-Agent Observed}. The visible source is \texttt{192.168.50.100} and the destination is \texttt{192.168.50.1:80}. This ties the alert to Bruno's lab source and a gateway HTTP request, not to an assumed generic scan event.}
+
+\begin{tabularx}{\linewidth}{@{}L{3.3cm}X@{}}
+\toprule
+\textbf{Field / event} & \textbf{Correct interpretation}\\
+\midrule
+\texttt{[1:2024364:5]} & Generator, signature ID and revision identify the rule. Preserve this with the timestamp and endpoints.\\
+Nmap User-Agent & A request matched a known user-agent pattern. It supports reconnaissance activity; a user-agent can be imitated and does not prove a successful compromise.\\
+Priority 1 & Rule priority, not a CVSS score, proof of business impact or an automatic instruction to block.\\
+Stream retransmissions & Could result from traffic, loss, reassembly or capture behaviour; do not call them a SYN flood without supporting packet evidence.\\
+Kali DHCP hostname & An environment indicator, not proof that the host is malicious.\\
+10.11.12.47 / public HTTPS & Background addresses outside the assigned target prefix; exclude them from Red Team findings unless scope and attribution are independently established.\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Decision.} Investigate the authorized Red source \texttt{192.168.50.100}, the service it reached, and the corresponding test window. Do not block Amina's permitted scanner simply because it generates many probes. A matching alert and an agreed exercise source make a targeted rule defensible; alert volume alone does not.
+\textbf{Check sensor health as well as alerts.} The statistics view provides cumulative capture counters. It is useful for judging capture quality, not for counting successful blocks.
+\screenshot{E011}
+
+\subsection{Investigate EVE Parse Failures Without Losing Evidence}
+The team encountered \texttt{Invalid numeric literal at line 48, column 501} when querying \texttt{eve.json}. The repeated error establishes malformed JSON input at that location; it does not establish that Suricata was caught mid-write. A truncated record, mixed log content or corruption must be investigated. Ordinary \texttt{jq} also requires valid input, not only slurp mode.
+\textbf{Compare with the earlier structured output.} The supplied EVE screenshot demonstrates that a structured alert was readable at another point; its endpoints are outside the lab scope.
+\screenshot{E010}
+
+For a repeat investigation, preserve a snapshot of the file, inspect the reported line, and emit a separate error record for every unparseable input line. The following workflow is a \textbf{recommended diagnostic}, not a claim that the historical file was repaired. It assumes standard newline-delimited EVE JSON. Run on Marshall's Kali VM, where the log exists.
+
+\begin{cmdbox}[Preserve and inspect the source log]
+\begin{reportcode}
+mkdir -p ~/CYS4151/evidence
+sudo cp /var/log/suricata/eve.json \
+  ~/CYS4151/evidence/eve.snapshot.ndjson
+sudo sha256sum ~/CYS4151/evidence/eve.snapshot.ndjson
+sudo sed -n '46,50p' ~/CYS4151/evidence/eve.snapshot.ndjson
+\end{reportcode}
+\end{cmdbox}
+A copy of an actively written file may end with an incomplete final record. Preserve the acquisition time and do not overwrite or truncate the original log. If exact completeness is required, coordinate a rotation or quiesced collection with the operator.
+
+\begin{cmdbox}[Parse each line and retain diagnostics instead of silently dropping it]
+\begin{reportcode}
+sudo jq -Rnc '
+  inputs | input_line_number as $line | . as $raw |
+  try ($raw | fromjson)
+  catch {parse_error: ., source_line: $line}
+' ~/CYS4151/evidence/eve.snapshot.ndjson \
+  > ~/CYS4151/evidence/eve.review.ndjson
+
+jq -c 'select(type=="object") | select(has("parse_error"))' \
+  ~/CYS4151/evidence/eve.review.ndjson
+\end{reportcode}
+\end{cmdbox}
+Valid records remain available for analysis; invalid records produce diagnostic objects with the input line number. The preserved snapshot retains the original offending text. Absence of an alert in the parsed subset is not proof no attack occurred, especially if malformed records or missing capture coverage remain.
+
+\begin{cmdbox}[Review valid Red-source alerts in a small frozen lab snapshot]
+\begin{reportcode}
+jq -c 'select(type=="object") |
+  select(.event_type=="alert" and .src_ip=="192.168.50.100") |
+  select((.alert.signature // "") | test("nmap|scan"; "i")) |
+  {timestamp, src_ip, dest_ip, dest_port,
+   signature: .alert.signature}' \
+  ~/CYS4151/evidence/eve.review.ndjson
+
+jq -sr 'map(select(type=="object") |
+  select(.event_type=="alert")) | sort_by(.timestamp)[] |
+  [.timestamp, .src_ip, .dest_ip, (.dest_port // ""),
+   (.alert.signature // "")] | @tsv' \
+  ~/CYS4151/evidence/eve.review.ndjson
+\end{reportcode}
+\end{cmdbox}
+The signature is nested under \texttt{.alert}, and the case-insensitive match includes uppercase \texttt{SCAN}. Sorting the snapshot is useful for a short lab record; do not slurp an unbounded production log into memory. ISO timestamps with differing offsets must be normalized before claiming cross-system chronological order. This sorting example is for a same-source/same-offset snapshot.
+
+\subsection{Contain Through the pfSense Web Portal}
+\textbf{Trigger.} The relevant detection was repeated Nmap-labelled gateway traffic from \texttt{192.168.50.100}. \textbf{Objective.} Restrict that source on the path pfSense can enforce while preserving administration from a trusted Blue Team host.
+
+The screenshots support the following sequence, with unshown intermediate clicks treated as reconstruction rather than separate proof:
+\begin{enumerate}
+\item Marshall opened the pfSense web portal at \texttt{https://192.168.50.1} from the Blue Team environment.
+\item Under \textbf{Firewall > Aliases}, he entered a Host(s) alias for \texttt{192.168.50.100}. The initial screenshot names it \texttt{bruno}; the later rules view references \texttt{Blocked\_Attackers}. The exact rename or membership transition is not supplied.
+\item Under \textbf{Firewall > Rules > LAN}, he configured a source-based block. The visible destination is Any and the description is \texttt{Block attacker IP - Task 12 hardening}. The source port should be Any because ephemeral client ports are not a stable attacker identity.
+\item The final rules screen shows \texttt{Blocked\_Attackers} above the broad default LAN allow rule and a successful rule reload banner. The user-defined rule order matters: the earlier matching action governs a new connection unless an earlier automatic/group/floating rule or existing state applies.
+\item The team compared ICMP traffic to the gateway before and after the change, using the pfSense shell capture shown below.
+\end{enumerate}
+
+\reportfigure{E002}{Complete pfSense portal alias-configuration screenshot, \ev{E002}.}{A Host(s) alias groups an address; it does not block packets by itself. A matching firewall rule must reference the intended alias, and both configuration and rule changes must be saved/applied. The default-password warning is an additional hardening concern.}
+
+\begin{center}
+\begin{tikzpicture}[font=\small,rule/.style={draw=steel,rounded corners=2pt,align=left,text width=13.6cm,minimum height=1.05cm,inner sep=7pt}]
+\node[rule,fill=goldpale] (auto) at (0,0) {\textbf{1. Automatic anti-lockout allowance}\quad LAN address / management ports 80, 443 and 22 as displayed};
+\node[rule,fill=redteamlight] (deny) at (0,-1.6) {\textbf{2. Blocked\_Attackers}\quad IPv4 source block / destination Any / above broad user allow};
+\node[rule,fill=blueteamlight] (allow) at (0,-3.2) {\textbf{3. Default LAN allow}\quad traffic not already handled can match this rule};
+\draw[-{Latex},thick,steel] (auto) -- (deny);
+\draw[-{Latex},thick,steel] (deny) -- (allow);
+\end{tikzpicture}
+\captionof{figure}{Observed pfSense rule-order explanation based on \ev{E003}. The automatic management exception remains above the source block. This diagram does not imply that unshown floating or group rules were audited.}
+\end{center}
+
+\textbf{Important caveats.} The rule editor's \textbf{Log} checkbox is unchecked in \ev{E001}; this image therefore cannot support a claim that matching block events were recorded in the firewall log. The anti-lockout rule still appears above the block in \ev{E003}. Netgate documents that this automatic allowance overrides ordinary LAN restrictions for administration. It cannot be treated as a complete web-portal denial test.
+\screenshot{E001}
+
+\subsection{Verify the Specific Path That Was Tested}
+\begin{cmdbox}[Observed on pfSense - shell, not the Kali sensor]
+\begin{reportcode}
+tcpdump -ni em1 icmp and host 192.168.50.100
+\end{reportcode}
+\end{cmdbox}
+\texttt{-n} avoids address-to-name resolution and \texttt{-i em1} selects the observed pfSense LAN interface. The capture filter selects ICMP involving the Red source. \ev{E003} shows request/reply pairs around 17:39:24--25 and requests without visible replies around 17:40:17--27.
+
+\reportfigure{E003}{Complete gateway ICMP capture and pfSense rule-context screenshot, \ev{E003}.}{Together with the rule reload and visible block counter, the before/after pattern is consistent with gateway ICMP containment. A capture on ingress may still show a packet that the firewall drops, so seeing a request after blocking is not evidence that the block failed.}
+
+\begin{tabularx}{\linewidth}{@{}L{3.4cm}L{3.4cm}X@{}}
+\toprule
+\textbf{Path / control} & \textbf{Supplied result} & \textbf{Conclusion}\\
+\midrule
+.100 to .1 / ICMP & Earlier replies; later requests without visible replies & Scoped containment evidence, consistent with the rule change.\\
+.100 to .1 / HTTP or HTTPS & No corresponding denial retest supplied & Not established; anti-lockout remains a relevant exception.\\
+.100 to .20 or .40 & Direct same-subnet paths available by design & Gateway rule alone cannot establish endpoint containment.\\
+Existing TCP sessions & No host-specific state-clearing capture & Existing permitted states may remain relevant until expired or deliberately cleared.\\
+Firewall event logging & Editor checkbox unchecked & Matching block-log evidence requires explicit logging and a new test.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Recommended Completion of the Containment Test}
+The following actions are a \textbf{future verification plan}, not historical events added to the record. Back up pfSense configuration and retain local console access before changing management rules.
+\begin{enumerate}
+\item Verify the actual members of \texttt{Blocked\_Attackers}; keep approved management clients separate from test sources. Enable logging on the relevant block rule, save and apply.
+\item If the goal includes denying access \emph{to} pfSense's GUI, first create and test a narrow trusted-management allow rule. Only then consider disabling the automatic anti-lockout rule under \textbf{System > Advanced > Admin Access}. Do not remove the only available management path.
+\item Inspect \textbf{Diagnostics > States}, filter on \texttt{192.168.50.100}, and remove only the test host's states when an immediate fresh-connection retest is required. Avoid flushing unrelated connections.
+\item Run a small, agreed set of fresh ICMP and HTTP/HTTPS checks from Bruno, then repeat the permitted management check from Blue. Verify the target is otherwise healthy so a service outage is not mistaken for a firewall block.
+\item Correlate \textbf{Status > System Logs > Firewall}, the specific rule/tracker, and packet observations. Preserve the configured rule, source/destination/protocol and timestamps in the evidence.
+\item For traffic between same-subnet endpoints, use a verified host-firewall rule or redesign the lab into routed security zones. Do not claim that adding a gateway alias alone protects that path. Restore the approved test policy after the exercise.
+\end{enumerate}
+
+\begin{cmdbox}[pfSense read-only verification commands - after confirming interface names]
+\begin{reportcode}
+pfctl -sr
+pfctl -ss
+pfctl -t Blocked_Attackers -T show
+tcpdump -ni em1 'host 192.168.50.100 and (icmp or tcp)'
+\end{reportcode}
+\end{cmdbox}
+The table command requires that the named table actually exists in the loaded ruleset. A \texttt{pfctl -T add} operation changes a runtime table, not the saved GUI alias definition, and may be lost on reload; it is not substituted for the documented persistent GUI workflow. Packet capture and \texttt{pfctl} run on pfSense, not on the separate Suricata guest.
+
+\subsection{Packet Capture and Endpoint Corroboration}
+\ev{E050}, \ev{E067} and \ev{E068} show Wireshark's \texttt{ip.addr==192.168.50.100} display filter and ICMP exchanges between Amina and Bruno. They prove that those hosts communicated and that the selected packet was an echo reply. They are not a capture of the FTP backdoor or a complete record of Red Team traffic.
+\screenshot{E050}
+\textbf{Follow the same exchange in the later capture view.} The request and reply directions corroborate the scanner and attacker addresses.
+\screenshot{E067}
+\textbf{Retain the identity-bearing view.} This additional supplied screenshot records the same exchange with the student's overlay, not a new set of attacks.
+\screenshot{E068}
+
+\begin{cmdbox}[Recommended Kali capture and offline inspection]
+\begin{reportcode}
+ip -brief address
+sudo tshark -D
+sudo tshark -i eth0 -f 'net 192.168.50.0/24' -a duration:60 \
+  -w capture.pcapng
+tshark -r capture.pcapng \
+  -Y 'ip.addr==192.168.50.100 && (http.request || icmp)'
+\end{reportcode}
+\end{cmdbox}
+Replace \texttt{eth0} only after checking the actual sensor interface. The \texttt{-f} expression is a capture filter; \texttt{-Y} is a Wireshark display filter. The 60-second limit bounds this verification capture. HTTPS application payloads are not exposed just by adding an HTTP filter. Review traffic visibility before assuming that a quiet capture means the target received no attack.
+
+Fahdil's Windows 10 observations show the application's interface, not Windows Security event logs. For an authorized retest, local audit policy must first enable the relevant events. Then review successful/failed logons and process creation only on the system that generated them; remote packets that never reach authentication need not generate a 4625 event.
+\screenshot{E018}
+\textbf{Later workstation observation.} The following image preserves the subsequent application view without claiming that the unchanged screen proves an absence of attacks.
+\screenshot{E019}
+\begin{cmdbox}[Recommended on PC2 Windows PowerShell - recent security events]
+\begin{reportcode}
+Get-WinEvent -FilterHashtable @{
+  LogName = 'Security'
+  Id = 4624,4625,4688
+  StartTime = (Get-Date).AddHours(-2)
+} -MaxEvents 100 | Select-Object TimeCreated, Id, Message
+\end{reportcode}
+\end{cmdbox}
+On the Ubuntu application host, inspect the \emph{configured} Apache access/error log paths and application service logs. A normal HTTP access log often omits POST bodies, so it cannot be promised to contain every literal login payload. \texttt{who} and shell history likewise do not reliably record an unregistered backdoor shell. No missing log is reconstructed as fabricated evidence here.
+
+\subsection{Amina's OpenVAS Investigation and Its Outcome}
+The dedicated PC5 report explicitly states \textbf{Incomplete - assessment blocked}. The screenshots show a reachable local interface, an initial login failure, an empty task list, an unset feed-owner warning, missing GVMD/CERT metadata, SCAP import in progress and repeated default-port-list rejection. The NVT feed alone was Current.
+\subsubsection{Open the Task List and Check Readiness}
+After reaching GSA, review the task list and readiness message before attempting a scan. The first view explicitly says scans are unavailable during synchronization.
+\screenshot{E058}
+\textbf{Recheck the task list.} A later frame shows an inactivity warning and still no tasks. The disappearance of a feed banner in one frame must not be interpreted as successful import.
+\screenshot{E059}
+
+\reportfigure{E060}{OpenVAS feed-status evidence: NVT Current while SCAP is still importing (\ev{E060}).}{Different feeds have different functions. GVMD Data supplies port lists and scan configurations; SCAP supplies vulnerability/product metadata. A SCAP progress message alone is not the direct explanation of an absent default port list. The accompanying feed-owner and GVMD-data errors establish the broader readiness gap.}
+
+\subsubsection{Attempt Target Creation and Preserve Each Error}
+Enter the intended lab target list and save it only after checking scope. The first supplied target dialog does not show a successful save.
+\screenshot{E049}
+\textbf{Retry record.} A second capture records the repeated target-definition attempt.
+\screenshot{E061}
+\textbf{Interpret the feed-owner error.} Target creation reports an unmet prerequisite; it does not identify a vulnerability in the selected hosts.
+\screenshot{E062}
+\textbf{Interpret the missing port list.} The next attempt is blocked before a scan can be launched.
+\screenshot{E063}
+\textbf{Preserve the repeated failure.} The second full-dialogue view corroborates that the error persisted, rather than adding another independent finding.
+\screenshot{E064}
+
+\reportfigure{E065}{The default-port-list error that blocked target creation (\ev{E065}).}{The failure occurs before a scan task is launched. It cannot support a finding that the selected target hosts are secure or vulnerable, nor a scanner-derived severity chart.}
+
+\subsubsection{Inspect Service Logs and Revisit Feed Status}
+The failed target save led Amina to the manager logs. These messages show the metadata that GVM could not read.
+\screenshot{E051}
+\textbf{Corroborate the warning with identity context.} The next supplied view preserves the same class of error with Amina's overlay.
+\screenshot{E070}
+\textbf{Check scanner startup.} Tailing the manager log also reports that the scanner has not yet supplied a feed version.
+\screenshot{E073}
+\textbf{Return to the feed-status page.} NVT and SCAP need separate interpretation; one being current does not establish that every required object is ready.
+\screenshot{E066}
+\textbf{Later status checkpoint.} SCAP remains in progress in this additional supplied view.
+\screenshot{E069}
+
+\subsubsection{Synchronize and Measure Progress Without Assuming Completion}
+Amina then invokes the full-feed sync. A lock acquisition and download start justify monitoring its progress, not launching a scan immediately.
+\screenshot{E074}
+\textbf{Check the download path.} The traffic view uses a NAT-side address and contains external troubleshooting advice; only the displayed network activity is execution evidence.
+\screenshot{E075}
+\textbf{Measure local directory usage.} The first timed checkpoint shows 998M in the SCAP data directory.
+\screenshot{E078}
+\textbf{Compare the next checkpoint.} The monitor shows 1002M thirty seconds later.
+\screenshot{E079}
+\textbf{Retain the separately supplied view of this checkpoint.} It supports the same usage reading, not another completed import.
+\screenshot{E052}
+\textbf{Review the later 1.1G reading.} Directory growth is visible, but readiness must still be checked in GVM.
+\screenshot{E053}
+\textbf{Preserve the final identity-bearing checkpoint.} The later capture and Amina's dedicated PDF both belong to the incomplete attempt.
+\screenshot{E080}
+\textbf{Check whether scans are available.} The supplied notification still describes synchronization as blocking scan availability.
+\screenshot{E076}
+\textbf{Record the final target retry.} Renaming the target to \texttt{vul} does not resolve the absent port-list dependency.
+\screenshot{E077}
+
+\begin{tabularx}{\linewidth}{@{}L{3.4cm}X X@{}}
+\toprule
+\textbf{Checkpoint} & \textbf{Observed evidence} & \textbf{Why the next step followed}\\
+\midrule
+Service start & ospd-openvas, notus-scanner and gsad invoked & Open the local GSA interface and inspect readiness.\\
+Feed review & NVT Current; SCAP Update in progress & Inspect import and metadata state rather than assuming the UI implies readiness.\\
+Target creation & Feed-owner / default Port List errors & Examine gvmd logs and required data objects.\\
+Log investigation & Missing feed.xml; scanner feed version unavailable & Attempt controlled synchronization and monitor import progress.\\
+Full feed sync & Lock acquired; Notus/NASL downloads start & Allow completion, then verify actual imported port lists and scan configs.\\
+Last recorded state & 998M, 1002M, then 1.1G SCAP directory; no scan & Record an incomplete task and schedule a separate retest after readiness.\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Resource history and uncertainty.} Amina reports five attempts, including a final run of roughly an hour, and the increases to disk/RAM/CPU described in the setup chapter. The snapshots measure directory usage, not free disk capacity, and do not prove that all enlarged disk space became usable inside the guest. The deeper cause of incomplete download/import was not isolated; rate limiting, locks, feed ownership, connectivity, version compatibility and filesystem capacity are investigation leads, not established causes.
+
+\begin{cmdbox}[Recommended PC5 readiness diagnostics before a new scan attempt]
+\begin{reportcode}
+df -h
+df -i
+lsblk -f
+free -h
+sudo gvm-check-setup
+sudo systemctl status gvmd ospd-openvas gsad --no-pager
+sudo journalctl -u gvmd -u ospd-openvas -n 100 --no-pager
+greenbone-feed-sync --help
+\end{reportcode}
+\end{cmdbox}
+Check the installed feed-sync version and follow its matching distribution guidance. Avoid repeated overlapping syncs and do not delete an active lock to force progress. Confirm a valid feed owner, imported default port lists, usable scan configurations and a connected scanner in the GUI; then create the target, choose an authorized non-destructive scan profile and preserve the final export. A generic \texttt{gvmd --rebuild} command is not prescribed without checking support in the installed version.
+
+\subsection{Joint Exercise Timeline}
+\begin{tabularx}{\linewidth}{@{}L{3.4cm}X L{2.4cm}@{}}
+\toprule
+\textbf{Displayed time} & \textbf{Event and decision relevance} & \textbf{Evidence}\\
+\midrule
+11:04 EDT & Nmap discovers eight lab addresses; establish the asset map. & E030\\
+11:44 EDT & Full TCP scan begins for the two selected targets. & E033\\
+16:23:08, offset absent & Suricata records Nmap User-Agent events to gateway HTTP. & E006/E007\\
+12:33:28 -0400 & FTP backdoor shell opens with root on .40. & E039/E040\\
+13:07:39, guest login record & SSH last-login message identifies .100 as source; a later screenshot shows a separate session. & E047\\
+17:39--17:40, pfSense clock & ICMP response pattern changes after the block-rule configuration. & E003\\
+13:41:22, Kali display & Hydra candidate line and HTTP401 errors; manual verification needed. & E042\\
+17:47:35 UTC & Simulated 5000 FCFA transfer receipt. & E045\\
+12:59:58 / 13:26:53 EDT & SCAP directory growth, but scanner remains incomplete. & E079/E080\\
+\bottomrule
+\end{tabularx}
+This table preserves source-local timestamps and follows the narrative rather than claiming a fully synchronized event order. The subset does not support a defensible mean time to detect, mean time to respond, total attack count or network-wide block rate.
+
+\partheading{06 / FINDINGS}{Vulnerability Findings and Risk Assessment}
+\label{sec:findings}
+\subsection{Rating Method and Scope of Conclusions}
+The register combines demonstrated exploitation, service-policy exposures and defensive-control observations. It does not represent eight OpenVAS results. Each issue is counted once, even when several screenshots show it; a password change and SSH verification are consequences of F01 rather than additional independent root vulnerabilities.
+
+For prioritization, likelihood and impact are each rated 1--5: 1 is limited/unlikely, 3 is material/possible, and 5 is severe/highly likely within the assessed configuration. The product determines the report's qualitative band: Low 1--5, Medium 6--11, High 12--19, Critical 20--25. These are \textbf{analyst risk judgments for a production analogue}, not measured probabilities or exam marks. Findings deliberately introduced into a training target remain serious if carried into a real environment.
+
+Only F01 is assigned a published CVSS value here: NVD lists CVE-2011-2523 as \textbf{CVSS v3.1 9.8 Critical}, with vector \texttt{CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H}. The complete vector and source are retained. Other ratings are qualitative; the available context does not justify attaching fabricated scanner scores. CVSS is owned by FIRST and used with attribution under its published terms.
+
+\small
+\begin{longtable}{@{}L{0.8cm}L{4.4cm}L{2.7cm}L{1.7cm}L{1.2cm}L{4.4cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Finding} & \textbf{Asset} & \textbf{Rating} & \textbf{L x I} & \textbf{Evidence / state}\\
+\midrule\endhead
+F01 & Backdoored FTP provides root & 192.168.50.40 & Critical & 5 x 5 & E039/E040; demonstrated; open.\\
+F02 & Anonymous writable SMB share & 192.168.50.40 & High & 4 x 4 & E035/E036; policy observed; open.\\
+F03 & Anonymous FTP authentication & 192.168.50.40 & Medium & 3 x 3 & E032/E036; policy observed; open.\\
+F04 & Advertised default VulnBank administrator credential & 192.168.50.20 & High & 4 x 4 & E041--E045, D4; corroborated; open.\\
+F05 & Cleartext web application listeners & 192.168.50.20 & Medium & 3 x 3 & E031/E034; observed; open.\\
+F06 & pfSense default-password warning & 192.168.50.1 & High & 3 x 5 & E002/E003; observed; open.\\
+F07 & Flat subnet limits gateway containment & Lab /24 & Medium & 3 x 3 & Architecture and E003; partial containment only.\\
+F08 & Block-rule logging disabled & 192.168.50.1 & Medium & 3 x 2 & E001/E003; retest pending.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\begin{center}
+\begin{tikzpicture}[font=\small,x=1.7cm,y=1cm]
+\draw[->,muted] (0,0) -- (4.8,0) node[right]{Findings};
+\foreach \tick in {0,1,2,3,4} {
+  \draw[lightgrey] (\tick,0) -- (\tick,4.1);
+  \node[below] at (\tick,0) {\tick};
+}
+\fill[redteam] (0,3.3) rectangle (\CriticalCount,3.9);
+\fill[accentgold] (0,2.3) rectangle (\HighCount,2.9);
+\fill[steel] (0,1.3) rectangle (\MediumCount,1.9);
+\node[left] at (0,3.6) {Critical};
+\node[left] at (0,2.6) {High};
+\node[left] at (0,1.6) {Medium};
+\node[left] at (0,0.6) {Low};
+\node[right] at (\CriticalCount,3.6) {\CriticalCount};
+\node[right] at (\HighCount,2.6) {\HighCount};
+\node[right] at (\MediumCount,1.6) {\MediumCount};
+\node[right] at (0,0.6) {\LowCount};
+\end{tikzpicture}
+\captionof{figure}{Severity distribution of the eight deduplicated report findings. Counts are generated from the findings register, not from a scanner export or screenshot count.}
+\end{center}
+
+\subsection{F01 - Backdoored FTP Provides Root Access}
+\label{finding:F01}
+\textbf{Asset / evidence:} \texttt{192.168.50.40}; \ev{E032}, \ev{E038}--\ev{E040}, \ev{E046}, \ev{E047}; Red Team PDF, physical pages 7--10. \textbf{Severity: Critical. Status: Open.}
+
+The target exposes vsftpd 2.3.4 and a successful session to the backdoor listener on TCP6200. The resulting shell is root and identifies the correct host. This is materially stronger than a version-only match to CVE-2011-2523. The demonstrated account modification corroborates high integrity impact; root privileges also imply serious confidentiality and availability potential. No destructive outage was attempted.
+
+\textbf{Business impact.} In the SecureTech scenario, equivalent access could expose application files and credentials, permit unauthorized account changes and disrupt services. These are consequences of the demonstrated capability, not claims that real customer data was stolen.
+
+\textbf{Remediation / owner.} Rayan, as target owner, should remove the affected image from any non-test network and rebuild from trusted supported media. Replace the backdoored service rather than merely changing FTP authentication policy; rotate credentials exposed to the compromised host and verify account integrity. Preserve a deliberately vulnerable snapshot only in an isolated teaching environment.
+
+\textbf{Closure test.} On the rebuilt authorized target, verify approved service versions, confirm the backdoor listener is absent, ensure no unauthorized account changes remain and repeat the bounded initial-access check under approval. No completed rebuild/retest is supplied.
+
+\subsection{F02 - Anonymous Writable SMB Share}
+\textbf{Asset / evidence:} \texttt{192.168.50.40}; \ev{E035}, \ev{E036}. \textbf{Severity: High. Status: Open.}
+
+The SMB enumeration result classifies the \texttt{tmp} share as anonymous \texttt{READ/WRITE}. An unauthenticated party could potentially access or alter files exposed by that share. The screenshot records the access policy; it does not establish what valuable files existed, a successful file upload, or execution of a file placed there.
+
+\textbf{Remediation / owner.} Rayan should remove unintended guest access, require named accounts, restrict share permissions and filesystem ACLs, and allow SMB only between required systems. Test that guest/null-session access is denied while a permitted test account still performs its approved operation. Record both outcomes before closure.
+
+\subsection{F03 - Anonymous FTP Authentication}
+\textbf{Asset / evidence:} \texttt{192.168.50.40}; \ev{E032}, \ev{E036}. \textbf{Severity: Medium. Status: Open.}
+
+The FTP check returns \texttt{Anonymous FTP login allowed (FTP code 230)}. Unauthenticated access is established; sensitive content, upload permissions and actual data loss are not. This finding is distinct from F01: a trusted service can still have an unsafe anonymous-access policy, and a backdoored binary remains unsafe even after anonymous login is disabled.
+
+\textbf{Remediation / owner.} Remove unnecessary FTP or replace it with an approved authenticated transfer service. Restrict any required download-only area to intended public content and narrow its network reach. Verify anonymous authentication fails and authorized access still works. Rayan owns the service configuration, with Blue Team verification.
+
+\subsection{F04 - Advertised Default VulnBank Administrator Credential}
+\textbf{Asset / evidence:} \texttt{192.168.50.20}; \ev{E017}, \ev{E028}, \ev{E041}--\ev{E045}; Red Team PDF, physical pages 11--14. \textbf{Severity: High. Status: Open.}
+
+The public login page advertises \texttt{admin/admin}. Hydra reports the same candidate but also emits repeated errors. The operator report records a successful manual login, and the following screenshots demonstrate administrator access and a simulated payment. The combined record corroborates the default-credential path without requiring the error-laden automation to be treated as reliable proof by itself.
+
+\textbf{Business impact.} Equivalent defaults in production could allow an unauthorized party to use privileged functions and alter accounts or transactions. The 5,000 FCFA receipt is an illustration of demo impact only.
+
+\textbf{Remediation / owner.} The application owner should remove seeded credentials and public hints from non-lab deployments, require unique secrets and privileged-account protection, enforce server-side authorization for every sensitive operation, and monitor authentication failures. Rayan maintains the application; Fahdil can provide Blue Team verification. A clean invalid/valid login comparison and role check are needed before assessing lockout or rate-limiting behaviour.
+
+\subsection{F05 - Cleartext Web Application Listeners}
+\textbf{Asset / evidence:} \texttt{192.168.50.20}, TCP80 and TCP3000; \ev{E031}, \ev{E034}, \ev{E041}, \ev{E043}. \textbf{Severity: Medium. Status: Open.}
+
+The application is served over HTTP, and the displayed HTTPS connection attempt is refused. Both Apache and the direct Express listener expose the application. This establishes lack of observed transport protection on those paths, not a successful interception of a password. The risks include disclosure or modification of credentials and session data to a party able to observe or alter the transport path.
+
+\textbf{Remediation / owner.} Configure HTTPS with a verified certificate at the approved entry point, redirect or disable unneeded HTTP routes, set appropriate secure session-cookie attributes, and bind or filter the direct application listener so it cannot unintentionally bypass the entry-point controls. Test browser/login behaviour on both listeners; do not rely only on a changed header or a different page length.
+
+\subsection{F06 - pfSense Default Administrator Password Warning}
+\textbf{Asset / evidence:} \texttt{192.168.50.1}; \ev{E002}, \ev{E003}. \textbf{Severity: High. Status: Open.}
+
+The management interface explicitly warns that the current password is set to its default value. In a shared lab, that weakens the security of the device controlling routing and firewall policy. The capture demonstrates the warning, not an attacker login to pfSense or a successful unauthorized rule change.
+
+\textbf{Remediation / owner.} Marshall should change the administrator secret, use named administrative accounts and appropriate authentication controls, restrict management to trusted clients or a separate management network, and retain a verified recovery method. Retest that the default credential is rejected while approved administration remains available. A completed password change is not present in the supplied record.
+
+\subsection{F07 - Flat Subnet Limits Gateway Containment}
+\textbf{Asset / evidence:} \texttt{192.168.50.0/24}; the bridged topology, \ev{E003}, \ev{E005}, \ev{E023}, \ev{E025}--\ev{E027}, \ev{E030}. \textbf{Severity: Medium. Status: Partially contained.}
+
+The gateway rule produced scoped ICMP containment evidence, but the hosts share a connected subnet. Direct layer-2 traffic can avoid pfSense, and several configuration stages show secondary NAT adapters. The management anti-lockout rule also remains in place. This is an architectural/control-coverage limitation, not a new exploit demonstrated against every host.
+
+\textbf{Remediation / owner.} Marshall and the target owners should review active routes/uplinks, use host firewalls for required immediate endpoint restrictions, and design separate routed target, attacker and management zones if network-level segmentation is required. Provide an explicit mirror/TAP or validated capture arrangement for the passive sensor. Retest gateway-bound, routed and same-subnet paths separately; each has a different enforcement point.
+
+\subsection{F08 - Block-Rule Logging Disabled in the Captured Configuration}
+\textbf{Asset / evidence:} \texttt{192.168.50.1}; \ev{E001}, \ev{E003}. \textbf{Severity: Medium. Status: Retest pending.}
+
+The visible rule editor has packet logging unchecked. The configuration and packet excerpt support a containment observation, but not a matching firewall-event trail for that rule. Without the relevant events, the team cannot reliably explain which rule acted on each rejected connection or reconstruct a complete block timeline.
+
+\textbf{Remediation / owner.} Marshall should enable logging for the relevant security rules, configure retention/time synchronization, protect log access and perform a small new test that produces a matching source/destination/protocol/tracker record. Logging every benign packet is not required and can overwhelm a constrained VM. Existing-state handling and legitimate Blue access must be checked alongside the logging change.
+
+\subsection{Additional Observations Not Counted as Confirmed Findings}
+\begin{itemize}
+\item \textbf{Plaintext application passwords:} the UI warns of intentional exposure and the Red Team PDF reports it, but the supplied screenshot shows a column heading rather than visible password values. Confirm storage and API behaviour before assigning a separate demonstrated finding.
+\item \textbf{Other legacy services and distccd:} identified as leads or described in the source report, but not separately exploited or fully validated here. Do not assign a CVE from a banner alone.
+\item \textbf{OpenVAS readiness:} an assessment/tooling blocker, not a vulnerability discovered on the target network. It remains an action item and a coverage limitation.
+\item \textbf{Windows policy, lateral movement and persistence:} the record does not establish their successful exploitation or completed hardening. Analysis is clearly separated from evidence of execution.
+\end{itemize}
+
+\subsection{Threat Model and Scenario Impact}
+\begin{tabularx}{\linewidth}{@{}L{2.7cm}L{3.4cm}X@{}}
+\toprule
+\textbf{Critical asset} & \textbf{Threat / entry vector} & \textbf{Consequence and control focus}\\
+\midrule
+Server accounts and files & Untrusted internal host reaches backdoored FTP or open shares & Account takeover and file tampering; trusted rebuild, access policy and segmented reachability.\\
+Application balances and sessions & Default administrator secret or cleartext login path & Privileged misuse and session exposure; remove defaults, HTTPS and server-side authorization.\\
+Firewall administration & Shared default credential and broad management access & Policy manipulation or loss of network control; protected administration and audited changes.\\
+Employee workstation & Possible access from a compromised peer & Potential downstream exposure, not demonstrated compromise; host firewall, supported OS and log collection.\\
+Detection evidence & Gaps in capture visibility, parsing and rule logging & Incomplete incident reconstruction; validated capture paths, preserved originals and scoped security logging.\\
+Assessment coverage & Scanner feed/import failure & Unknown undiscovered weaknesses; repair readiness and repeat the authorized scan before claiming completeness.\\
+\bottomrule
+\end{tabularx}
+
+\begin{center}
+\begin{tikzpicture}[x=1.75cm,y=1.1cm,font=\small]
+\foreach \likelihood in {1,...,5} {
+  \foreach \impact in {1,...,5} {
+    \pgfmathtruncatemacro{\risk}{\likelihood*\impact}
+    \ifnum\risk>19 \def\shade{redteamlight}\else
+      \ifnum\risk>11 \def\shade{goldpale}\else
+        \ifnum\risk>5 \def\shade{blueteamlight}\else \def\shade{pale}\fi
+      \fi
+    \fi
+    \filldraw[fill=\shade,draw=white,line width=1pt] (\impact-1,\likelihood-1) rectangle (\impact,\likelihood);
+  }
+  \node[left] at (0,\likelihood-0.5) {\likelihood};
+  \node[below] at (\likelihood-0.5,0) {\likelihood};
+}
+\node[font=\bfseries] at (4.5,4.5) {F01};
+\node[font=\bfseries] at (3.5,3.5) {F02, F04};
+\node[font=\bfseries] at (4.5,2.5) {F06};
+\node[align=center,font=\bfseries] at (2.5,2.5) {F03, F05\\F07};
+\node[font=\bfseries] at (1.5,2.5) {F08};
+\node[below=7mm] at (2.5,0) {\textbf{Impact} (1 limited to 5 severe)};
+\node[rotate=90] at (-0.65,2.5) {\textbf{Likelihood} (1 to 5)};
+\end{tikzpicture}
+\captionof{figure}{Analyst risk matrix for the eight registered findings. Colour is supplemented by IDs; empty cells are not evidence of tested-safe assets.}
+\end{center}
+
+\partheading{07 / RESPONSE PLAN}{Hardening, Recovery and Retesting}
+\label{sec:hardening}
+\subsection{Prioritized Remediation Register}
+The following priorities are proposed for the lab and its production analogue, not recorded completion dates. \textbf{P0} means before the next hostile exercise; \textbf{P1} means before the next assessed baseline. Physical asset ownership does not change team membership: Rayan assists target recovery as owner, while Blue Team validates the defensive result.
+
+\small
+\begin{longtable}{@{}L{1.3cm}L{4.5cm}L{2.8cm}L{7.0cm}@{}}
+\toprule
+\textbf{Priority} & \textbf{Action} & \textbf{Owner} & \textbf{Acceptance / evidence required}\\
+\midrule\endhead
+P0 & Isolate and rebuild affected FTP target (F01) & Rayan; Blue validates & Approved image/service; no6200 backdoor; required service tests pass; lab-account restoration recorded.\\
+P0 & Replace default app and firewall credentials (F04/F06) & Application owner; Marshall & Default login rejected; unique approved account succeeds; management access preserved.\\
+P1 & Restrict anonymous SMB/FTP (F02/F03) & Rayan & Anonymous access denied; least-privilege test account retains only required access.\\
+P1 & Require HTTPS and review direct3000 access (F05) & Application owner & Correct certificate and login/session behaviour; direct listener not an unintended control bypass.\\
+P1 & Validate enforcement paths (F07) & Marshall and all owners & Fresh tests for gateway, inter-zone and same-subnet paths; unintended secondary uplinks removed or controlled.\\
+P1 & Enable scoped logging and preserve timestamps (F08) & Marshall; Fahdil & Matching event with rule/tracker and endpoints; retention configured; clocks recorded.\\
+P1 & Repair OpenVAS readiness & Amina & Valid feed owner, imported port list and scan config, connected scanner, completed authorized scan/export.\\
+P1 & Establish Windows defensive baseline & Fahdil & Supported/maintained OS, effective firewall profiles, account policy and enabled event collection recorded.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\subsection{Verification Commands and Their Limits}
+Run follow-up checks on the appropriate machine after an approved change. They are included for reproducibility, not as evidence that remediation occurred during the original exercise.
+\begin{cmdbox}[Ubuntu application host - patch and service verification]
+\begin{reportcode}
+sudo apt update
+apt list --upgradable
+sudo apt upgrade
+dpkg-query -W apache2 openssh-server
+sudo apache2ctl configtest
+sudo systemctl status apache2 --no-pager
+sudo ss -lntp
+\end{reportcode}
+\end{cmdbox}
+Use the supported Ubuntu application guest, not the intentionally obsolete Metasploitable image, for routine patch-management demonstrations. Record package versions and vendor security status; a backported fix may retain the same upstream banner, so a banner change is not a required or sufficient proof of patching. Review the proposed transaction before confirming an upgrade and validate application functionality afterward.
+
+\begin{cmdbox}[PC2 Windows PowerShell - record the defensive baseline]
+\begin{reportcode}
+Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion
+Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 10
+Get-NetFirewallProfile | Select-Object Name, Enabled
+net accounts
+\end{reportcode}
+\end{cmdbox}
+An update list is useful inventory, not proof that all vulnerabilities are patched. Document the actual support/extended-update status of Windows 10. Do not claim MFA, lockout or audit policies were enforced merely because a report recommends them.
+
+For Linux host-level containment, first identify the active firewall framework, established connections and management allow rules. Enabling UFW without that review can lock out administrators or interfere with Docker and other rules. An explicit incoming rule on a target can protect that \emph{target}; it does not turn the passive Suricata guest into a network-wide firewall. The report therefore favors a controlled, verifiable policy change over an unqualified copy-paste block command.
+
+\subsection{Incident Response Workflow}
+\begin{enumerate}
+\item \textbf{Detect and record.} Capture the alert's time, signature, direction and affected service. Preserve the relevant source log and original evidence hash.
+\item \textbf{Triage.} Confirm scope and attribution; compare Bruno's test source with Amina's approved scanner and exclude unrelated background traffic. Determine whether there is evidence of access, not just a signature hit.
+\item \textbf{Contain.} Apply the narrowest control that acts on the actual path. In the documented case this was a pfSense source block; same-subnet endpoints require separate controls. Preserve management access and evidence.
+\item \textbf{Eradicate.} Remove the underlying backdoored software/default credentials or unsafe policy. A temporary IP block alone does not remediate the vulnerable target.
+\item \textbf{Recover.} Restore known-good lab images/accounts, validate required services and permitted Blue access, then lift temporary rules only under the agreed test policy.
+\item \textbf{Learn and close.} Compare the same before/after tests, attach rule and log evidence, record residual gaps and assign ownership. Keep the issue open where the retest is absent.
+\end{enumerate}
+
+\subsection{Red and Blue Team Handoffs}
+\begin{center}
+\begin{tikzpicture}[font=\small,task/.style={text width=6.5cm,align=left,minimum height=1.15cm,inner sep=7pt,rounded corners=2pt},link/.style={-{Latex},thick,steel}]
+\node[text=redteam,font=\bfseries] at (0,0.9) {RED TEAM / TEST AND PROVE};
+\node[text=blueteam,font=\bfseries] at (8.8,0.9) {BLUE TEAM / OBSERVE AND CONTROL};
+\node[task,fill=redteamlight!40,draw=redteam] (r1) at (0,0) {Discover the lab and identify reachable services.};
+\node[task,fill=blueteamlight!50,draw=blueteam] (b1) at (8.8,0) {Prepare logging and validate capture visibility.};
+\node[task,fill=redteamlight!40,draw=redteam] (r2) at (0,-1.8) {Select exact target/service tests from enumeration.};
+\node[task,fill=blueteamlight!50,draw=blueteam] (b2) at (8.8,-1.8) {Interpret observed Nmap gateway alerts and source.};
+\node[task,fill=redteamlight!40,draw=redteam] (r3) at (0,-3.6) {Record FTP root access and bounded demo impact.};
+\node[task,fill=blueteamlight!50,draw=blueteam] (b3) at (8.8,-3.6) {Configure the scoped pfSense block through the GUI.};
+\node[task,fill=redteamlight!40,draw=redteam] (r4) at (0,-5.4) {Repeat an agreed fresh probe; preserve failures too.};
+\node[task,fill=blueteamlight!50,draw=blueteam] (b4) at (8.8,-5.4) {Verify the tested path; record exceptions and gaps.};
+\node[task,fill=pale,draw=steel] (joint) at (4.4,-7.3) {Joint recovery, evidence reconciliation and retesting.};
+\draw[link] (r1) -- (r2);\draw[link] (r2) -- (r3);\draw[link] (r3) -- (r4);
+\draw[link] (b1) -- (b2);\draw[link] (b2) -- (b3);\draw[link] (b3) -- (b4);
+\draw[link,dashed] (r2) -- (b2);
+\draw[link,dashed] (r4) -- (b4);
+\draw[link] (r4.south) |- (joint.west);
+\draw[link] (b4.south) |- (joint.east);
+\end{tikzpicture}
+\captionof{figure}{Operational strategy and handoffs. Dashed links indicate evidence correlation or an agreed verification handoff, not proof that every offensive action has a matching defender log.}
+\end{center}
+
+\subsection{Minimum Retest Record}
+For each change, record the finding ID, responsible operator, baseline service state, source/destination IP, protocol/port, command or GUI action, exact time/offset, observed result, corresponding log/rule entry and recovery action. A valid closure requires both the unwanted path to fail and the approved path to continue working. No supplied screenshot demonstrates closure of F01--F06; F07 has scoped containment evidence and F08 awaits logged retesting.
+
+\partheading{08 / CONCLUSIONS}{Outcomes, Coverage and Lessons Learned}
+\subsection{Assessment Conclusion}
+The strongest technical result is verified root access to Metasploitable2 through the FTP backdoor, followed by bounded account-control effects. The application evidence corroborates a default-credential concern and administrator capabilities in a deliberately insecure banking simulation. The successful Blue Team observation was detection of the Red source's gateway reconnaissance, followed by a source-block configuration and a gateway ICMP response change.
+
+The main residual risks are the unrepaired target weaknesses, broad trust within the flat bridged segment, exposed administrative defaults, incomplete logging proof and the blocked automated assessment. These are actionable results even though the exercise did not complete every expected demonstration. Professional reporting preserves that distinction instead of presenting the preparatory guides' expected outcomes as measured facts.
+
+\subsection{Examination Task Coverage}
+\small
+\begin{longtable}{@{}L{0.7cm}L{3.5cm}L{1.1cm}L{10.1cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Requirement} & \textbf{Marks} & \textbf{Evidence-backed coverage and remaining gap}\\
+\midrule\endhead
+1 & Lab design and documentation & 5 & Setup, full-IP topology and eight-address inventory included. Some installation screens/resources remain reconstructed or reported.\\
+2 & Reconnaissance and discovery & 4 & Eight hosts in E030; asset inventory and interpretation included.\\
+3 & Service enumeration & 4 & Service/version, HTTP, SMB and FTP checks in E031--E036. UDP and all application routes not comprehensively tested.\\
+4 & Threat modelling and risk & 4 & Asset-threat model, ranked risk register and matrix included as analysis.\\
+5 & Vulnerability assessment & 6 & Manual findings documented; automated OpenVAS work incomplete. No scan export or fabricated five-result scanner table.\\
+6 & Controlled initial access & 6 & FTP root access, exact target and identity checks in E037--E040.\\
+7 & Web assessment & 6 & Rejected SQLi, default-credential path and simulated impact. Authentication and transport concerns identified; two independently successful OWASP exploit demonstrations are not established.\\
+8 & Credential assessment & 4 & Default credential exposure and corroborated application access; historical Hydra error retained. No completed hash-cracking or Windows policy audit supplied.\\
+9 & Escalation / persistence analysis & 5 & Initial session already root; account manipulation documented. No separate escalation or deployed persistence falsely claimed.\\
+10 & Post-exploitation / lateral analysis & 5 & Account modification and SSH to the same target evidenced; no successful cross-host pivot shown.\\
+11 & Traffic and log investigation & 5 & Suricata alerts/stats, Wireshark ICMP and pfSense capture interpreted. Full raw logs/PCAP absent.\\
+12 & Hardening and response & 5 & GUI block configured, scoped observation, detailed response and retest plan. Broader controls remain recommendations.\\
+13 & Professional reporting & 11 & This report includes scope, methodology, findings, evidence, impact, risk, recommendations, conclusions and source register.\\
+\midrule
+ & \textbf{Total available} & \textbf{70} & Marks are reproduced from the examination brief; no grade is claimed.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\subsection{Lessons for the Next Exercise}
+\begin{itemize}
+\item Validate the network path, not just the IP address: a gateway is not automatically an inter-host enforcement point.
+\item Make scanner readiness a pre-exercise gate. Installation and an accessible login page are not sufficient.
+\item Use targeted manual checks to guide controlled exploitation when automated assessment is blocked, without pretending that coverage is equivalent.
+\item Preserve failed attempts, original commands, offsets and evidence hashes. Corrected commands must not overwrite the historical record.
+\item Test copied PDF command characters. The earlier hyphen substitution was a real operational failure despite visually correct pages.
+\item Collect the required continuous videos and raw logs/PCAPs. A screenshot set and a new report cannot replace missing primary artifacts.
+\end{itemize}
+
+\subsection{Deliverable Completeness}
+This PDF contains the professional report, architecture diagram, asset inventory, manual findings, risk register, hardening/response plan and all supplied unique screenshots. Exact duplicates are indexed. The build sources and hash inventories accompany it. The examination also requires one identity-bearing video per task and source artifacts where applicable; no such videos or raw scan/capture exports were provided, and they have not been manufactured.
+
+\partheading{09 / REFERENCES}{Source Documents and Technical References}
+\label{sec:sources}
+\subsection{Supplied PDFs}
+Page references below use \textbf{physical PDF page numbers}, including any cover page. Seven files were read/extracted, representing five unique documents and 70 unique pages. The two pairs of guide PDFs are byte-identical and have not been counted twice as independent evidence. Source PDFs remain unchanged even where this report corrects their interpretation.
+
+\begin{description}[leftmargin=1cm,style=nextline]
+\item[D1]\phantomsection\label{src:D1}\textbf{Ethical Hacking SETTING A SUMMER 2026.pdf}, 5 pages. Examination scenario, authorized lab scope, required infrastructure/deliverables, 13 tasks and 70-mark allocation. Pages3--4 provide the task requirements. The required DVWA/Juice Shop example differs from the team's confirmed VulnBank implementation and is disclosed as a lab deviation.
+\item[D2]\phantomsection\label{src:D2}\textbf{CYS4151\_Lab\_Network\_Configuration.pdf}, 20 pages; identical copy \textbf{lab-network-configuration.pdf}. Preparatory build/addressing guide. Expected resource allocations, DVWA deployment and universal routing/visibility claims are not treated as actual execution evidence.
+\item[D3]\phantomsection\label{src:D3}\textbf{CYS4151\_Post-Configuration\_Execution\_Guide.pdf}, 20 pages; identical copy \textbf{post-configuration-execution-guide.pdf}. Planned commands and outcomes. This report corrects the unsupported escalation, scan, pivot, parsing and containment claims where actual evidence differs.
+\item[D4]\phantomsection\label{src:D4}\textbf{RED TEAM REPORT.pdf}, 15 pages. Operators: Bruno and Rayan. Pages3--6 discovery/enumeration; pages7--10 FTP access and account-control demonstration; pages11--14 web testing and simulated transfer. The overlapping text on page15 is not counted as additional evidence; the preceding narrative and original screenshots support the analysis. The reported manual login is identified as operator testimony corroborated by the captured session.
+\item[D5]\phantomsection\label{src:D5}\textbf{amina openvas.pdf}, 10 pages. Amina's incomplete Task5 assessment. Pages2--3 scope/resources; pages4--7 feed and target-creation evidence; pages7--9 diagnosis/limitations/remediation; page10 evidence inventory. Reported resource increases and five attempts are preserved without adopting unproven causal claims or the obsolete rebuild command as a validated remedy.
+\end{description}
+
+\subsection{Public Technical References}
+\begin{enumerate}
+\item NIST, \emph{Technical Guide to Information Security Testing and Assessment}, SP800-115. \referenceurl{https://doi.org/10.6028/NIST.SP.800-115}
+\item OWASP, \emph{Web Security Testing Guide}. \referenceurl{https://owasp.org/www-project-web-security-testing-guide/}
+\item NVD, \emph{CVE-2011-2523: vsftpd backdoor}, including CVSS v3.1 score and vector. Consulted 05 October 2026. \referenceurl{https://nvd.nist.gov/vuln/detail/CVE-2011-2523}
+\item FIRST, \emph{Common Vulnerability Scoring System v3.1: Specification Document}. CVSS is owned by FIRST and used by permission under the published terms. \referenceurl{https://www.first.org/cvss/v3.1/specification-document}
+\item Netgate, \emph{Rule Methodology}: inbound filtering, states and automatic anti-lockout rules. \referenceurl{https://docs.netgate.com/pfsense/en/latest/firewall/rule-methodology.html}
+\item Netgate, \emph{Admin Access}: safely restricting GUI/SSH access before disabling anti-lockout. \referenceurl{https://docs.netgate.com/pfsense/en/latest/config/advanced-admin.html}
+\item Netgate, \emph{Viewing Firewall States in the GUI}: filtering and removing host-specific states. \referenceurl{https://docs.netgate.com/pfsense/en/latest/monitoring/status/firewall-states-gui.html}
+\item Nmap, \emph{Reference Guide and NSE documentation}. \referenceurl{https://nmap.org/book/man.html}
+\item Suricata, \emph{User Guide: output and EVE JSON}. \referenceurl{https://docs.suricata.io/en/latest/output/eve/index.html}
+\item Greenbone, \emph{Community Documentation}. Match instructions to installed distribution/package versions. \referenceurl{https://greenbone.github.io/docs/latest/}
+\end{enumerate}
+
+\subsection{Build and Verification Record}
+This report is built locally with XeLaTeX. The retained \texttt{ActualText} setting protects ASCII command characters in PDF copying. The exact four EVE \texttt{jq} filters in this report were tested with a checksum-verified official jq1.8.1 binary against synthetic valid alerts, a statistics record and a malformed line. That is offline syntax/behaviour validation, \emph{not} replay of the team's unavailable EVE file. No new lab attacks, firewall changes or vulnerability scans were performed in preparing the report.
+
+\appendix
+\partheading{SOURCE INDEX}{Source Image Register}
+\label{sec:evidence-index}
+Every supplied screenshot is listed below, including the ten exact duplicate copies in Rayan's second folder. E081--E090 map to E020--E029 respectively. Each unique image appears in full beside its matching explanation in the main report; the links below return to that figure. There is no separate end-of-document screenshot gallery. The hash prefixes are for readable lookup; the full SHA-256 hashes, original dimensions and paths are in the accompanying image inventory CSV.
+
+\input{_report-build/evidence-index.tex}
+
+\end{document}

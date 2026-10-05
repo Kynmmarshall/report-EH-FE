@@ -1,0 +1,353 @@
+SECURETECH SOLUTIONS LTD.
+
+
+ENTERPRISE SECURITY ASSESSMENT
+
+
+
+
+Vulnerability Assessment Report
+Task 5 — OpenVAS Automated Scanning
+Execution Attempt & Root-Cause Analysis of an Incomplete Feed Synchronization
+
+
+
+
+ENGAGEMENT
+
+CYS 4151 Ethical Hacking — Final Examination, Setting A (Summer 2026)
+DELIVERABLE
+
+Task 5 — Vulnerability Assessment (6 marks)
+ASSESSMENT NODE
+
+PC5 — OpenVAS-on-Kali scanner (192.168.50.250)
+PREPARED BY
+
+Amina Boubakary
+STUDENT ID
+
+ICTU20241870
+TEAM ROLE
+
+Blue Team — OpenVAS vulnerability scanning & CVSS triage
+DATE OF TESTING
+
+03 October 2026
+REPORT STATUS
+
+Incomplete — assessment blocked (see §7, Root-Cause Analysis)
+CLASSIFICATION
+
+Confidential — Academic Lab Use Only
+1 Executive Summary
+
+Task 5 of the SecureTech Solutions security assessment required an automated vulnerability scan
+of the lab target set (192.168.50.20, .30 and .40) using OpenVAS / Greenbone Vulnerability
+Management (GVM), followed by manual cross-checking and CVSS-based triage of at least five
+findings. This report documents that the task could not be completed as specified.
+    Although the OpenVAS service and its web interface were operational, the Greenbone data
+feeds that GVM depends on had not finished synchronizing. The SCAP data feed remained in an
+“Update in progress” state and the GVMD Data feed — the component that supplies the default
+Port Lists and scan configurations — had not been imported. As a direct result, the scanner
+refused to create a scan target, reporting that the default Port List was unavailable, and no scan
+task could therefore be created or launched. No vulnerability results were produced.
+    The synchronization was attempted five times. On the fifth and final attempt observed, the
+SCAP data store grew from approximately 1 001 MB to 1.1 GB over roughly one hour before
+stalling without completing. Substantially increasing the VM’s resources (disk, memory and pro-
+cessors, detailed in §9) did not change the outcome. The failure is an environmental / configura-
+tion blocker, not a finding about the target network. This report records the evidence, establishes
+the root cause, assesses the impact on the wider engagement, and sets out the remediation re-
+quired to bring the feeds to a “Current” state so that Task 5 can be re-run.
+
+
+2 Objective and Scope
+
+Per the CYS 4151 execution guide, Task 5 is owned by PC5 (Amina) on the OpenVAS-on-Kali host
+and calls for the following:
+
+• Start the GVM / OpenVAS stack and reach the web UI at https://192.168.50.250:9392.
+• Create a target list covering 192.168.50.20, 192.168.50.30 and 192.168.50.40.
+• Launch a “Full and Fast” scan against that target set.
+• Export the results sorted by CVSS severity and document at least five vulnerabilities.
+• Cross-check at least two findings manually (searchsploit, nmap --script vuln).
+
+    Scope of this report: the vulnerability-scanning activity performed from PC5 only. It does
+not cover the Red Team tasks (2, 3, 6–10) or the other Blue Team tasks, except where the failure
+of Task 5 affects them (see §8).
+
+
+3 Test Environment
+
+• Scanner host: Kali Linux VM (amina@vbox) running under Oracle VirtualBox; OpenVAS /
+  GVM with the Greenbone Security Assistant web UI reached locally at 127.0.0.1:9392 (pub-
+  lished as 192.168.50.250 on the lab LAN).
+• Scanner VM resources: during the OpenVAS / GVM installation an error was encountered
+  and resolved by raising the VM’s base memory from 2000 MB to 4000 MB. Ahead of the Task
+  5 feed-sync attempts the VM was provisioned further still — the virtual disk expanded from
+  30 GB to 80 GB, the base memory raised to 8000 MB, and 2 processors allocated.
+• Target set: lab hosts on 192.168.50.0/24 — Rayan’s server (.20), the nested DVWA / Juice
+  Shop host (.30) and Metasploitable (.40); the host field also included additional lab addresses
+  (. . . , .100, .200).
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                Page 2
+• Feeds required by GVM: NVT (Greenbone Community Feed), SCAP data (CVE / CPE), CERT
+  data, and GVMD Data (default Port Lists, scan configs, report formats).
+• Identity overlay: each capture carries the required on-screen identity (name “Amina
+  Boubakary” and Student ID ICTU20241870) and the live VirtualBox / system clock, per the
+  lab’s evidence rules.
+
+
+4 Methodology
+
+The intended procedure followed the Blue Team strategy in the execution guide: run scanning
+proactively and independently, obtain breadth with a Full and Fast scan, then add depth with
+manual cross-checks. The sequence attempted was:
+
+ 1. Start the GVM stack (sudo gvm-start) and open the web UI.
+ 2. Confirm feed readiness via Administration → Feed Status.
+ 3. Create the target “CYS4151-Targets” with the lab host list.
+ 4. Create and launch a Full and Fast scan task against the target.
+ 5. Export and triage the results by CVSS; cross-check with searchsploit / nmap --script
+    vuln.
+
+   Steps 1–2 were reached; the process could not progress past step 3 because of the feed state
+described below. Feed progress was monitored from the command line with:
+
+  watch sudo du -sh /var/lib/gvm/scap-data/
+
+
+
+5 Chronology of the Attempt
+
+The session is summarised below in logical phases. The two command-line timestamps
+(12:59:58 PM and 01:26:53 PM EDT) are read directly from the monitoring output; the re-
+maining phases occurred within the same working session on 03 October 2026.
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)            Page 3
+    Phase              What was observed                                                                        Evidence
+
+                       Administration → Feed Status reviewed. The NVT feed (Greenbone Community                 Figure 1
+    A — Feed check     Feed) read “Current”, but the SCAP data feed read “Update in progress. . . ”. The
+                       default Port Lists and scan configurations were therefore not yet available.
+                       The SCAP data store was monitored from the shell. It stood at ≈ 1 001 MB                 Figure 2
+    B — Sync grow-     (1002M) at 12:59:58 PM EDT and was still importing.
+    ing
+
+                       gvmd logged repeated warnings that it could not read the GVMD Data and CERT              Figure 3
+    C — gvmd warn-     feed metadata (feed.xml “No such file or directory”) — confirming those feeds
+    ings               had not yet been imported.
+
+                       On the 5th synchronization attempt the SCAP store reached 1.1 GB at                      Figure 4
+    D — Still incom-   01:26:53 PM EDT and continued for roughly one hour without ever reaching
+    plete              “Current”.
+
+                       The “CYS4151-Targets” target was configured in the New Target dialog with the            Figure 5
+    E — Target con-    lab host list (192.168.50.30, .40, .100, .200, . . . ).
+    fig
+
+                       Saving the target was rejected: “the default Port List is not available . . . the feed   Figure 6
+    F — Blocked on     not having completed its synchronization.” No scan task could then be created or
+    save               launched.
+
+
+
+
+6 Observations and Evidence
+
+All screenshots were captured on the PC5 scanner VM during the Task 5 attempt and carry the
+required name / Student ID / live-clock overlay.
+
+
+
+
+Figure 1. Feed Status. The NVT feed reads “Current”, but the Greenbone SCAP Data Feed reads “Update in
+progress. . . ”. Until SCAP (and the GVMD Data feed) finish, the scanner has no default Port List or scan config
+to work with.
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                                   Page 4
+Figure 2. SCAP data store at ≈ 1 001 MB (1002M) at 12:59:58 PM EDT, still importing — monitored with
+watch du -sh on /var/lib/gvm/scap-data/.
+
+
+
+
+Figure       3.            gvmd    warnings:        get_feed_info       repeatedly fails to read
+/var/lib/gvm/data-objects/gvmd/feed.xml and /var/lib/gvm/cert-data/feed.xml (“No such
+file or directory”) — the GVMD Data and CERT feeds had not been synced.
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                 Page 5
+Figure 4. SCAP data store at 1.1 GB at 01:26:53 PM EDT. This is the 5th synchronization attempt; it ran for
+about an hour without reaching “Current”.
+
+
+
+
+Figure 5. New Target dialog — the “CYS4151-Targets” target being configured with the lab host list before
+saving.
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                        Page 6
+Figure 6. Target creation rejected: “Failed to create a new Target because the default Port List is not available.
+This issue may be due to the feed not having completed its synchronization.” With no target, no scan task
+could be created.
+
+
+7 Root-Cause Analysis
+
+GVM cannot scan until several locally-held data feeds are synchronized and imported: the
+NVT feed (the vulnerability tests), the SCAP data feed (CVE / CPE data loaded into the gvmd
+database), the CERT data feed, and the GVMD Data feed, which provides the default Port Lists,
+the “Full and Fast” scan config and the report formats.
+   Primary cause — incomplete feed synchronization. The SCAP feed was still importing
+(“Update in progress”, Figure 1) and the GVMD Data feed had not loaded, shown directly by
+gvmd’s inability to read its feed.xml (Figure 3). Because the GVMD Data feed is exactly what
+supplies the default Port List, its absence produced the precise error seen on save (Figure 6). The
+scanner was installed correctly, but it had nothing to build a target or a scan config from.
+    Contributing factors:
+
+• Feed volume: the SCAP / CVE dataset is large (over 1 GB here), and the Greenbone Commu-
+  nity Feed is rate-limited, so a full sync can take hours or stall on a constrained connection.
+• Repeated restarts: five separate attempts can each interrupt and re-lock the import, so the
+  sync never gets an uninterrupted window to finish.
+• Resources were increased but it still failed: an earlier installation error on this host was
+  cleared by raising the base memory from 2000 MB to 4000 MB, and for Task 5 the VM was
+  pushed further (disk 30 GB to 80 GB, memory 8000 MB, 2 processors). The synchronization
+  still did not complete — indicating the remaining bottleneck is the feed download / import
+  itself (data volume and the rate-limited community feed), not local CPU, RAM or disk.
+• Partial-sync signature: NVT reaching “Current” while SCAP and GVMD Data lagged is con-
+  sistent with the heavier CVE import simply not having finished.
+
+   Important distinction: this is an environmental / tooling blocker on the scanner, not a vul-
+nerability or misconfiguration of the target network. It says nothing about the security posture of
+192.168.50.20 / .30 / .40.
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                              Page 7
+8 Impact on the Assessment
+
+• Task 5 deliverables not produced: no target, no Full and Fast scan, no CVSS-sorted results,
+  and none of the required five-plus documented vulnerabilities.
+• Downstream tasks affected: Task 6 (exploitation) loses the scanner-confirmed finding it is
+  meant to select from; Task 11 (Blue Team detection) loses the OpenVAS evidence source; Task
+  12 (hardening) loses the OpenVAS findings feeding its remediation list.
+• Partial mitigation available: the guide’s manual cross-checks (searchsploit, nmap
+  --script vuln) do not depend on the GVM feeds and can surface interim findings while
+  the feed issue is resolved.
+
+
+9 Troubleshooting Performed
+
+• Resolved an installation error hit while setting up OpenVAS / GVM by increasing the VM’s
+  base memory from 2000 MB to 4000 MB.
+• Verified feed state in Administration → Feed Status (SCAP in progress, NVT current).
+• Monitored   the    SCAP    data   directory                 growth       with   watch sudo du -sh
+  /var/lib/gvm/scap-data/ (1002 MB → 1.1 GB).
+• Inspected gvmd output and identified the missing GVMD Data / CERT feed.xml warnings.
+• Re-attempted target creation several times — the same default-Port-List error recurred each
+  time.
+• Re-ran the full synchronization up to a fifth attempt; the fifth run (1.1 GB) continued for about
+  an hour without completing.
+• Increased the VM’s resources for the scan attempts — expanded the virtual disk from 30 GB
+  to 80 GB, raised the base memory to 8000 MB, and allocated 2 processors — but the synchro-
+  nization and scan were still unsuccessful.
+
+
+10 Recommendations and Remediation
+
+To bring the scanner to a working state and re-run Task 5:
+
+ 1. Run one uninterrupted sync to completion. Avoid repeated restarts. Use sudo
+    greenbone-feed-sync, which pulls the NVT, SCAP, CERT and GVMD Data feeds; allow sev-
+    eral hours as the community feed is large and rate-limited.
+ 2. Confirm all feeds read “Current” in Administration → Feed Status — not just NVT — before
+    creating any target.
+ 3. Verify the GVMD Data feed actually loaded: Configuration → Port Lists should list the
+    defaults (e.g. “All IANA assigned TCP”) and Configuration → Scan Configs should show “Full
+    and Fast”. Their absence is what caused the error.
+ 4. If a feed is stuck, sync components individually to isolate it: sudo greenbone-feed-sync
+    --type scap and sudo greenbone-feed-sync --type gvmd-data.
+ 5. After syncing, rebuild and restart: sudo gvmd --rebuild, then sudo gvm-stop && sudo
+    gvm-start (or restart the gvmd and ospd-openvas services).
+ 6. Run sudo gvm-check-setup to confirm that no feed component is empty or missing.
+ 7. Resources are already ample — focus on time and connectivity: with the disk at 80 GB,
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                 Page 8
+    8000 MB RAM and 2 processors, the outstanding requirement is an uninterrupted, stable
+    connection; schedule the sync at off-peak hours and let it run to completion before the lab
+    session. When enlarging the virtual disk, confirm with df -h inside Kali that the added space
+    is actually available, since a VirtualBox disk resize does not grow the guest partition on its
+    own.
+ 8. Once Feed Status is fully “Current”, re-run Task 5 from target creation through the Full and
+    Fast scan and the CVSS export.
+
+
+11 Conclusion
+
+The OpenVAS vulnerability assessment for Task 5 could not be completed because the Greenbone
+data feeds — specifically the SCAP data feed and the GVMD Data feed that supplies the default
+Port Lists and scan configurations — never finished synchronizing, despite five attempts, a final
+run of roughly one hour at 1.1 GB, and substantial increases to the VM’s disk (30 GB to 80 GB),
+memory (to 8000 MB) and processors (to 2). The scanner itself was installed and reachable; the
+blocker is environmental — the feed download and import, not local resources. With the feeds
+brought fully to “Current” and the service rebuilt and restarted as set out in §10, the target can
+be created and the Full and Fast scan executed, allowing Task 5 to be delivered as specified. Until
+then, the manual cross-checks remain available to produce interim findings.
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)                Page 9
+Appendix A — Evidence Inventory
+
+
+   All captures taken on the PC5 OpenVAS-on-Kali VM, 03 October 2026, with the name / Stu-
+dent ID / live-clock overlay visible.
+
+• Figure 1 — Feed Status: SCAP “Update in progress”, NVT “Current”.
+• Figure 2 — SCAP data store at ≈ 1 001 MB (12:59:58 PM EDT).
+• Figure 3 — gvmd feed.xml read failures (GVMD Data / CERT not synced).
+• Figure 4 — SCAP data store at 1.1 GB (01:26:53 PM EDT), 5th attempt.
+• Figure 5 — New Target dialog with the lab host list.
+• Figure 6 — Target creation blocked: default Port List not available.
+
+Commands referenced
+
+  sudo gvm-start
+
+
+  watch sudo du -sh /var/lib/gvm/scap-data/
+
+
+  sudo greenbone-feed-sync                    # all feeds
+
+
+  sudo greenbone-feed-sync type scap
+  sudo greenbone-feed-sync type gvmd-data
+
+
+  sudo gvmd rebuild
+  sudo gvm-stop && sudo gvm-start
+
+
+  sudo gvm-check-setup
+
+
+
+
+CYS 4151 · Task 5 — Vulnerability Assessment · Amina Boubakary (ICTU20241870)       Page 10
+

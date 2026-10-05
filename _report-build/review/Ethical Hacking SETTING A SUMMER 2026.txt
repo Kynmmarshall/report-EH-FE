@@ -1,0 +1,184 @@
+         FACULTY OF INFORMATION AND COMMUNICATION TECHNOLOGIES
+                                               SUMMER 2026
+                                        FINAL EXAMINATION SETTING A
+ SCHOOL                      ICT FACULTY
+ COURSE TITLE/ CODE           CYS 4151 Ethical Hacking
+ COURSE STATUS               SUMMER 2026
+ INSTRUCTOR:                 Dr. Nkandeu Pascal
+ DATE:                       September 2026
+ DURATION:                   3 Days / 1 Week
+ VENUE                       CISCO LAB
+
+
+
+
+SCENARIO
+
+SecureTech Solutions Ltd. – Enterprise Security Assessment
+
+SecureTech Solutions Ltd. is a growing software development and digital services company with
+approximately 120 employees. The company provides web applications, cloud-based services, and remote
+access for its staff. Recently, management observed several security incidents, including:
+
+   •     Multiple unauthorized login attempts against internal systems.
+   •     Employees using weak or reused passwords.
+   •     Suspicious activities detected on the company web server.
+   •     Sensitive customer information potentially exposed.
+   •     Unpatched systems and outdated software.
+   •     Lack of centralized monitoring and security documentation.
+
+To strengthen its cybersecurity posture, the company has hired your cybersecurity consulting team to
+perform a comprehensive Ethical Hacking and Security Assessment.
+
+You have been granted written authorization to conduct all testing only within the provided laboratory
+environment.
+
+
+
+
+                                                     1
+Your assignment is to simulate the activities of both a Red Team (offensive security) and a Blue Team
+(defensive security) by identifying vulnerabilities, demonstrating controlled exploitation, analyzing
+evidence of attacks, and proposing effective remediation strategies.
+
+The objective is not only to compromise systems but also to demonstrate professional cybersecurity
+assessment, risk analysis, documentation, and defensive recommendations.
+
+
+
+Laboratory Infrastructure
+
+Your laboratory should contain at least the following systems:
+
+                        System                                                Purpose
+ Kali Linux                                                Attacker machine
+ Windows 10/11 Workstation                                 Employee computer
+ Windows Server or Ubuntu Server                           File/Application Server
+ DVWA or OWASP Juice Shop                                  Vulnerable Web Application
+ Metasploitable2 or Metasploitable3                        Vulnerable target
+ pfSense (optional)                                        Firewall/Router
+ Wireshark                                                 Traffic analysis
+ OpenVAS/Nessus/Greenbone                                  Vulnerability assessment
+ VirtualBox or VMware                                      Virtual laboratory
+
+Students may enhance the environment with additional systems where appropriate.
+
+
+
+GENERAL REQUIREMENTS
+
+Students must conduct all activities ethically and only inside the authorized laboratory environment.
+
+ Every submission must include            Video Requirements                   Deliverables
+
+
+     •   Professional Technical           Every video must clearly show:       Students shall submit:
+         Report (PDF)
+     •   Network Architecture                 •   Student name                      1. Professional
+         Diagram                              •   Student ID                           Penetration
+     •   Vulnerability Assessment             •   Hostname or computer                 Testing Report
+         Report                                   name                                 (PDF)
+     •   Risk Assessment Matrix               •   Username                          2. Network
+     •   Security Hardening                   •   Date and time                        Architecture
+         Recommendations                      •   Commands executed                    Diagram
+     •   Screenshots demonstrating            •   Results obtained
+                                                                                    3. Asset Inventory
+         every major task
+     •   One high-quality video for                                                 4. Vulnerability
+                                          Videos must be clear, continuous,
+         each task                                                                     Assessment
+                                          and narrated where appropriate.
+                                                                                       Report
+
+                                                     2
+     •    Final presentation slides                                                 5. Risk Register
+          (optional if requested)                                                   6. Security
+                                                                                       Hardening Plan
+                                                                                    7. Screenshots
+                                                                                       supporting every
+                                                                                       task
+                                                                                    8. One video per
+                                                                                       task
+                                                                                    9. Source files
+                                                                                       (where
+                                                                                       applicable)
+
+
+
+
+Failure to verify the identity of the candidate or evidence of manipulation may result in cancellation of
+the examination.
+
+
+
+PROJECT TASKS (TOTAL = 70 MARKS)
+
+ No.        Task                                             Description                           Marks
+ 1   Laboratory Design           Build the virtual lab, configure networking, assign IP            5
+     & Documentation             addresses, produce a professional network topology diagram,
+                                 and justify the architecture.
+ 2       Reconnaissance &        Perform host discovery, identify operating systems, IP            4
+         Asset Discovery         addresses, network devices, and prepare an asset inventory.
+ 3       Service Enumeration     Identify running services, versions, open ports, protocols, web   4
+                                 technologies, and potential entry points using appropriate
+                                 tools.
+ 4       Threat Modeling &       Identify critical assets, possible attackers, attack vectors,     4
+         Risk Identification     security threats, and assess the associated business risks.
+ 5       Vulnerability           Perform a vulnerability assessment using automated and            6
+         Assessment              manual techniques. Identify at least five significant
+                                 vulnerabilities, classify their severity (e.g., CVSS), and
+                                 provide supporting evidence.
+ 6       Controlled              Demonstrate the exploitation of at least one confirmed            6
+         Exploitation (Initial   vulnerability to obtain controlled access. Explain the attack
+         Access)                 path and maintain professional documentation.
+ 7       Web Application         Assess the vulnerable web application and successfully            6
+         Security Assessment     demonstrate at least two OWASP Top 10 vulnerabilities (e.g.,
+                                 SQL Injection, XSS, Broken Authentication, File Upload,
+                                 Command Injection).
+ 8       Credential Security     Evaluate password security by auditing password policies and      4
+         Assessment              demonstrating password attacks within the lab (e.g., password
+                                 guessing, brute force, or hash cracking). Provide
+                                 recommendations for stronger authentication.
+
+
+                                                     3
+ 9     Privilege Escalation    Demonstrate privilege escalation where applicable, explain       5
+       & Persistence           why it was possible, and discuss persistence mechanisms that
+       Analysis                attackers might use without deploying malicious persistence
+                               outside the lab.
+ 10    Post-Exploitation &     Demonstrate how an attacker could enumerate resources and        5
+       Lateral Movement        assess opportunities for lateral movement from a
+       Analysis                compromised host. Document findings and associated risks.
+ 11    Blue Team               Capture network traffic using Wireshark and analyze relevant     5
+       Investigation           operating system or application logs to identify indicators of
+       (Traffic & Logs)        compromise and explain how the attacks can be detected.
+ 12    Security Hardening      Develop a remediation plan including system hardening,           5
+       & Incident Response     firewall rules, secure configurations, patch management,
+                               password policies, monitoring recommendations, and a brief
+                               incident response workflow.
+ 13    Professional            Produce a complete professional report including Executive       11
+       Penetration Testing     Summary, Scope, Methodology, Findings, Risk Ratings,
+       Report                  Evidence, Business Impact, Recommendations, and
+                               Conclusion.
+       TOTAL                                                                                    70
+
+
+EXPECTED METHODOLOGY
+
+Students are expected to follow a professional penetration testing methodology similar to PTES, NIST SP
+800-115, or the OWASP Testing Guide.
+
+A logical workflow should be demonstrated: Planning, Reconnaissance, Enumeration, Threat Modeling,
+Vulnerability Assessment, Controlled Exploitation, Privilege Escalation, Post-Exploitation Analysis,
+Traffic & Log Analysis, Risk Assessment, Security Hardening, Professional Reporting.
+
+
+
+                                    ALL THE BEST
+
+
+
+
+                                                   4
+5
+

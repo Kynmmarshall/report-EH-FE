@@ -1,0 +1,9 @@
+ID,Title,Asset,Severity,Status,Confidence,Evidence,Owner,Likelihood,Impact,Priority
+F01,Backdoored FTP provides root access,192.168.50.40,Critical,Open,Demonstrated,"E032 E038 E039 E040 E046 E047",Rayan,5,5,P0
+F02,Anonymous writable SMB share,192.168.50.40,High,Open,Observed policy,"E035 E036",Rayan,4,4,P1
+F03,Anonymous FTP authentication,192.168.50.40,Medium,Open,Observed policy,"E032 E036",Rayan,3,3,P1
+F04,Advertised default VulnBank administrator credential,192.168.50.20,High,Open,Corroborated,"E017 E028 E041 E042 E043 E045",Application owner,4,4,P0
+F05,Cleartext web application listeners,192.168.50.20,Medium,Open,Observed configuration,"E031 E034 E041 E043",Application owner,3,3,P1
+F06,pfSense default administrator password warning,192.168.50.1,High,Open,Observed configuration,"E002 E003",Marshall,3,5,P0
+F07,Flat subnet limits gateway containment,192.168.50.0/24,Medium,Partially contained,Architecture limitation,"E003 E005 E023 E025 E026 E027 E030",Marshall and target owners,3,3,P1
+F08,Block rule logging disabled in captured configuration,192.168.50.1,Medium,Retest pending,Observed configuration,"E001 E003",Marshall,3,2,P1

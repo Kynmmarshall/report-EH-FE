@@ -1,0 +1,4 @@
+{"timestamp":"2026-10-03T16:23:09+0100","event_type":"alert","src_ip":"192.168.50.100","dest_ip":"192.168.50.1","dest_port":80,"alert":{"signature":"ET SCAN Possible Nmap User-Agent Observed"}}
+{"parse_error":"Invalid numeric literal at line 1, column 7 (while parsing 'BROKEN JSON RECORD')","source_line":2}
+{"event_type":"stats","stats":{"uptime":123}}
+{"timestamp":"2026-10-03T16:23:08+0100","event_type":"alert","src_ip":"192.168.50.250","dest_ip":"192.168.50.40","dest_port":21,"alert":{"signature":"Scanner test event"}}
