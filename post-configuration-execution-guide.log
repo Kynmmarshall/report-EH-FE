@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  3 OCT 2026 16:17
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  3 OCT 2026 16:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1150,29 +1150,37 @@ Underfull \hbox (badness 3612) in paragraph at lines 499--504
 
 ] [11
 
-] [12
+]
+Underfull \hbox (badness 10000) in paragraph at lines 615--621
+[]\TU/Calibri(0)/m/n/10.95 Each line is self-contained and human-readable, e.g.
+ \TU/Consolas(0)/m/n/10.95 [**] [1:2024364:5] ET SCAN
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 615--621
+\TU/Consolas(0)/m/n/10.95 Possible Nmap User-Agent Observed [**] … {TCP} 192.16
+8.50.100:36252 ->
+ []
+
+[12
+
+] [13] [14] [15] [16] [17
 
 ]
-
-LaTeX Warning: Reference `sec:pc3' on page 13 undefined on input line 658.
-
-[13] [14] [15
-
-]
-Overfull \hbox (11.88025pt too wide) in paragraph at lines 819--822
+Overfull \hbox (11.88025pt too wide) in paragraph at lines 915--918
 []\TU/Calibri(0)/m/n/10.95 Structure the report: Executive Summary, Scope, Meth
 odology (reference PTES/NIST SP 800-115/OWASP
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 838--840
+Underfull \hbox (badness 5316) in paragraph at lines 934--936
 []\TU/Calibri(0)/b/n/10.95 SCREENSHOT \TU/Calibri(0)/m/n/10.95 — final report t
 itle page and table of contents, confirming all required sec-
  []
 
-[16
+[18
 
-] [17
+] [19
 
 ] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
@@ -1181,22 +1189,18 @@ enddocument/afterlastpage (AED): lastpage setting LastPage.
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `post-configuration-execution-guide.out' has 
 not changed.
-(rerunfilecheck)             Checksum: E430AA8922271015611989100600E754;6704.
+(rerunfilecheck)             Checksum: 5B5FFC8F69FC7CFA65AA4A3DA595DB50;7201.
  ) 
 Here is how much of TeX's memory you used:
- 33147 strings out of 402807
- 702961 string characters out of 5449482
- 1229573 words of memory out of 5000000
- 61540 multiletter control sequences out of 15000+600000
- 632456 words of font info for 89 fonts, out of 8000000 for 9000
+ 33165 strings out of 402807
+ 703393 string characters out of 5449482
+ 1231091 words of memory out of 5000000
+ 61555 multiletter control sequences out of 15000+600000
+ 632934 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 91i,12n,101p,527b,1056s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 91i,12n,101p,527b,1044s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on post-configuration-execution-guide.xdv (18 pages, 743852 byte
+Output written on post-configuration-execution-guide.xdv (20 pages, 829876 byte
 s).

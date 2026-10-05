@@ -98,11 +98,11 @@
   title={Expected Outcome}
 }
 
-\newtcolorbox{troublebox}{
+\newtcolorbox{troublebox}[1][Difficulty Encountered]{
   enhanced, breakable, colback=redteamlight!50, colframe=redteam, boxrule=0.5pt,
   arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
   fonttitle=\bfseries\small, coltitle=white, colbacktitle=redteam,
-  title={Difficulty Encountered}
+  title={#1}
 }
 
 \newtcolorbox{notebox}[1][Note]{
