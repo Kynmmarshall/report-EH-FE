@@ -110,6 +110,8 @@ This report consolidates the examination brief, both preparatory guides, the Red
 
 Every screenshot is reproduced in full, exactly as supplied, with its original aspect ratio and no added cropping. Screenshots appear immediately after the matching setup step, command or observation, followed by a comment and an evidence limit. IDs E001--E090 identify original files; exact duplicates retain their own inventory entries and point to the same inline figure. Some supplied files were already close-up captures; those are also reproduced without modification. The final source index and accompanying CSV manifests preserve the original paths, dimensions and SHA-256 hashes.
 
+\insight{Exercise Reading Order}{The illustrated procedure follows the exercise phases: laboratory setup (Task 1), reconnaissance (Task 2), scanning and enumeration (Task 3), threat modelling (Task 4), vulnerability scanning (Task 5), initial access (Task 6), web and credential assessment (Tasks 7--8), post-exploitation and privilege analysis (Tasks 9--10), Blue Team investigation (Task 11), then hardening and reporting (Tasks 12--13). Screenshot IDs identify source files, not chronological step numbers. Defensive monitoring and scanner preparation ran alongside offensive work; source timestamps and incomplete outcomes are preserved.}
+
 \insight{Important Scope Boundary}{The assessment began with the Red Team already connected to the authorized lab. It did not demonstrate an Internet perimeter breach, real bank access, or transfers of real funds. The lab's flat bridged subnet is not evidence of enterprise-grade segmentation.}
 
 \clearpage
@@ -452,7 +454,7 @@ sudo greenbone-feed-sync --type all
 watch -n 15 sudo du -sh /var/lib/gvm/scap-data/
 \end{reportcode}
 \end{cmdbox}
-\textbf{Service startup evidence.} The first three commands in the block are visible in the following capture. The later log and synchronization operations are shown with their matching observations in the Blue Team investigation.
+\textbf{Service startup evidence.} The first three commands in the block are visible in the following capture. The later log and synchronization operations appear with their matching screenshots in the Task 5 scanning phase.
 \screenshot{E048}
 \textbf{Identity-bearing startup record.} A second, separately supplied capture preserves Amina's name alongside the startup commands.
 \screenshot{E056}
@@ -460,7 +462,7 @@ Service starts are visible in \ev{E048}/\ev{E056}; the log path and sync command
 \textbf{Open the local web interface.} An initial administrative login failed. This is part of bringing the scanner up, not an attack against a target host.
 \screenshot{E057}
 
-\textbf{Readiness gate.} An accessible GSA login is not a ready scanner. The feed owner, imported port lists, scan configurations, scanner connection and selected feed versions must be usable before a target/task can be created. Amina's target list attempt included additional lab hosts in some views; no complete successful target definition or scan launch is demonstrated. The final outcome is examined in the Blue Team chapter.
+\textbf{Readiness gate.} An accessible GSA login is not a ready scanner. The feed owner, imported port lists, scan configurations, scanner connection and selected feed versions must be usable before a target/task can be created. Amina's target list attempt included additional lab hosts in some views; no complete successful target definition or scan launch is demonstrated. The final outcome appears in Section~\ref{phase:assessment}.
 
 \subsection{Problems Encountered and Lessons Applied}
 \begin{tabularx}{\linewidth}{@{}L{3.1cm}X X@{}}
@@ -476,7 +478,7 @@ Mixed local clocks & Guest EDT and other local/UTC displays appear together. & P
 \bottomrule
 \end{tabularx}
 
-\partheading{04 / RED TEAM}{From Discovery to Demonstrated Impact}
+\partheading{04 / EXERCISE SEQUENCE}{From Reconnaissance to Demonstrated Impact}
 \label{sec:red}
 \subsection{Strategy and Initial Position}
 \textbf{Operators: Bruno (PC4), with Rayan (PC3) after infrastructure setup.} The attack workstation was \texttt{192.168.50.100}; the principal targets became VulnBank at \texttt{192.168.50.20} and Metasploitable2 at \texttt{192.168.50.40}. The goal was to test reachable services, obtain controlled access where justified, and demonstrate limited impact. The team did not first bypass an external perimeter: the starting point was an authorized connection to the lab LAN.
@@ -496,7 +498,8 @@ The Red Team strategy was evidence-led target selection. Discovery reduced uncer
 \captionof{figure}{Red Team decision sequence. Each transition requires an observed result rather than assuming the preparatory guide succeeded.}
 \end{center}
 
-\subsection{Reconnaissance: Establish the Asset Map}
+\subsection{Reconnaissance: Establish the Asset Map (Task 2)}
+\label{phase:recon}
 \begin{cmdbox}[Recorded on PC4 Kali - discovery]
 \begin{reportcode}
 nmap -sn 192.168.50.0/24
@@ -508,19 +511,17 @@ nmap -sn 192.168.50.0/24
 
 \textbf{Decision.} The inventory established which addresses could be investigated next. The gateway, workstation, sensor and scanner remained part of the asset map, but the subsequent exploitation effort focused on \texttt{192.168.50.20} and \texttt{192.168.50.40} because of their exposed service profiles.
 
-The Red Team PDF also lists a per-host \texttt{-A} pass with saved text files. \texttt{-A} enables version detection, default scripts, OS detection and traceroute; some of these require privileges and sufficient responsive ports. Not every per-host output is preserved in the screenshots. The displayed results for the application, Ubuntu2 and Metasploitable are the basis used here; guessed OS labels are not promoted to confirmed asset identity.
+\subsection{Scanning and Service Enumeration (Task 3)}
+\label{phase:scanning}
+The discovery result is followed by service identification, a full TCP scan and targeted protocol checks, in that order. The Red Team PDF also lists a per-host \texttt{-A} pass with saved text files. \texttt{-A} enables version detection, default scripts, OS detection and traceroute; some of these require privileges and sufficient responsive ports. Not every per-host output is preserved in the screenshots. The displayed results for the application, Ubuntu2 and Metasploitable are the basis used here; guessed OS labels are not promoted to confirmed asset identity.
 \screenshot{E031}
 \textbf{Inspect the second priority host.} Metasploitable's broader legacy-service footprint gives the team a distinct server-side path to investigate.
 \screenshot{E032}
 
-\subsection{Enumeration: Turn Service Leads into Specific Tests}
-\begin{cmdbox}[Recorded PC4 commands - service and web enumeration]
+\subsubsection{Scan the Selected Hosts Across the TCP Port Range}
+\begin{cmdbox}[Recorded PC4 command - full TCP service scan]
 \begin{reportcode}
 nmap -sV -sC -p- 192.168.50.20 192.168.50.40 -oN full_scan.txt
-whatweb 192.168.50.20
-whatweb 192.168.50.20:3000
-curl -I http://192.168.50.20
-curl -I http://192.168.50.20:3000
 \end{reportcode}
 \end{cmdbox}
 \texttt{-sV} identifies responding service versions; \texttt{-sC} runs default NSE scripts; \texttt{-p-} covers TCP ports 1--65535 in this scan; \texttt{-oN} saves normal text output. This does not scan all UDP services. A full-range TCP result is broader than the default port selection, not a complete assessment of every possible protocol or application route.
@@ -539,8 +540,19 @@ curl -I http://192.168.50.20:3000
 \bottomrule
 \end{tabularx}
 
+\subsubsection{Fingerprint the Web Listeners}
+The open web ports justify a separate HTTP technology/header check before selecting an application test.
+\begin{cmdbox}[Recorded PC4 commands - web technology and HTTP headers]
+\begin{reportcode}
+whatweb 192.168.50.20
+whatweb 192.168.50.20:3000
+curl -I http://192.168.50.20
+curl -I http://192.168.50.20:3000
+\end{reportcode}
+\end{cmdbox}
 \reportfigure{E034}{Complete HTTP fingerprinting and header screenshot, \ev{E034}.}{Both HTTP listeners return 200 responses and a 2778-byte page; Apache and Express headers identify the stack. The displayed HTTPS connection refusal supports the cleartext-service concern. Matching lengths do not prove identical authorization or that traffic on port 3000 passes through Apache.}
 
+\subsubsection{Validate Anonymous Service Access}
 \begin{cmdbox}[Recorded PC4 commands - access-policy checks]
 \begin{reportcode}
 nmap --script=smb-enum-shares -p445 192.168.50.40
@@ -554,28 +566,140 @@ The SMB script lists shares and access information; the FTP script attempts anon
 
 \textbf{Decision.} The exact FTP banner suggested a candidate exploit, while the share/FTP checks demonstrated permissive access policy. The team selected the known vsftpd module on the explicitly authorized target. The Red Team PDF mentions \texttt{distccd} as a backup lead; it was not demonstrated as an additional successful exploit and is not counted as one.
 
-\subsection{Initial Access: Validate the FTP Backdoor}
-\begin{cmdbox}[Recorded sequence - Metasploit console on PC4]
+\subsection{Threat Modelling and Test Selection (Task 4)}
+\label{phase:threat}
+The next exercise step turns the discovered services into a test plan. This is an analytical step based on the preceding screenshots; no separate threat-model screenshot was supplied. The final findings chapter develops the risk ratings after the test results are known.
+\begin{tabularx}{\linewidth}{@{}L{3.2cm}X X@{}}
+\toprule
+\textbf{Asset / lead} & \textbf{Potential consequence} & \textbf{Next justified test}\\
+\midrule
+Metasploitable FTP banner & Possible remote execution if the backdoor is present & Review the exact module, then verify target identity and resulting privileges in a controlled test.\\
+Anonymous SMB/FTP access & Unintended file access or modification & Preserve access-policy evidence; do not claim file theft without a separate test.\\
+VulnBank HTTP and login & Credential exposure or misuse of privileged application functions & Examine the real login request, test the selected input and verify any candidate credentials independently.\\
+Firewall and monitoring & Unnoticed activity or incomplete containment & Start observation before testing; identify the source and later verify the exact path affected by a block.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Vulnerability Scanning: Amina's OpenVAS Attempt (Task 5)}
+\label{phase:assessment}
+This scanning phase is placed before initial access in the exercise sequence. Amina's defensive scanner preparation occurred alongside Red Team work; it did not produce a successful scan that enabled the subsequent exploit. The team used the earlier manual service evidence instead. The dedicated PC5 report explicitly states \textbf{Incomplete - assessment blocked}. The screenshots show a reachable local interface, an initial login failure, an empty task list, an unset feed-owner warning, missing GVMD/CERT metadata, SCAP import in progress and repeated default-port-list rejection. The NVT feed alone was Current.
+\subsubsection{Open the Task List and Check Readiness}
+After reaching GSA, review the task list and readiness message before attempting a scan. The first view explicitly says scans are unavailable during synchronization.
+\screenshot{E058}
+\textbf{Recheck the task list.} A later frame shows an inactivity warning and still no tasks. The disappearance of a feed banner in one frame must not be interpreted as successful import.
+\screenshot{E059}
+
+\reportfigure{E060}{OpenVAS feed-status evidence: NVT Current while SCAP is still importing (\ev{E060}).}{Different feeds have different functions. GVMD Data supplies port lists and scan configurations; SCAP supplies vulnerability/product metadata. A SCAP progress message alone is not the direct explanation of an absent default port list. The accompanying feed-owner and GVMD-data errors establish the broader readiness gap.}
+
+\subsubsection{Attempt Target Creation and Preserve Each Error}
+Enter the intended lab target list and save it only after checking scope. The first supplied target dialog does not show a successful save.
+\screenshot{E049}
+\textbf{Retry record.} A second capture records the repeated target-definition attempt.
+\screenshot{E061}
+\textbf{Interpret the feed-owner error.} Target creation reports an unmet prerequisite; it does not identify a vulnerability in the selected hosts.
+\screenshot{E062}
+\textbf{Interpret the missing port list.} The next attempt is blocked before a scan can be launched.
+\screenshot{E063}
+\textbf{Preserve the repeated failure.} The second full-dialogue view corroborates that the error persisted, rather than adding another independent finding.
+\screenshot{E064}
+
+\reportfigure{E065}{The default-port-list error that blocked target creation (\ev{E065}).}{The failure occurs before a scan task is launched. It cannot support a finding that the selected target hosts are secure or vulnerable, nor a scanner-derived severity chart.}
+
+\subsubsection{Inspect Service Logs and Revisit Feed Status}
+The failed target save led Amina to the manager logs. These messages show the metadata that GVM could not read.
+\screenshot{E051}
+\textbf{Corroborate the warning with identity context.} The next supplied view preserves the same class of error with Amina's overlay.
+\screenshot{E070}
+\textbf{Check scanner startup.} Tailing the manager log also reports that the scanner has not yet supplied a feed version.
+\screenshot{E073}
+\textbf{Return to the feed-status page.} NVT and SCAP need separate interpretation; one being current does not establish that every required object is ready.
+\screenshot{E066}
+\textbf{Later status checkpoint.} SCAP remains in progress in this additional supplied view.
+\screenshot{E069}
+
+\subsubsection{Synchronize and Measure Progress Without Assuming Completion}
+Amina then invokes the full-feed sync. A lock acquisition and download start justify monitoring its progress, not launching a scan immediately.
+\screenshot{E074}
+\textbf{Check the download path.} The traffic view uses a NAT-side address and contains external troubleshooting advice; only the displayed network activity is execution evidence.
+\screenshot{E075}
+\textbf{Measure local directory usage.} The first timed checkpoint shows 998M in the SCAP data directory.
+\screenshot{E078}
+\textbf{Compare the next checkpoint.} The monitor shows 1002M thirty seconds later.
+\screenshot{E079}
+\textbf{Retain the separately supplied view of this checkpoint.} It supports the same usage reading, not another completed import.
+\screenshot{E052}
+\textbf{Review the later 1.1G reading.} Directory growth is visible, but readiness must still be checked in GVM.
+\screenshot{E053}
+\textbf{Preserve the final identity-bearing checkpoint.} The later capture and Amina's dedicated PDF both belong to the incomplete attempt.
+\screenshot{E080}
+\textbf{Check whether scans are available.} The supplied notification still describes synchronization as blocking scan availability.
+\screenshot{E076}
+\textbf{Record the final target retry.} Renaming the target to \texttt{vul} does not resolve the absent port-list dependency.
+\screenshot{E077}
+
+\begin{tabularx}{\linewidth}{@{}L{3.4cm}X X@{}}
+\toprule
+\textbf{Checkpoint} & \textbf{Observed evidence} & \textbf{Why the next step followed}\\
+\midrule
+Service start & ospd-openvas, notus-scanner and gsad invoked & Open the local GSA interface and inspect readiness.\\
+Feed review & NVT Current; SCAP Update in progress & Inspect import and metadata state rather than assuming the UI implies readiness.\\
+Target creation & Feed-owner / default Port List errors & Examine gvmd logs and required data objects.\\
+Log investigation & Missing feed.xml; scanner feed version unavailable & Attempt controlled synchronization and monitor import progress.\\
+Full feed sync & Lock acquired; Notus/NASL downloads start & Allow completion, then verify actual imported port lists and scan configs.\\
+Last recorded state & 998M, 1002M, then 1.1G SCAP directory; no scan & Record an incomplete task and schedule a separate retest after readiness.\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Resource history and uncertainty.} Amina reports five attempts, including a final run of roughly an hour, and the increases to disk/RAM/CPU described in the setup chapter. The snapshots measure directory usage, not free disk capacity, and do not prove that all enlarged disk space became usable inside the guest. The deeper cause of incomplete download/import was not isolated; rate limiting, locks, feed ownership, connectivity, version compatibility and filesystem capacity are investigation leads, not established causes.
+
+\begin{cmdbox}[Recommended PC5 readiness diagnostics before a new scan attempt]
+\begin{reportcode}
+df -h
+df -i
+lsblk -f
+free -h
+sudo gvm-check-setup
+sudo systemctl status gvmd ospd-openvas gsad --no-pager
+sudo journalctl -u gvmd -u ospd-openvas -n 100 --no-pager
+greenbone-feed-sync --help
+\end{reportcode}
+\end{cmdbox}
+Check the installed feed-sync version and follow its matching distribution guidance. Avoid repeated overlapping syncs and do not delete an active lock to force progress. Confirm a valid feed owner, imported default port lists, usable scan configurations and a connected scanner in the GUI; then create the target, choose an authorized non-destructive scan profile and preserve the final export. A generic \texttt{gvmd --rebuild} command is not prescribed without checking support in the installed version.
+
+\subsection{Initial Access: Validate the FTP Backdoor (Task 6)}
+\label{phase:access}
+\subsubsection{Select the Matching Module}
+\begin{cmdbox}[Recorded on PC4 - launch Metasploit and search]
 \begin{reportcode}
 msfconsole
 search type:exploit vsftpd
+\end{reportcode}
+\end{cmdbox}
+The first line launches Metasploit from Kali. The search then runs inside its console and returns a candidate module; this is not yet evidence of target access.
+\screenshot{E037}
+\subsubsection{Configure and Review the Target}
+\begin{cmdbox}[Recorded inside the Metasploit console]
+\begin{reportcode}
 use exploit/unix/ftp/vsftpd_234_backdoor
 set RHOSTS 192.168.50.40
 set PAYLOAD cmd/unix/interact
 show options
-run
 \end{reportcode}
 \end{cmdbox}
-The first line launches Metasploit; the remaining lines are \textbf{Metasploit-console commands}, not commands for a normal shell. \texttt{RHOSTS} selects the target and the displayed \texttt{RPORT} remains 21. \texttt{cmd/unix/interact} handles the shell exposed by this module; no reverse-payload \texttt{LHOST} is required for this bind-shell example. \texttt{show options} establishes the configured target before execution.
-\screenshot{E037}
+These are \textbf{Metasploit-console commands}, not commands for a normal shell. \texttt{RHOSTS} selects the target and the displayed \texttt{RPORT} remains 21. \texttt{cmd/unix/interact} handles the shell exposed by this module; no reverse-payload \texttt{LHOST} is required for this bind-shell example. \texttt{show options} establishes the configured target before execution.
 \textbf{Confirm scope before execution.} The configured target, port and payload are displayed before the test is run.
 \screenshot{E038}
 
+\subsubsection{Run the Controlled Test}
+\begin{cmdbox}[Recorded inside Metasploit - execute the selected test]
+\begin{reportcode}
+run
+\end{reportcode}
+\end{cmdbox}
 \ev{E037} is the module search, and \ev{E038} is configuration only. \ev{E039} shows an unsuccessful first run followed by a second \texttt{run} that connects to the existing backdoor listener and opens a shell. The test result, not the version string alone, establishes exploitation. CVE-2011-2523 concerns a tampered vsftpd distribution; it is not a statement that every installation reporting version 2.3.4 necessarily contains that backdoor.
 \screenshot{E039}
 
-\reportfigure{E040}{Complete shell and identity-check screenshot, \ev{E040}.}{The connection is from \texttt{192.168.50.100:45051} to \texttt{192.168.50.40:6200}. The session reports root and the hostname \texttt{metasploitable}, corroborating both privilege and target identity.}
-
+\subsubsection{Verify the Resulting Identity}
 \begin{cmdbox}[Recorded inside the target session - identity checks]
 \begin{reportcode}
 whoami
@@ -584,8 +708,50 @@ hostname
 \end{reportcode}
 \end{cmdbox}
 The corresponding visible values are \texttt{root}, \texttt{uid=0(root) gid=0(root)}, and \texttt{metasploitable}. The session's timestamp is \texttt{2026-10-03 12:33:28 -0400}, equivalent to 16:33:28 UTC if that host clock was accurate. The supplied record does not establish why the first run failed; a mandatory retry is not presented as a universal exploit procedure.
+\reportfigure{E040}{Complete shell and identity-check screenshot, \ev{E040}.}{The connection is from \texttt{192.168.50.100:45051} to \texttt{192.168.50.40:6200}. The session reports root and the hostname \texttt{metasploitable}, corroborating both privilege and target identity.}
 
-\subsection{Post-Exploitation: Demonstrate Account Control}
+\subsection{Web Application Assessment (Task 7)}
+\label{phase:web}
+VulnBank on \texttt{192.168.50.20} was a separate application assessment, not the DVWA host described in the earlier guide. The login page explicitly describes simulated funds and advertises the seeded administrator credentials.
+
+\begin{cmdbox}[Observed browser input - not a shell command]
+\begin{reportcode}
+' OR '1'='1
+\end{reportcode}
+\end{cmdbox}
+\ev{E041} shows \texttt{Invalid credentials}. This records a negative result for the tested payload. It does not establish whether the application uses parameterized SQL, another database, validation, or a different protection, nor does it prove that all SQL-injection cases would fail.
+\screenshot{E041}
+
+\subsubsection{Credential Assessment (Task 8)}
+\label{phase:credentials}
+\textbf{Decision.} The team shifted from the rejected injection attempt to the known login/account surface. The source report describes using a guessed administrator name and a password list, followed by manually trying the candidate credential. The page's public \texttt{admin/admin} hint is independently visible, so default-credential exposure is a simpler explanation of the path than a sophisticated injection exploit.
+
+\begin{cmdbox}[Historical Hydra invocation - retained to explain its mixed result]
+\begin{reportcode}
+hydra -l admin -P /usr/share/wordlists/rockyou.txt \
+  192.168.50.20 http-post-form \
+  "/api/login:username=^USER^&password=^PASS^:F=Invalid"
+\end{reportcode}
+\end{cmdbox}
+\texttt{-l} fixes the username, \texttt{-P} selects a password file, and the module string describes a POST body and a failure marker. This historical invocation is \textbf{not endorsed as a validated recipe} for VulnBank's endpoint. The request method, body type and failure test must match the real API, which cannot be established from this screenshot alone. The configured large wordlist does not prove that all entries were tried.
+
+\reportfigure{E042}{Complete Hydra screenshot showing the candidate and HTTP 401 errors, \ev{E042}.}{The candidate \texttt{login: admin password: admin} appears alongside repeated errors. An API can return 401 without using HTTP Basic authentication; the tool's suggestion is not proof of that protocol. A candidate line requires a controlled independent login check.}
+
+\textbf{Observed and reported outcome.} The Red Team PDF, physical pages 12--13, records a successful manual login with \texttt{admin/admin}. \ev{E043} shows the resulting administrator workspace, four demo accounts and a \texttt{DEMO PASSWORD} column heading. This corroborates administrative access, but the supplied frame does not show customer password values. Plaintext storage/extraction remains a reported concern requiring separate evidence; it is not silently promoted to a demonstrated password dump.
+\screenshot{E043}
+
+\textbf{Recommended retest, not performed here.} Capture the real request in browser developer tools, compare a known-invalid and known-valid lab login, verify the returned session and role, and only then evaluate throttling/lockout with an approved small attempt limit. Do not keep treating error responses as proof of successful password discovery or switch authentication mechanisms solely because Hydra suggests it.
+
+\subsubsection{Verify the Bounded Application Impact}
+\ev{E044} shows the transfer form; \ev{E045} shows a 5,000.00 FCFA simulated Orange Money receipt, reference \texttt{VB-ORANGE-000002}, dated \texttt{2026-10-03 17:47:35 UTC}. The page explicitly states: no real funds or SMS were sent. The receipt illustrates the impact of access to an administrator session, not a real-world payment or a separate proof of a transfer-authorization bypass.
+\screenshot{E044}
+
+\reportfigure{E045}{Complete simulated transfer receipt screenshot, \ev{E045}.}{The amount, receipt reference, timestamp and simulation warning are visible together. Other balance movements exist in the session, so the entire before/after balance difference is not attributed to this one transaction.}
+
+\subsection{Post-Exploitation and Privilege Analysis (Tasks 9--10)}
+\label{phase:post}
+This material appears here to follow the exercise task sequence. The source Red Team narrative describes the account-change demonstration before its web checks; reordering its presentation does not change that historical account or the retained timestamps.
+
 \textbf{Decision.} Root identity alone establishes serious impact; the team chose a bounded account-control demonstration to show its practical consequence. The following historical commands ran \emph{inside the existing root shell}, not on Bruno's Kali host. The password shown is a disposable lab value already present in the source evidence; it must never be reused elsewhere.
 
 \begin{cmdbox}[Recorded inside the Metasploitable root shell]
@@ -608,45 +774,10 @@ ssh msfadmin@192.168.50.40
 \textbf{Recovery requirement.} Restore the lab account or revert the clean target snapshot after preserving evidence; verify the original intended login and document restoration. No restoration capture was supplied. The late console-login failures in Rayan's inventory are relevant but cannot independently prove causality.
 \screenshot{E021}
 
-\subsection{Web Assessment: Reject One Path and Test Another}
-VulnBank on \texttt{192.168.50.20} was a separate application assessment, not the DVWA host described in the earlier guide. The login page explicitly describes simulated funds and advertises the seeded administrator credentials.
-
-\begin{cmdbox}[Observed browser input - not a shell command]
-\begin{reportcode}
-' OR '1'='1
-\end{reportcode}
-\end{cmdbox}
-\ev{E041} shows \texttt{Invalid credentials}. This records a negative result for the tested payload. It does not establish whether the application uses parameterized SQL, another database, validation, or a different protection, nor does it prove that all SQL-injection cases would fail.
-\screenshot{E041}
-
-\textbf{Decision.} The team shifted from the rejected injection attempt to the known login/account surface. The source report describes using a guessed administrator name and a password list, followed by manually trying the candidate credential. The page's public \texttt{admin/admin} hint is independently visible, so default-credential exposure is a simpler explanation of the path than a sophisticated injection exploit.
-
-\begin{cmdbox}[Historical Hydra invocation - retained to explain its mixed result]
-\begin{reportcode}
-hydra -l admin -P /usr/share/wordlists/rockyou.txt \
-  192.168.50.20 http-post-form \
-  "/api/login:username=^USER^&password=^PASS^:F=Invalid"
-\end{reportcode}
-\end{cmdbox}
-\texttt{-l} fixes the username, \texttt{-P} selects a password file, and the module string describes a POST body and a failure marker. This historical invocation is \textbf{not endorsed as a validated recipe} for VulnBank's endpoint. The request method, body type and failure test must match the real API, which cannot be established from this screenshot alone. The configured large wordlist does not prove that all entries were tried.
-
-\reportfigure{E042}{Complete Hydra screenshot showing the candidate and HTTP 401 errors, \ev{E042}.}{The candidate \texttt{login: admin password: admin} appears alongside repeated errors. An API can return 401 without using HTTP Basic authentication; the tool's suggestion is not proof of that protocol. A candidate line requires a controlled independent login check.}
-
-\textbf{Observed and reported outcome.} The Red Team PDF, physical pages 12--13, records a successful manual login with \texttt{admin/admin}. \ev{E043} shows the resulting administrator workspace, four demo accounts and a \texttt{DEMO PASSWORD} column heading. This corroborates administrative access, but the supplied frame does not show customer password values. Plaintext storage/extraction remains a reported concern requiring separate evidence; it is not silently promoted to a demonstrated password dump.
-\screenshot{E043}
-
-\textbf{Recommended retest, not performed here.} Capture the real request in browser developer tools, compare a known-invalid and known-valid lab login, verify the returned session and role, and only then evaluate throttling/lockout with an approved small attempt limit. Do not keep treating error responses as proof of successful password discovery or switch authentication mechanisms solely because Hydra suggests it.
-
-\subsection{Bounded Application Impact}
-\ev{E044} shows the transfer form; \ev{E045} shows a 5,000.00 FCFA simulated Orange Money receipt, reference \texttt{VB-ORANGE-000002}, dated \texttt{2026-10-03 17:47:35 UTC}. The page explicitly states: no real funds or SMS were sent. The receipt illustrates the impact of access to an administrator session, not a real-world payment or a separate proof of a transfer-authorization bypass.
-\screenshot{E044}
-
-\reportfigure{E045}{Complete simulated transfer receipt screenshot, \ev{E045}.}{The amount, receipt reference, timestamp and simulation warning are visible together. Other balance movements exist in the session, so the entire before/after balance difference is not attributed to this one transaction.}
-
 \subsection{Where the Evidence Ends}
 The supplied record demonstrates one compromised operating-system target, account modification and a second SSH connection to it, plus a reported default-credential application login corroborated by administrator access and a demo transaction. It does not demonstrate a SOCKS pivot, successful compromise of Fahdil's workstation, XSS execution, a separate local privilege-escalation exploit, or an actual credential-hash cracking run. Those expected tasks in the preparatory guides remain gaps or analytical discussion, not fabricated successful steps.
 
-\partheading{05 / BLUE TEAM}{Detection, Investigation and Containment}
+\partheading{05 / BLUE TEAM}{Detection, Investigation and Containment (Tasks 11--12)}
 \label{sec:blue}
 \subsection{Strategy: Observe First, Then Apply a Scoped Control}
 \textbf{Owners: Marshall (PC1), Fahdil (PC2), Amina (PC5).} Marshall operated the separate Suricata/Kali sensor at \texttt{192.168.50.200} and administered pfSense at \texttt{192.168.50.1}. Fahdil provided Windows 10 and application-side observations. Amina prepared OpenVAS at \texttt{192.168.50.250} and investigated its feed readiness. The intended division combined network detection, endpoint context and vulnerability assessment; the evidence establishes different completion levels for each.
@@ -861,91 +992,6 @@ Get-WinEvent -FilterHashtable @{
 \end{reportcode}
 \end{cmdbox}
 On the Ubuntu application host, inspect the \emph{configured} Apache access/error log paths and application service logs. A normal HTTP access log often omits POST bodies, so it cannot be promised to contain every literal login payload. \texttt{who} and shell history likewise do not reliably record an unregistered backdoor shell. No missing log is reconstructed as fabricated evidence here.
-
-\subsection{Amina's OpenVAS Investigation and Its Outcome}
-The dedicated PC5 report explicitly states \textbf{Incomplete - assessment blocked}. The screenshots show a reachable local interface, an initial login failure, an empty task list, an unset feed-owner warning, missing GVMD/CERT metadata, SCAP import in progress and repeated default-port-list rejection. The NVT feed alone was Current.
-\subsubsection{Open the Task List and Check Readiness}
-After reaching GSA, review the task list and readiness message before attempting a scan. The first view explicitly says scans are unavailable during synchronization.
-\screenshot{E058}
-\textbf{Recheck the task list.} A later frame shows an inactivity warning and still no tasks. The disappearance of a feed banner in one frame must not be interpreted as successful import.
-\screenshot{E059}
-
-\reportfigure{E060}{OpenVAS feed-status evidence: NVT Current while SCAP is still importing (\ev{E060}).}{Different feeds have different functions. GVMD Data supplies port lists and scan configurations; SCAP supplies vulnerability/product metadata. A SCAP progress message alone is not the direct explanation of an absent default port list. The accompanying feed-owner and GVMD-data errors establish the broader readiness gap.}
-
-\subsubsection{Attempt Target Creation and Preserve Each Error}
-Enter the intended lab target list and save it only after checking scope. The first supplied target dialog does not show a successful save.
-\screenshot{E049}
-\textbf{Retry record.} A second capture records the repeated target-definition attempt.
-\screenshot{E061}
-\textbf{Interpret the feed-owner error.} Target creation reports an unmet prerequisite; it does not identify a vulnerability in the selected hosts.
-\screenshot{E062}
-\textbf{Interpret the missing port list.} The next attempt is blocked before a scan can be launched.
-\screenshot{E063}
-\textbf{Preserve the repeated failure.} The second full-dialogue view corroborates that the error persisted, rather than adding another independent finding.
-\screenshot{E064}
-
-\reportfigure{E065}{The default-port-list error that blocked target creation (\ev{E065}).}{The failure occurs before a scan task is launched. It cannot support a finding that the selected target hosts are secure or vulnerable, nor a scanner-derived severity chart.}
-
-\subsubsection{Inspect Service Logs and Revisit Feed Status}
-The failed target save led Amina to the manager logs. These messages show the metadata that GVM could not read.
-\screenshot{E051}
-\textbf{Corroborate the warning with identity context.} The next supplied view preserves the same class of error with Amina's overlay.
-\screenshot{E070}
-\textbf{Check scanner startup.} Tailing the manager log also reports that the scanner has not yet supplied a feed version.
-\screenshot{E073}
-\textbf{Return to the feed-status page.} NVT and SCAP need separate interpretation; one being current does not establish that every required object is ready.
-\screenshot{E066}
-\textbf{Later status checkpoint.} SCAP remains in progress in this additional supplied view.
-\screenshot{E069}
-
-\subsubsection{Synchronize and Measure Progress Without Assuming Completion}
-Amina then invokes the full-feed sync. A lock acquisition and download start justify monitoring its progress, not launching a scan immediately.
-\screenshot{E074}
-\textbf{Check the download path.} The traffic view uses a NAT-side address and contains external troubleshooting advice; only the displayed network activity is execution evidence.
-\screenshot{E075}
-\textbf{Measure local directory usage.} The first timed checkpoint shows 998M in the SCAP data directory.
-\screenshot{E078}
-\textbf{Compare the next checkpoint.} The monitor shows 1002M thirty seconds later.
-\screenshot{E079}
-\textbf{Retain the separately supplied view of this checkpoint.} It supports the same usage reading, not another completed import.
-\screenshot{E052}
-\textbf{Review the later 1.1G reading.} Directory growth is visible, but readiness must still be checked in GVM.
-\screenshot{E053}
-\textbf{Preserve the final identity-bearing checkpoint.} The later capture and Amina's dedicated PDF both belong to the incomplete attempt.
-\screenshot{E080}
-\textbf{Check whether scans are available.} The supplied notification still describes synchronization as blocking scan availability.
-\screenshot{E076}
-\textbf{Record the final target retry.} Renaming the target to \texttt{vul} does not resolve the absent port-list dependency.
-\screenshot{E077}
-
-\begin{tabularx}{\linewidth}{@{}L{3.4cm}X X@{}}
-\toprule
-\textbf{Checkpoint} & \textbf{Observed evidence} & \textbf{Why the next step followed}\\
-\midrule
-Service start & ospd-openvas, notus-scanner and gsad invoked & Open the local GSA interface and inspect readiness.\\
-Feed review & NVT Current; SCAP Update in progress & Inspect import and metadata state rather than assuming the UI implies readiness.\\
-Target creation & Feed-owner / default Port List errors & Examine gvmd logs and required data objects.\\
-Log investigation & Missing feed.xml; scanner feed version unavailable & Attempt controlled synchronization and monitor import progress.\\
-Full feed sync & Lock acquired; Notus/NASL downloads start & Allow completion, then verify actual imported port lists and scan configs.\\
-Last recorded state & 998M, 1002M, then 1.1G SCAP directory; no scan & Record an incomplete task and schedule a separate retest after readiness.\\
-\bottomrule
-\end{tabularx}
-
-\textbf{Resource history and uncertainty.} Amina reports five attempts, including a final run of roughly an hour, and the increases to disk/RAM/CPU described in the setup chapter. The snapshots measure directory usage, not free disk capacity, and do not prove that all enlarged disk space became usable inside the guest. The deeper cause of incomplete download/import was not isolated; rate limiting, locks, feed ownership, connectivity, version compatibility and filesystem capacity are investigation leads, not established causes.
-
-\begin{cmdbox}[Recommended PC5 readiness diagnostics before a new scan attempt]
-\begin{reportcode}
-df -h
-df -i
-lsblk -f
-free -h
-sudo gvm-check-setup
-sudo systemctl status gvmd ospd-openvas gsad --no-pager
-sudo journalctl -u gvmd -u ospd-openvas -n 100 --no-pager
-greenbone-feed-sync --help
-\end{reportcode}
-\end{cmdbox}
-Check the installed feed-sync version and follow its matching distribution guidance. Avoid repeated overlapping syncs and do not delete an active lock to force progress. Confirm a valid feed owner, imported default port lists, usable scan configurations and a connected scanner in the GUI; then create the target, choose an authorized non-destructive scan profile and preserve the final export. A generic \texttt{gvmd --rebuild} command is not prescribed without checking support in the installed version.
 
 \subsection{Joint Exercise Timeline}
 \begin{tabularx}{\linewidth}{@{}L{3.4cm}X L{2.4cm}@{}}

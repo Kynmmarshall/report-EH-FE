@@ -176,6 +176,7 @@ if ($Stage -eq 'Build') {
 if ($Stage -eq 'Render') {
     $Pages = Join-Path $Build 'pages'
     New-Item -ItemType Directory -Path $Pages -Force | Out-Null
+    Get-ChildItem -LiteralPath $Pages -File | Where-Object { $_.Name -match '^(page-\d+|overview-\d+)\.png$' } | Remove-Item
     Invoke-Checked -Program 'pdftoppm' -Arguments @('-png', '-r', '95', (Join-Path $Root ($ReportName + '.pdf')), (Join-Path $Pages 'page'))
     Add-Type -AssemblyName System.Drawing
     $PageFiles = @(Get-ChildItem -LiteralPath $Pages -Filter 'page-*.png' -File | Sort-Object Name)
@@ -260,6 +261,29 @@ if ($Stage -eq 'Check') {
     if ($Text.Contains('??')) { throw 'PDF contains unresolved-reference markers.' }
     $SourceText = [System.IO.File]::ReadAllText((Join-Path $Root ($ReportName + '.tex')))
     if ($SourceText -match '\\includegraphics\[[^\]]*(trim|clip|viewport)|-detail\.png') { throw 'Screenshot cropping is not permitted in this report.' }
+    $ScreenshotCalls = [regex]::Matches($SourceText, '\\(?:screenshot|reportfigure)\{(E\d{3})\}')
+    if ($ScreenshotCalls.Count -ne 80) { throw 'Expected exactly 80 unique inline screenshot placements.' }
+    $Placement = @{}
+    foreach ($Call in $ScreenshotCalls) {
+        $Identifier = $Call.Groups[1].Value
+        if ($Placement.ContainsKey($Identifier)) { throw "Duplicate screenshot placement: $Identifier" }
+        if ($Call.Index -gt $SourceText.IndexOf('\appendix')) { throw "Screenshot placed in end gallery: $Identifier" }
+        $Placement[$Identifier] = $Call.Index
+    }
+    $PhaseMarkers = @('sec:setup', 'phase:recon', 'phase:scanning', 'phase:threat', 'phase:assessment', 'phase:access', 'phase:web', 'phase:credentials', 'phase:post', 'sec:blue', 'sec:findings', 'sec:hardening')
+    $PreviousIndex = -1
+    foreach ($Marker in $PhaseMarkers) {
+        $CurrentIndex = $SourceText.IndexOf('\label{' + $Marker + '}')
+        if ($CurrentIndex -le $PreviousIndex) { throw "Missing or out-of-order exercise phase: $Marker" }
+        $PreviousIndex = $CurrentIndex
+    }
+    foreach ($Sequence in @('E030 E031 E032 E033 E034 E035 E036', 'E037 E038 E039 E040 E041 E042 E043 E044 E045 E046 E047', 'E002 E001 E003', 'E058 E060 E049 E062 E063 E065 E073 E074 E080')) {
+        $PreviousIndex = -1
+        foreach ($Identifier in $Sequence.Split(' ')) {
+            if (-not $Placement.ContainsKey($Identifier) -or $Placement[$Identifier] -le $PreviousIndex) { throw "Evidence sequence mismatch: $Identifier" }
+            $PreviousIndex = $Placement[$Identifier]
+        }
+    }
     $RecordedInputs = Get-Content -LiteralPath (Join-Path $Build ($ReportName + '.fls')) -Raw
     if ($RecordedInputs -match '-detail\.png') { throw 'Build included a derived crop instead of an original screenshot.' }
     $Flattened = [regex]::Replace($Text, '\s+', ' ').Trim()
@@ -286,6 +310,6 @@ if ($Stage -eq 'Check') {
     }
     $Log = Get-Content -LiteralPath (Join-Path $Build ($ReportName + '.log')) -Raw
     if ($Log -match '(^|\n)!|Missing character:|undefined references|Overfull') { throw 'Inspect the LaTeX log for unresolved errors or overflow.' }
-    Write-Output ("PASS: full unmodified screenshots, original hashes, identities, 90 evidence IDs, {0} command-block round-trips, PDF hyphens and cross-references." -f $Blocks.Count)
+    Write-Output ("PASS: 80 inline full screenshots in exercise order, original hashes, identities, 90 evidence IDs, {0} command-block round-trips, PDF hyphens and cross-references." -f $Blocks.Count)
     & pdfinfo $Pdf | Select-String '^Pages:|^Page size:|^File size:'
 }

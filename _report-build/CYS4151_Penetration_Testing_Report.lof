@@ -33,54 +33,54 @@
 \contentsline {figure}{\numberline {33}{\ignorespaces E034 - Web technology and HTTP headers}}{30}{figure.33}%
 \contentsline {figure}{\numberline {34}{\ignorespaces E035 - SMB share enumeration}}{31}{figure.34}%
 \contentsline {figure}{\numberline {35}{\ignorespaces E036 - Anonymous SMB and FTP results}}{31}{figure.35}%
-\contentsline {figure}{\numberline {36}{\ignorespaces E037 - Metasploit module selection}}{32}{figure.36}%
-\contentsline {figure}{\numberline {37}{\ignorespaces E038 - Target and payload configured}}{33}{figure.37}%
-\contentsline {figure}{\numberline {38}{\ignorespaces E039 - First attempt and successful root session}}{33}{figure.38}%
-\contentsline {figure}{\numberline {39}{\ignorespaces E040 - Independent identity checks in the shell}}{34}{figure.39}%
-\contentsline {figure}{\numberline {40}{\ignorespaces E046 - Post-compromise account modification}}{35}{figure.40}%
-\contentsline {figure}{\numberline {41}{\ignorespaces E047 - Separate SSH session to the target}}{36}{figure.41}%
-\contentsline {figure}{\numberline {42}{\ignorespaces E021 - Target inventory and failed console logins}}{37}{figure.42}%
-\contentsline {figure}{\numberline {43}{\ignorespaces E041 - SQL-injection attempt rejected}}{38}{figure.43}%
-\contentsline {figure}{\numberline {44}{\ignorespaces E042 - Hydra candidate amid HTTP401 errors}}{39}{figure.44}%
-\contentsline {figure}{\numberline {45}{\ignorespaces E043 - Administrator session on VulnBank}}{40}{figure.45}%
-\contentsline {figure}{\numberline {46}{\ignorespaces E044 - Demo transaction capability}}{41}{figure.46}%
-\contentsline {figure}{\numberline {47}{\ignorespaces E045 - Simulated 5000FCFA transfer receipt}}{41}{figure.47}%
-\contentsline {figure}{\numberline {48}{\ignorespaces E006 - Initial readable Suricata alerts}}{44}{figure.48}%
-\contentsline {figure}{\numberline {49}{\ignorespaces E007 - Red-source Nmap alerts in fast.log}}{45}{figure.49}%
-\contentsline {figure}{\numberline {50}{\ignorespaces E011 - Suricata capture statistics}}{46}{figure.50}%
-\contentsline {figure}{\numberline {51}{\ignorespaces E010 - Structured EVE alert output}}{47}{figure.51}%
-\contentsline {figure}{\numberline {52}{\ignorespaces E002 - Bruno address entered in a pfSense alias}}{49}{figure.52}%
-\contentsline {figure}{\numberline {53}{\ignorespaces Observed pfSense rule-order explanation based on \hyperref [ev:E003]{\textbf {E003}}. The automatic management exception remains above the source block. This diagram does not imply that unshown floating or group rules were audited.}}{49}{figure.53}%
-\contentsline {figure}{\numberline {54}{\ignorespaces E001 - pfSense block-rule editor}}{50}{figure.54}%
-\contentsline {figure}{\numberline {55}{\ignorespaces E003 - Gateway capture before and after containment}}{51}{figure.55}%
-\contentsline {figure}{\numberline {56}{\ignorespaces E050 - Wireshark connectivity observation}}{53}{figure.56}%
-\contentsline {figure}{\numberline {57}{\ignorespaces E067 - ICMP request and reply capture}}{53}{figure.57}%
-\contentsline {figure}{\numberline {58}{\ignorespaces E068 - Wireshark capture with identity overlay}}{54}{figure.58}%
-\contentsline {figure}{\numberline {59}{\ignorespaces E018 - Fahdil observes the admin workspace}}{55}{figure.59}%
-\contentsline {figure}{\numberline {60}{\ignorespaces E019 - Later Windows 10 application observation}}{55}{figure.60}%
-\contentsline {figure}{\numberline {61}{\ignorespaces E058 - GSA tasks blocked by feed synchronization}}{56}{figure.61}%
-\contentsline {figure}{\numberline {62}{\ignorespaces E059 - Empty task list and session warning}}{57}{figure.62}%
-\contentsline {figure}{\numberline {63}{\ignorespaces E060 - NVT current while SCAP imports}}{57}{figure.63}%
-\contentsline {figure}{\numberline {64}{\ignorespaces E049 - Initial scanner target definition}}{58}{figure.64}%
-\contentsline {figure}{\numberline {65}{\ignorespaces E061 - Target creation attempted again}}{58}{figure.65}%
-\contentsline {figure}{\numberline {66}{\ignorespaces E062 - Feed owner not set}}{59}{figure.66}%
-\contentsline {figure}{\numberline {67}{\ignorespaces E063 - Default port list unavailable}}{59}{figure.67}%
-\contentsline {figure}{\numberline {68}{\ignorespaces E064 - Repeated port-list rejection}}{60}{figure.68}%
-\contentsline {figure}{\numberline {69}{\ignorespaces E065 - Port-list error close-up}}{60}{figure.69}%
-\contentsline {figure}{\numberline {70}{\ignorespaces E051 - Missing Greenbone metadata files}}{61}{figure.70}%
-\contentsline {figure}{\numberline {71}{\ignorespaces E070 - Repeated gvmd metadata errors}}{62}{figure.71}%
-\contentsline {figure}{\numberline {72}{\ignorespaces E073 - Scanner feed-version startup messages}}{62}{figure.72}%
-\contentsline {figure}{\numberline {73}{\ignorespaces E066 - Feed status rechecked}}{63}{figure.73}%
-\contentsline {figure}{\numberline {74}{\ignorespaces E069 - Later feed-status review}}{63}{figure.74}%
-\contentsline {figure}{\numberline {75}{\ignorespaces E074 - Manual full-feed synchronization}}{64}{figure.75}%
-\contentsline {figure}{\numberline {76}{\ignorespaces E075 - Feed network traffic and troubleshooting notes}}{64}{figure.76}%
-\contentsline {figure}{\numberline {77}{\ignorespaces E078 - SCAP size at first recorded checkpoint}}{65}{figure.77}%
-\contentsline {figure}{\numberline {78}{\ignorespaces E079 - SCAP size thirty seconds later}}{65}{figure.78}%
-\contentsline {figure}{\numberline {79}{\ignorespaces E052 - SCAP directory growth observation}}{66}{figure.79}%
-\contentsline {figure}{\numberline {80}{\ignorespaces E053 - SCAP directory at 1.1G}}{66}{figure.80}%
-\contentsline {figure}{\numberline {81}{\ignorespaces E080 - Final recorded size checkpoint}}{67}{figure.81}%
-\contentsline {figure}{\numberline {82}{\ignorespaces E076 - Explicit scan-unavailable notification}}{67}{figure.82}%
-\contentsline {figure}{\numberline {83}{\ignorespaces E077 - Renamed target still fails}}{68}{figure.83}%
-\contentsline {figure}{\numberline {84}{\ignorespaces Severity distribution of the eight deduplicated report findings. Counts are generated from the findings register, not from a scanner export or screenshot count.}}{70}{figure.84}%
-\contentsline {figure}{\numberline {85}{\ignorespaces Analyst risk matrix for the eight registered findings. Colour is supplemented by IDs; empty cells are not evidence of tested-safe assets.}}{74}{figure.85}%
-\contentsline {figure}{\numberline {86}{\ignorespaces Operational strategy and handoffs. Dashed links indicate evidence correlation or an agreed verification handoff, not proof that every offensive action has a matching defender log.}}{77}{figure.86}%
+\contentsline {figure}{\numberline {36}{\ignorespaces E058 - GSA tasks blocked by feed synchronization}}{33}{figure.36}%
+\contentsline {figure}{\numberline {37}{\ignorespaces E059 - Empty task list and session warning}}{33}{figure.37}%
+\contentsline {figure}{\numberline {38}{\ignorespaces E060 - NVT current while SCAP imports}}{34}{figure.38}%
+\contentsline {figure}{\numberline {39}{\ignorespaces E049 - Initial scanner target definition}}{34}{figure.39}%
+\contentsline {figure}{\numberline {40}{\ignorespaces E061 - Target creation attempted again}}{35}{figure.40}%
+\contentsline {figure}{\numberline {41}{\ignorespaces E062 - Feed owner not set}}{35}{figure.41}%
+\contentsline {figure}{\numberline {42}{\ignorespaces E063 - Default port list unavailable}}{36}{figure.42}%
+\contentsline {figure}{\numberline {43}{\ignorespaces E064 - Repeated port-list rejection}}{36}{figure.43}%
+\contentsline {figure}{\numberline {44}{\ignorespaces E065 - Port-list error close-up}}{37}{figure.44}%
+\contentsline {figure}{\numberline {45}{\ignorespaces E051 - Missing Greenbone metadata files}}{38}{figure.45}%
+\contentsline {figure}{\numberline {46}{\ignorespaces E070 - Repeated gvmd metadata errors}}{38}{figure.46}%
+\contentsline {figure}{\numberline {47}{\ignorespaces E073 - Scanner feed-version startup messages}}{39}{figure.47}%
+\contentsline {figure}{\numberline {48}{\ignorespaces E066 - Feed status rechecked}}{39}{figure.48}%
+\contentsline {figure}{\numberline {49}{\ignorespaces E069 - Later feed-status review}}{40}{figure.49}%
+\contentsline {figure}{\numberline {50}{\ignorespaces E074 - Manual full-feed synchronization}}{41}{figure.50}%
+\contentsline {figure}{\numberline {51}{\ignorespaces E075 - Feed network traffic and troubleshooting notes}}{41}{figure.51}%
+\contentsline {figure}{\numberline {52}{\ignorespaces E078 - SCAP size at first recorded checkpoint}}{42}{figure.52}%
+\contentsline {figure}{\numberline {53}{\ignorespaces E079 - SCAP size thirty seconds later}}{42}{figure.53}%
+\contentsline {figure}{\numberline {54}{\ignorespaces E052 - SCAP directory growth observation}}{43}{figure.54}%
+\contentsline {figure}{\numberline {55}{\ignorespaces E053 - SCAP directory at 1.1G}}{43}{figure.55}%
+\contentsline {figure}{\numberline {56}{\ignorespaces E080 - Final recorded size checkpoint}}{44}{figure.56}%
+\contentsline {figure}{\numberline {57}{\ignorespaces E076 - Explicit scan-unavailable notification}}{44}{figure.57}%
+\contentsline {figure}{\numberline {58}{\ignorespaces E077 - Renamed target still fails}}{45}{figure.58}%
+\contentsline {figure}{\numberline {59}{\ignorespaces E037 - Metasploit module selection}}{46}{figure.59}%
+\contentsline {figure}{\numberline {60}{\ignorespaces E038 - Target and payload configured}}{47}{figure.60}%
+\contentsline {figure}{\numberline {61}{\ignorespaces E039 - First attempt and successful root session}}{48}{figure.61}%
+\contentsline {figure}{\numberline {62}{\ignorespaces E040 - Independent identity checks in the shell}}{49}{figure.62}%
+\contentsline {figure}{\numberline {63}{\ignorespaces E041 - SQL-injection attempt rejected}}{50}{figure.63}%
+\contentsline {figure}{\numberline {64}{\ignorespaces E042 - Hydra candidate amid HTTP401 errors}}{51}{figure.64}%
+\contentsline {figure}{\numberline {65}{\ignorespaces E043 - Administrator session on VulnBank}}{52}{figure.65}%
+\contentsline {figure}{\numberline {66}{\ignorespaces E044 - Demo transaction capability}}{53}{figure.66}%
+\contentsline {figure}{\numberline {67}{\ignorespaces E045 - Simulated 5000FCFA transfer receipt}}{53}{figure.67}%
+\contentsline {figure}{\numberline {68}{\ignorespaces E046 - Post-compromise account modification}}{54}{figure.68}%
+\contentsline {figure}{\numberline {69}{\ignorespaces E047 - Separate SSH session to the target}}{55}{figure.69}%
+\contentsline {figure}{\numberline {70}{\ignorespaces E021 - Target inventory and failed console logins}}{56}{figure.70}%
+\contentsline {figure}{\numberline {71}{\ignorespaces E006 - Initial readable Suricata alerts}}{58}{figure.71}%
+\contentsline {figure}{\numberline {72}{\ignorespaces E007 - Red-source Nmap alerts in fast.log}}{59}{figure.72}%
+\contentsline {figure}{\numberline {73}{\ignorespaces E011 - Suricata capture statistics}}{60}{figure.73}%
+\contentsline {figure}{\numberline {74}{\ignorespaces E010 - Structured EVE alert output}}{61}{figure.74}%
+\contentsline {figure}{\numberline {75}{\ignorespaces E002 - Bruno address entered in a pfSense alias}}{63}{figure.75}%
+\contentsline {figure}{\numberline {76}{\ignorespaces Observed pfSense rule-order explanation based on \hyperref [ev:E003]{\textbf {E003}}. The automatic management exception remains above the source block. This diagram does not imply that unshown floating or group rules were audited.}}{63}{figure.76}%
+\contentsline {figure}{\numberline {77}{\ignorespaces E001 - pfSense block-rule editor}}{64}{figure.77}%
+\contentsline {figure}{\numberline {78}{\ignorespaces E003 - Gateway capture before and after containment}}{65}{figure.78}%
+\contentsline {figure}{\numberline {79}{\ignorespaces E050 - Wireshark connectivity observation}}{67}{figure.79}%
+\contentsline {figure}{\numberline {80}{\ignorespaces E067 - ICMP request and reply capture}}{67}{figure.80}%
+\contentsline {figure}{\numberline {81}{\ignorespaces E068 - Wireshark capture with identity overlay}}{68}{figure.81}%
+\contentsline {figure}{\numberline {82}{\ignorespaces E018 - Fahdil observes the admin workspace}}{69}{figure.82}%
+\contentsline {figure}{\numberline {83}{\ignorespaces E019 - Later Windows 10 application observation}}{69}{figure.83}%
+\contentsline {figure}{\numberline {84}{\ignorespaces Severity distribution of the eight deduplicated report findings. Counts are generated from the findings register, not from a scanner export or screenshot count.}}{71}{figure.84}%
+\contentsline {figure}{\numberline {85}{\ignorespaces Analyst risk matrix for the eight registered findings. Colour is supplemented by IDs; empty cells are not evidence of tested-safe assets.}}{75}{figure.85}%
+\contentsline {figure}{\numberline {86}{\ignorespaces Operational strategy and handoffs. Dashed links indicate evidence correlation or an agreed verification handoff, not proof that every offensive action has a matching defender log.}}{78}{figure.86}%
