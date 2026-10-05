@@ -1,0 +1,1 @@
+select(type=="object") | select(has("parse_error"))

@@ -349,6 +349,8 @@ INPUT .\post-configuration-execution-guide.toc
 INPUT .\post-configuration-execution-guide.toc
 INPUT post-configuration-execution-guide.toc
 OUTPUT post-configuration-execution-guide.toc
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT post-configuration-execution-guide.aux
 INPUT .\post-configuration-execution-guide.out
 INPUT .\post-configuration-execution-guide.out

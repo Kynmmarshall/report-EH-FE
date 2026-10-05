@@ -579,58 +579,155 @@ captures and logs only --- not prior knowledge of what Bruno/Rayan did.
 \begin{bluebox}
 Marshall's Suricata sensor has been running in promiscuous IDS mode on the LAN backbone
 since before Task 2 even started (see \emph{Lab Network Configuration}, Section 5), so
-\texttt{eve.json} already holds a timestamped record of the whole engagement. Rather
-than capturing one snapshot, Blue Team's job here is to walk that timeline
-\emph{chronologically} and show which log entry corresponds to which Red Team task ---
-this is what makes the detection story credible instead of a single disconnected
-screenshot.
+its logs already hold a timestamped record of the whole engagement. Rather than
+capturing one snapshot, Blue Team's job here is to walk that timeline
+\emph{chronologically}, show which log entry corresponds to which Red Team task, and
+then \textbf{act} on it --- detection without a block is only half the job.
 \end{bluebox}
+
+\subsection{Live alert monitoring --- fast.log (primary, always works)}
+Suricata writes every alert to two places: the simple text log
+\texttt{fast.log} (one line per alert, no JSON parsing needed, never fails) and the
+richer JSON log \texttt{eve.json} used for the structured queries later in this
+section. Start here --- it has zero dependencies and is the fastest way to confirm the
+sensor is alive and alerting at all.
+
+\begin{cmdbox}[Watch alerts live, then filter what you already captured]
+\begin{cmdverb}
+# live tail while Red Team's commands run in another task
+sudo tail -f /var/log/suricata/fast.log
+
+# afterward: every alert sourced from (or aimed at) Bruno's Kali box
+# (note: IP is followed by :port in this log, not a bare space, so match
+# on the IP substring itself rather than assuming "IP -> " is adjacent)
+grep "192.168.50.100:" /var/log/suricata/fast.log
+
+# afterward: only port-scan-category alerts, any source
+grep -i "scan" /var/log/suricata/fast.log
+
+# count alerts per source IP, busiest first (quick triage across a whole capture)
+grep -oP '\{(TCP|UDP|ICMP)\}\s+\K[0-9.]+(?=:)' /var/log/suricata/fast.log | \
+  sort | uniq -c | sort -rn
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+Each line is self-contained and human-readable, e.g.
+\texttt{[**] [1:2024364:5] ET SCAN Possible Nmap User-Agent Observed [**]
+\ldots\ \{TCP\} 192.168.50.100:36252 -> 192.168.50.1:80} --- source IP, destination
+IP/port, and the signature name are all visible without any JSON tooling. The
+ranked count command immediately tells Marshall which host is generating the most
+alerts right now, which is the IP to act on first in the block step below.
+\end{expectbox}
+
+\begin{notebox}[Why two log formats]
+\texttt{fast.log} is intentionally simple and will never fail to parse --- use it for
+live triage and for anything this guide's \texttt{jq}/\texttt{eve.json} commands don't
+cover. \texttt{eve.json} carries structured fields (\texttt{dest\_port}, full
+\texttt{alert} metadata) that enable the precise per-task queries below, but because
+Suricata is actively appending to it, a slurp-mode JSON parse can occasionally land on
+a line being written mid-flush --- the commands below are written to tolerate that.
+\end{notebox}
 
 \subsection{Pull the full alert timeline first}
 Before filtering for anything specific, get the whole picture in time order so later,
 narrower queries can be justified by what this first pass shows.
 
-\begin{cmdbox}[Full Suricata alert timeline, oldest first]
+\begin{cmdbox}[Full Suricata alert timeline, oldest first (resilient to a bad line)]
 \begin{cmdverb}
-# every alert since Suricata started, oldest first, readable fields only
-# (note: signature/category/severity live under the nested .alert object)
-jq -s 'sort_by(.timestamp) | .[] | select(.event_type=="alert") |
-  {timestamp, src_ip, dest_ip, dest_port, signature: .alert.signature}' \
-  /var/log/suricata/eve.json
+# stage 1: parse each line independently; fromjson? silently drops any
+# line that isn't valid JSON yet (e.g. one being written mid-flush),
+# instead of aborting the whole pipeline the way "jq -s" alone would
+# stage 2: now that every object is known-good, sort and shape the output
+jq -R 'fromjson? // empty' /var/log/suricata/eve.json | \
+  jq -s 'map(select(.event_type=="alert")) | sort_by(.timestamp) | .[] |
+    {timestamp, src_ip, dest_ip, dest_port, signature: .alert.signature}'
 \end{cmdverb}
 \end{cmdbox}
 
 \begin{expectbox}
 This returns one JSON object per alert in chronological order. Expect the very first
-entries to be \texttt{LOCAL Potential TCP Port Scan} hits with \texttt{src\_ip} =
-Bruno's \texttt{192.168.50.100} --- that is Task 2's \texttt{nmap -sn} sweep. Keep this
-output; Sections 11.2--11.5 below re-query the same file narrowed to one task at a
+entries to be port-scan/recon-category hits with \texttt{src\_ip} = Bruno's
+\texttt{192.168.50.100} --- that is Task 2's \texttt{nmap -sn} sweep. Keep this
+output; Sections 11.3--11.6 below re-query the same file narrowed to one task at a
 time so each finding can be cited by task number in the report.
 \end{expectbox}
 
-\subsection{Task 2/3 --- Reconnaissance and enumeration}
+\begin{troublebox}[Difficulty: \texttt{jq -s} alone crashed with ``Invalid numeric literal'']
+Running \texttt{jq -s 'sort\_by(.timestamp) | ...'} directly against
+\texttt{eve.json} while Suricata was still actively writing to it failed with
+\texttt{jq: parse error: Invalid numeric literal at line 48, column 501} --- one line
+was a partial JSON object (caught mid-write), and slurp mode (\texttt{-s}) requires
+\emph{every} line to parse before it will process \emph{any} of them.
+\textbf{Fix:} the two-stage \texttt{fromjson? // empty} pipeline above parses each line
+independently and silently discards the one bad line instead of aborting the entire
+query --- use this pattern for any live-tailed JSON log, not just this one.
+\end{troublebox}
+
+\subsection{Task 2/3 --- Reconnaissance and enumeration, then block the source}
 \begin{cmdbox}[Isolate scan-detection alerts from Bruno's host]
 \begin{cmdverb}
-jq 'select(.event_type=="alert" and .src_ip=="192.168.50.100" and
-  (.alert.signature | test("Port Scan")))' /var/log/suricata/eve.json
+jq -R 'fromjson? // empty' /var/log/suricata/eve.json | \
+  jq 'select(.event_type=="alert" and .src_ip=="192.168.50.100" and
+    (.alert.signature | test("[Ss]can")))'
 \end{cmdverb}
 \end{cmdbox}
 
 \begin{expectbox}
-Expect a burst of \texttt{LOCAL Potential TCP Port Scan} alerts starting at the
-timestamp of Bruno's \texttt{nmap -sn} sweep, with a second, larger burst later
-matching the \texttt{-p-} full-port scan in Task 3 (same signature, far higher alert
-count in a shorter window because every port is probed, not just a host-discovery
-ping). The destination IPs across both bursts cover the whole \texttt{192.168.50.0/24}
-range for the first sweep, narrowing to \texttt{.20/.30/.40} for the Task 3 pass ---
-that narrowing is itself evidence Red Team moved from discovery to targeting.
+Expect a burst of scan-category alerts starting at the timestamp of Bruno's
+\texttt{nmap -sn} sweep, with a second, larger burst later matching the \texttt{-p-}
+full-port scan in Task 3 (same signature family, far higher alert count in a shorter
+window because every port is probed, not just a host-discovery ping). The destination
+IPs across both bursts cover the whole \texttt{192.168.50.0/24} range for the first
+sweep, narrowing to \texttt{.20/.30/.40} for the Task 3 pass --- that narrowing is
+itself evidence Red Team moved from discovery to targeting.
 \end{expectbox}
 
-\subsection{Task 6 --- Exploitation evidence}
-\begin{cmdbox}[Suricata: exploit-category alerts against the Metasploitable host]
+\begin{redbox}[Detect $\to$ Block, on pfSense]
+Once a source IP is confirmed malicious from the alert output above, Marshall blocks it
+at the firewall immediately --- this is the action half of Task 11/12, not just
+observation.
+\end{redbox}
+
+\begin{cmdbox}[Block the offending source at pfSense (GUI, then CLI equivalent)]
 \begin{cmdverb}
-jq 'select(.event_type=="alert" and .dest_ip=="192.168.50.40")' \
-  /var/log/suricata/eve.json
+# GUI: Firewall > Aliases > add/edit "Blocked_Attackers" (type: Host(s)),
+# add the offending IP as a member, Save + Apply. Then Firewall > Rules >
+# LAN > Add a rule: Source = Blocked_Attackers, Action = Block, placed
+# ABOVE rule 4 so it is evaluated first (Lab Network Configuration, 10.2).
+
+# CLI equivalent (SSH into pfSense, option 8: Shell), adds the IP to the
+# SAME pf table backing that alias without touching the GUI at all:
+pfctl -t Blocked_Attackers -T add 192.168.50.100
+
+# confirm it is now in the table
+pfctl -t Blocked_Attackers -T show
+
+# to lift the block later (e.g. after the exam recording is done):
+pfctl -t Blocked_Attackers -T delete 192.168.50.100
+\end{cmdverb}
+\end{cmdbox}
+
+\begin{expectbox}
+\texttt{pfctl -t Blocked\_Attackers -T show} lists \texttt{192.168.50.100}. A repeat
+of the Task 2 \texttt{nmap} sweep from Bruno's box now shows every probe timing out
+instead of returning results, and pfSense's \textbf{Status} $\to$ \textbf{System Logs}
+$\to$ \textbf{Firewall} shows the matching \texttt{block} entries against the new rule.
+\end{expectbox}
+
+\begin{cmdbox}[Fallback: immediate host-level block if pfSense access is unavailable]
+\begin{cmdverb}
+# on any individual Linux target/sensor, as an interim measure
+sudo ufw deny from 192.168.50.100
+sudo ufw status numbered
+\end{cmdverb}
+\end{cmdbox}
+
+\subsection{Task 6 --- Exploitation evidence}
+\begin{cmdbox}[Suricata: alerts against the Metasploitable host]
+\begin{cmdverb}
+jq -R 'fromjson? // empty' /var/log/suricata/eve.json | \
+  jq 'select(.event_type=="alert" and .dest_ip=="192.168.50.40")'
 \end{cmdverb}
 \end{cmdbox}
 
@@ -654,9 +751,8 @@ unexpected shell session --- this is the same access Bruno confirmed with
 \end{expectbox}
 
 \subsection{Task 7 --- Web application attack evidence}
-Because DVWA runs as a Docker container (\emph{Lab Network Configuration},
-Section~\ref{sec:pc3}), its request log is read via \texttt{docker logs}, not a host
-file path.
+Because DVWA runs as a Docker container (\emph{Lab Network Configuration}, PC3 setup
+section), its request log is read via \texttt{docker logs}, not a host file path.
 
 \begin{cmdbox}[Grep the DVWA container log for payload patterns]
 \begin{cmdverb}

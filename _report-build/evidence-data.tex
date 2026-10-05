@@ -1,0 +1,240 @@
+\expandafter\def\csname EvidenceTitleE001\endcsname{pfSense block-rule editor}
+\expandafter\def\csname EvidenceObservationE001\endcsname{The destination is Any and the rule description is Block attacker IP - Task 12 hardening. The visible Log checkbox is unchecked; tracking ID 1791048379 appears below.}
+\expandafter\def\csname EvidenceLimitationE001\endcsname{Some source fields are covered by the identity overlay. This editor view alone does not prove rule application or packet loss.}
+\expandafter\def\csname EvidenceTitleE002\endcsname{Bruno address entered in a pfSense alias}
+\expandafter\def\csname EvidenceObservationE002\endcsname{The web portal shows a Host(s) alias named bruno containing 192.168.50.100. A default-administrator-password warning is visible above it.}
+\expandafter\def\csname EvidenceLimitationE002\endcsname{The later rules view uses Blocked\_Attackers. This image does not show the relationship between those alias names or a successful password change.}
+\expandafter\def\csname EvidenceTitleE003\endcsname{Gateway capture before and after containment}
+\expandafter\def\csname EvidenceObservationE003\endcsname{pfSense tcpdump shows 192.168.50.100 communicating with 192.168.50.1: echo request/reply pairs at 17:39 are followed by requests without visible replies at 17:40. The GUI shows Blocked\_Attackers above the default LAN allow rule.}
+\expandafter\def\csname EvidenceLimitationE003\endcsname{The anti-lockout rule remains above the block. This is evidence consistent with gateway ICMP containment, not universal HTTP or same-subnet blocking.}
+\expandafter\def\csname EvidenceTitleE004\endcsname{PC1 pfSense NAT adapter}
+\expandafter\def\csname EvidenceObservationE004\endcsname{VirtualBox shows the running pfSense VM with Adapter 1 attached to NAT. The inventory also lists its second adapter as bridged.}
+\expandafter\def\csname EvidenceLimitationE004\endcsname{This is hypervisor configuration evidence; it does not prove which guest routes or traffic paths were active.}
+\expandafter\def\csname EvidenceTitleE005\endcsname{PC1 pfSense bridged LAN adapter}
+\expandafter\def\csname EvidenceObservationE005\endcsname{Adapter 2 is bridged to the MediaTek Wi-Fi 6 MT7921 host interface, with Allow All promiscuous mode and Cable Connected selected.}
+\expandafter\def\csname EvidenceLimitationE005\endcsname{Promiscuous mode does not create a mirror port or guarantee delivery of all peer traffic.}
+\expandafter\def\csname EvidenceTitleE006\endcsname{Initial readable Suricata alerts}
+\expandafter\def\csname EvidenceObservationE006\endcsname{The fast.log tail contains Nmap User-Agent alerts from 192.168.50.100 to the gateway and stream retransmission events.}
+\expandafter\def\csname EvidenceLimitationE006\endcsname{Long lines are clipped in the terminal window. Only the visible records can be interpreted; alert presence is not proof of exploit success.}
+\expandafter\def\csname EvidenceTitleE007\endcsname{Red-source Nmap alerts in fast.log}
+\expandafter\def\csname EvidenceObservationE007\endcsname{The displayed records identify SID 2024364, ET SCAN Possible Nmap User-Agent Observed, from 192.168.50.100 to 192.168.50.1:80. Other records concern non-lab HTTPS traffic.}
+\expandafter\def\csname EvidenceLimitationE007\endcsname{The view is a log excerpt, not a complete attack timeline. Out-of-scope background flows are excluded from the findings.}
+\expandafter\def\csname EvidenceTitleE008\endcsname{Package service-restart prompt}
+\expandafter\def\csname EvidenceObservationE008\endcsname{A Kali package configuration dialog asks which daemons using outdated libraries should be restarted.}
+\expandafter\def\csname EvidenceLimitationE008\endcsname{The dialog does not identify the preceding installation command or establish that every requested restart completed.}
+\expandafter\def\csname EvidenceTitleE009\endcsname{Suricata configuration and rule test}
+\expandafter\def\csname EvidenceObservationE009\endcsname{The terminal displays Suricata 8.0.7 in test mode, 53098 rules loaded with zero failed and zero skipped, and Configuration provided was successfully loaded. Exiting.}
+\expandafter\def\csname EvidenceLimitationE009\endcsname{A successful configuration test is not a running capture service. Later log evidence is needed to establish operation.}
+\expandafter\def\csname EvidenceTitleE010\endcsname{Structured EVE alert output}
+\expandafter\def\csname EvidenceObservationE010\endcsname{A tail of eve.json filtered with jq displays an alert object, the eth0 interface and a timestamp with +0100 offset. Its source is 10.11.12.47, outside the lab prefix.}
+\expandafter\def\csname EvidenceLimitationE010\endcsname{This event demonstrates logging output, not a Red Team attack against an in-scope target.}
+\expandafter\def\csname EvidenceTitleE011\endcsname{Suricata capture statistics}
+\expandafter\def\csname EvidenceObservationE011\endcsname{At displayed time 16:32:16 the statistics show capture.kernel\_packets 2013571 and capture.kernel\_drops 72; the displayed uptime is about 5 hours 48 minutes.}
+\expandafter\def\csname EvidenceLimitationE011\endcsname{These cumulative counters describe the sensor's received workload, not all LAN traffic or the number of attacks blocked.}
+\expandafter\def\csname EvidenceTitleE012\endcsname{Shared early pfSense console}
+\expandafter\def\csname EvidenceObservationE012\endcsname{The console shows pfSense 2.5.2 and LAN em1 at 192.168.50.1/24. WAN is assigned to em0.}
+\expandafter\def\csname EvidenceLimitationE012\endcsname{This PC2-folder setup capture differs from the later PC1 2.9.0 session; no concurrent second gateway is inferred.}
+\expandafter\def\csname EvidenceTitleE013\endcsname{Fahdil's early VM inventory}
+\expandafter\def\csname EvidenceObservationE013\endcsname{VirtualBox lists tuheu123 running and META, WINDOWS10 and pfsense powered off. The selected pfSense entry has 2048 MB RAM and a 10 GB virtual disk.}
+\expandafter\def\csname EvidenceLimitationE013\endcsname{The inventory is one preparation-time snapshot. Later images show WINDOWS10 running; no team role is inferred from the Kali VM name.}
+\expandafter\def\csname EvidenceTitleE014\endcsname{Early gateway bridge configuration}
+\expandafter\def\csname EvidenceObservationE014\endcsname{The selected pfSense adapter is bridged to a Realtek Wi-Fi interface, with Allow All and cable connected.}
+\expandafter\def\csname EvidenceLimitationE014\endcsname{The image is in PC2's preparation record and does not replace the final PC1 NAT-plus-bridge evidence.}
+\expandafter\def\csname EvidenceTitleE015\endcsname{pfSense interface assignment dialogue}
+\expandafter\def\csname EvidenceObservationE015\endcsname{The console records WAN selection as em0 and a subsequent confirmation prompt during interface assignment.}
+\expandafter\def\csname EvidenceLimitationE015\endcsname{The visible assignment output is incomplete for LAN; the later LAN-address screen provides the next configuration state.}
+\expandafter\def\csname EvidenceTitleE016\endcsname{pfSense LAN address entry}
+\expandafter\def\csname EvidenceObservationE016\endcsname{Console option 2 is selected, followed by LAN em1 and an entered IPv4 address of 192.168.50.1.}
+\expandafter\def\csname EvidenceLimitationE016\endcsname{The frame records address entry, not every remaining prefix, DNS or DHCP prompt.}
+\expandafter\def\csname EvidenceTitleE017\endcsname{Fahdil verifies VulnBank reachability}
+\expandafter\def\csname EvidenceObservationE017\endcsname{A running Windows 10 VM opens VulnBank at 192.168.50.20. The login page advertises seeded administrator admin/admin; an admin username is entered.}
+\expandafter\def\csname EvidenceLimitationE017\endcsname{A visible login form does not prove authentication succeeded at this step. The password is masked.}
+\expandafter\def\csname EvidenceTitleE018\endcsname{Fahdil observes the admin workspace}
+\expandafter\def\csname EvidenceObservationE018\endcsname{The Windows 10 browser displays VulnBank's admin page with 3 demo accounts and 1 administrator; the interface warns about intentionally insecure password handling.}
+\expandafter\def\csname EvidenceLimitationE018\endcsname{The customer rows and plaintext password values are not visible. This is not evidence that Fahdil changed a host firewall or account policy.}
+\expandafter\def\csname EvidenceTitleE019\endcsname{Later Windows 10 application observation}
+\expandafter\def\csname EvidenceObservationE019\endcsname{The later admin page again shows the demo customer-management interface and the lab-only password warning.}
+\expandafter\def\csname EvidenceLimitationE019\endcsname{The repeated page state does not prove there were no attacks or that remediation had been applied.}
+\expandafter\def\csname EvidenceTitleE020\endcsname{Local hosts-file setup and command typo}
+\expandafter\def\csname EvidenceObservationE020\endcsname{Rayan's Windows host shows an unrecognized nodpath command followed by notepad hosts. The visible lab hosts entry maps 192.168.50.20 to vul-bank.duckdns.org.}
+\expandafter\def\csname EvidenceLimitationE020\endcsname{Unrelated existing host entries are outside scope. This local name override is not evidence of a DNS-spoofing attack.}
+\expandafter\def\csname EvidenceTitleE021\endcsname{Target inventory and failed console logins}
+\expandafter\def\csname EvidenceObservationE021\endcsname{VirtualBox shows the shared Ubuntu guests and Metasploitable2 running. The target console displays incorrect-login and timeout messages.}
+\expandafter\def\csname EvidenceLimitationE021\endcsname{The screenshot does not establish the cause of login failure. Account modification elsewhere is relevant context, not conclusive correlation.}
+\expandafter\def\csname EvidenceTitleE022\endcsname{Application VM static address}
+\expandafter\def\csname EvidenceObservationE022\endcsname{The ubuntu\_server guest shows /etc/netplan/50-cloud-init.yaml with enp0s3, DHCP disabled and 192.168.50.20/24.}
+\expandafter\def\csname EvidenceLimitationE022\endcsname{No default route or DNS setting is visible in this seven-line file. Do not copy Ubuntu2's settings into the observed record.}
+\expandafter\def\csname EvidenceTitleE023\endcsname{Ubuntu2 address gateway and DNS}
+\expandafter\def\csname EvidenceObservationE023\endcsname{The Ubuntu2 Netplan file contains enp0s3 at 192.168.50.30/24, default route via 192.168.50.1 and nameserver 192.168.50.1.}
+\expandafter\def\csname EvidenceLimitationE023\endcsname{This is configuration text, not proof of a successful apply or a deployed web application on this guest.}
+\expandafter\def\csname EvidenceTitleE024\endcsname{Metasploitable2 static interfaces file}
+\expandafter\def\csname EvidenceObservationE024\endcsname{The legacy /etc/network/interfaces file retains loopback and gives eth0 address 192.168.50.40, mask 255.255.255.0 and gateway 192.168.50.1.}
+\expandafter\def\csname EvidenceLimitationE024\endcsname{The file view does not alone prove reachability; later scans and shell access corroborate the target address.}
+\expandafter\def\csname EvidenceTitleE025\endcsname{Metasploitable2 bridged adapter}
+\expandafter\def\csname EvidenceObservationE025\endcsname{VirtualBox shows the target's bridged Intel Wireless-AC 9560 adapter with Allow All and cable connected. A second NAT adapter is listed in the inventory behind it.}
+\expandafter\def\csname EvidenceLimitationE025\endcsname{A secondary uplink must be reviewed before containment tests; its presence does not establish that a bypass was used.}
+\expandafter\def\csname EvidenceTitleE026\endcsname{Ubuntu2 bridged adapter}
+\expandafter\def\csname EvidenceObservationE026\endcsname{The Ubuntu2 VM has a bridged adapter on the host Intel Wireless-AC interface and a distinct configured VM MAC address.}
+\expandafter\def\csname EvidenceLimitationE026\endcsname{Hypervisor settings are not proof of all traffic being routed through pfSense.}
+\expandafter\def\csname EvidenceTitleE027\endcsname{Application VM bridged adapter}
+\expandafter\def\csname EvidenceObservationE027\endcsname{The ubuntu\_server guest has a bridged adapter on the same physical host interface; the inventory also lists a NAT adapter.}
+\expandafter\def\csname EvidenceLimitationE027\endcsname{The primary lab path and any secondary Internet path need separate verification.}
+\expandafter\def\csname EvidenceTitleE028\endcsname{VulnBank reached by local hostname}
+\expandafter\def\csname EvidenceObservationE028\endcsname{Rayan opens vul-bank.duckdns.org and the VulnBank demo login page. The page labels the environment as a security training simulation with no real money.}
+\expandafter\def\csname EvidenceLimitationE028\endcsname{The local hosts-file mapping establishes the intended lab name; this does not authorize testing a public DNS destination.}
+\expandafter\def\csname EvidenceTitleE029\endcsname{Apache application service active}
+\expandafter\def\csname EvidenceObservationE029\endcsname{The terminal lists 000-default.conf and vul-bank.conf in sites-enabled and shows apache2 active running. A ServerName warning is visible in service messages.}
+\expandafter\def\csname EvidenceLimitationE029\endcsname{Service health is not application security. The checkout, dependency installation and Node startup procedure were not captured.}
+\expandafter\def\csname EvidenceTitleE030\endcsname{Eight live lab addresses}
+\expandafter\def\csname EvidenceObservationE030\endcsname{Nmap -sn scans 192.168.50.0/24 and reports eight hosts, including 192.168.50.100. A warning says no DNS servers could be determined.}
+\expandafter\def\csname EvidenceLimitationE030\endcsname{Discovery does not prove exploitability. Repeated MAC vendors across bridged guests are not reliable OS identification.}
+\expandafter\def\csname EvidenceTitleE031\endcsname{Service identification on application and Ubuntu2}
+\expandafter\def\csname EvidenceObservationE031\endcsname{192.168.50.20 shows SSH 9.6p1, Apache 2.4.58 on TCP80 and Node.js Express on TCP3000. The visible 192.168.50.30 scan shows SSH.}
+\expandafter\def\csname EvidenceLimitationE031\endcsname{Nmap's OS guesses include alternatives; use guest configuration and banners to corroborate. No DVWA page is demonstrated.}
+\expandafter\def\csname EvidenceTitleE032\endcsname{Metasploitable service footprint}
+\expandafter\def\csname EvidenceObservationE032\endcsname{192.168.50.40 shows vsftpd 2.3.4, anonymous FTP code230, old OpenSSH, Telnet, SMTP, BIND, Apache and RPC information.}
+\expandafter\def\csname EvidenceLimitationE032\endcsname{Version strings are leads; each vulnerability needs a distinct validation. This screenshot alone is not a shell-access result.}
+\expandafter\def\csname EvidenceTitleE033\endcsname{Full TCP port scan}
+\expandafter\def\csname EvidenceObservationE033\endcsname{The command nmap -sV -sC -p- targets 192.168.50.20 and 192.168.50.40. The server has three open TCP ports; the target's broad service list begins below.}
+\expandafter\def\csname EvidenceLimitationE033\endcsname{Only TCP is covered and some output continues off-screen. The corrupt Zsh history warning is a local tooling issue.}
+\expandafter\def\csname EvidenceTitleE034\endcsname{Web technology and HTTP headers}
+\expandafter\def\csname EvidenceObservationE034\endcsname{WhatWeb and curl identify VulnBank on ports80 and3000, Apache 2.4.58 and Express, with HTTP200 and Content-Length2778. The attempted HTTPS connection is refused.}
+\expandafter\def\csname EvidenceLimitationE034\endcsname{Headers do not prove identical access controls on both listeners. No full application request body or server-side authentication source was supplied.}
+\expandafter\def\csname EvidenceTitleE035\endcsname{SMB share enumeration}
+\expandafter\def\csname EvidenceObservationE035\endcsname{The smb-enum-shares script lists shares on 192.168.50.40 and reports an unauthenticated account context; the output continues in E036.}
+\expandafter\def\csname EvidenceLimitationE035\endcsname{Share names and access classifications are not proof that real sensitive files were read or modified.}
+\expandafter\def\csname EvidenceTitleE036\endcsname{Anonymous SMB and FTP results}
+\expandafter\def\csname EvidenceObservationE036\endcsname{The tmp share is reported as anonymous READ/WRITE. A separate ftp-anon check reports Anonymous FTP login allowed with FTP code230.}
+\expandafter\def\csname EvidenceLimitationE036\endcsname{These are confirmed service-policy exposures; no file theft or anonymous write test is shown.}
+\expandafter\def\csname EvidenceTitleE037\endcsname{Metasploit module selection}
+\expandafter\def\csname EvidenceObservationE037\endcsname{The operator opens msfconsole and searches type:exploit vsftpd; the matching vsftpd\_234\_backdoor module appears.}
+\expandafter\def\csname EvidenceLimitationE037\endcsname{A search result and module ranking do not establish that a target is exploitable.}
+\expandafter\def\csname EvidenceTitleE038\endcsname{Target and payload configured}
+\expandafter\def\csname EvidenceObservationE038\endcsname{Metasploit shows RHOSTS192.168.50.40, RPORT21 and payload cmd/unix/interact, followed by show options.}
+\expandafter\def\csname EvidenceLimitationE038\endcsname{This is preparation, not a successful shell. The following screenshots establish the actual execution result.}
+\expandafter\def\csname EvidenceTitleE039\endcsname{First attempt and successful root session}
+\expandafter\def\csname EvidenceObservationE039\endcsname{The first run creates no session; the second reports an already-open backdoor listener and uid=0(root), then opens shell session1 from .100 to .40:6200 at 12:33:28 -0400.}
+\expandafter\def\csname EvidenceLimitationE039\endcsname{Do not generalize that every first attempt must fail. The exact reason for the initial failure was not established.}
+\expandafter\def\csname EvidenceTitleE040\endcsname{Independent identity checks in the shell}
+\expandafter\def\csname EvidenceObservationE040\endcsname{Inside the session, whoami returns root, id returns uid=0(root) gid=0(root), and hostname returns metasploitable.}
+\expandafter\def\csname EvidenceLimitationE040\endcsname{The initial session is already root. This does not demonstrate a separate privilege-escalation exploit.}
+\expandafter\def\csname EvidenceTitleE041\endcsname{SQL-injection attempt rejected}
+\expandafter\def\csname EvidenceObservationE041\endcsname{The VulnBank username field contains the tautology-style payload and the page displays Invalid credentials. The seeded admin/admin hint is also visible.}
+\expandafter\def\csname EvidenceLimitationE041\endcsname{One rejected payload does not prove that the application is free of SQL injection or identify the server-side protection used.}
+\expandafter\def\csname EvidenceTitleE042\endcsname{Hydra candidate amid HTTP401 errors}
+\expandafter\def\csname EvidenceObservationE042\endcsname{The API login test prints a login admin password admin candidate line but repeatedly reports HTTP401 errors and suggests another module.}
+\expandafter\def\csname EvidenceLimitationE042\endcsname{The candidate needs independent verification; the error alone does not prove HTTP Basic authentication. No clean completion is shown.}
+\expandafter\def\csname EvidenceTitleE043\endcsname{Administrator session on VulnBank}
+\expandafter\def\csname EvidenceObservationE043\endcsname{The browser opens 192.168.50.20/admin.html and displays the admin workspace, four demo accounts and a DEMO PASSWORD column heading.}
+\expandafter\def\csname EvidenceLimitationE043\endcsname{The supplied Red Team narrative reports manual admin/admin login. The image does not show the login exchange or customer password values.}
+\expandafter\def\csname EvidenceTitleE044\endcsname{Demo transaction capability}
+\expandafter\def\csname EvidenceObservationE044\endcsname{The administrator's transfer page offers simulated MTN and Orange Money payments and displays available demo funds.}
+\expandafter\def\csname EvidenceLimitationE044\endcsname{This form is not a completed transfer. It explicitly states that operators are not contacted.}
+\expandafter\def\csname EvidenceTitleE045\endcsname{Simulated 5000FCFA transfer receipt}
+\expandafter\def\csname EvidenceObservationE045\endcsname{The page confirms 5000.00 FCFA via simulated Orange Money, reference VB-ORANGE-000002, at 2026-10-03 17:47:35 UTC, and states no real funds or SMS were sent.}
+\expandafter\def\csname EvidenceLimitationE045\endcsname{This demonstrates impact within the demo session, not real financial loss or an independently proven authorization bypass.}
+\expandafter\def\csname EvidenceTitleE046\endcsname{Post-compromise account modification}
+\expandafter\def\csname EvidenceObservationE046\endcsname{The root session shows a chpasswd pipeline for msfadmin and a subsequent /etc/shadow lookup; the source report states the password was changed.}
+\expandafter\def\csname EvidenceLimitationE046\endcsname{This is an action using existing root privileges, not privilege escalation. Restoration of the altered account is not evidenced.}
+\expandafter\def\csname EvidenceTitleE047\endcsname{Separate SSH session to the target}
+\expandafter\def\csname EvidenceObservationE047\endcsname{ssh msfadmin@192.168.50.40 reaches a Metasploitable shell and displays the legacy Linux i686 banner and previous login source192.168.50.100.}
+\expandafter\def\csname EvidenceLimitationE047\endcsname{The password typed is not visible. The report's claim that it is the newly set password is corroborating operator testimony.}
+\expandafter\def\csname EvidenceTitleE048\endcsname{GVM service startup commands}
+\expandafter\def\csname EvidenceObservationE048\endcsname{Amina starts ospd-openvas, notus-scanner and gsad in Kali. No immediate error is shown in this terminal view.}
+\expandafter\def\csname EvidenceLimitationE048\endcsname{A service-start command returning is not proof of imported feeds or a successful scan.}
+\expandafter\def\csname EvidenceTitleE049\endcsname{Initial scanner target definition}
+\expandafter\def\csname EvidenceObservationE049\endcsname{The New Target dialog names CYS4151-Targets and contains a horizontally truncated lab-address list.}
+\expandafter\def\csname EvidenceLimitationE049\endcsname{The full address list and successful Save are not visible. Subsequent evidence shows target creation failing.}
+\expandafter\def\csname EvidenceTitleE050\endcsname{Wireshark connectivity observation}
+\expandafter\def\csname EvidenceObservationE050\endcsname{The display filter ip.addr==192.168.50.100 shows echo requests from192.168.50.250 and replies from192.168.50.100; the selected packet decodes as an ICMP echo reply.}
+\expandafter\def\csname EvidenceLimitationE050\endcsname{This is bidirectional connectivity evidence. It is not a capture of a successful attack or proof of network-wide monitoring.}
+\expandafter\def\csname EvidenceTitleE051\endcsname{Missing Greenbone metadata files}
+\expandafter\def\csname EvidenceObservationE051\endcsname{The gvmd output repeatedly fails to read data-objects/gvmd/feed.xml and cert-data/feed.xml, reporting No such file or directory.}
+\expandafter\def\csname EvidenceLimitationE051\endcsname{The errors establish missing readable metadata, not a proven disk, network-rate or permission root cause.}
+\expandafter\def\csname EvidenceTitleE052\endcsname{SCAP directory growth observation}
+\expandafter\def\csname EvidenceObservationE052\endcsname{A watch command displays 1002M in /var/lib/gvm/scap-data/ at 12:59:58 PM EDT.}
+\expandafter\def\csname EvidenceLimitationE052\endcsname{Directory size is not free disk space and does not prove database import or scan readiness.}
+\expandafter\def\csname EvidenceTitleE053\endcsname{SCAP directory at 1.1G}
+\expandafter\def\csname EvidenceObservationE053\endcsname{The same monitoring method shows 1.1G at 01:26:53 PM EDT during the final documented attempt.}
+\expandafter\def\csname EvidenceLimitationE053\endcsname{Amina's report states the feed still did not complete. Growth alone must not be interpreted as success.}
+\expandafter\def\csname EvidenceTitleE054\endcsname{Windows terminal configuration}
+\expandafter\def\csname EvidenceObservationE054\endcsname{Command Prompt properties show quick edit, history, clipboard and code-page settings while scanner setup is visible behind the dialogue.}
+\expandafter\def\csname EvidenceLimitationE054\endcsname{This supports evidence-preparation context only; it is not a scanner result or a change to lab security controls.}
+\expandafter\def\csname EvidenceTitleE055\endcsname{Terminal properties close-up}
+\expandafter\def\csname EvidenceObservationE055\endcsname{A second view documents the same Command Prompt input and selection options.}
+\expandafter\def\csname EvidenceLimitationE055\endcsname{Retained as a distinct capture; the visible properties do not establish a network or vulnerability finding.}
+\expandafter\def\csname EvidenceTitleE056\endcsname{GVM startup with name overlay}
+\expandafter\def\csname EvidenceObservationE056\endcsname{The service-start sequence is shown with Amina's name on the host terminal overlay.}
+\expandafter\def\csname EvidenceLimitationE056\endcsname{Similar content to E048 but not an exact binary duplicate. No scan result is visible.}
+\expandafter\def\csname EvidenceTitleE057\endcsname{GSA authentication failure}
+\expandafter\def\csname EvidenceObservationE057\endcsname{The local GSA login page reports Invalid password or username with admin entered.}
+\expandafter\def\csname EvidenceLimitationE057\endcsname{This is a scanner-administration login problem, not evidence of a Red Team credential attack.}
+\expandafter\def\csname EvidenceTitleE058\endcsname{GSA tasks blocked by feed synchronization}
+\expandafter\def\csname EvidenceObservationE058\endcsname{The UI shows Tasks0of0 and a feed-synchronizing notification stating that scans are unavailable.}
+\expandafter\def\csname EvidenceLimitationE058\endcsname{The scanner interface is reachable, but this view establishes no created task or completed assessment.}
+\expandafter\def\csname EvidenceTitleE059\endcsname{Empty task list and session warning}
+\expandafter\def\csname EvidenceObservationE059\endcsname{The UI shows Tasks0of0 with an inactivity/session-expiry warning.}
+\expandafter\def\csname EvidenceLimitationE059\endcsname{The absence of a feed banner in this frame is not proof of completed feed import; later status views still show an update in progress.}
+\expandafter\def\csname EvidenceTitleE060\endcsname{NVT current while SCAP imports}
+\expandafter\def\csname EvidenceObservationE060\endcsname{The Feed Status page shows NVT20261002T1555 Current and SCAP20261002T0212 Update in progress.}
+\expandafter\def\csname EvidenceLimitationE060\endcsname{NVT readiness alone does not supply the missing port lists or establish complete scanner readiness.}
+\expandafter\def\csname EvidenceTitleE061\endcsname{Target creation attempted again}
+\expandafter\def\csname EvidenceObservationE061\endcsname{The CYS4151-Targets dialog again contains the lab address list before saving.}
+\expandafter\def\csname EvidenceLimitationE061\endcsname{The field is truncated and target creation has not succeeded in this frame.}
+\expandafter\def\csname EvidenceTitleE062\endcsname{Feed owner not set}
+\expandafter\def\csname EvidenceObservationE062\endcsname{Saving the target produces the message The feed owner is currently not set, with advice to wait for synchronization.}
+\expandafter\def\csname EvidenceLimitationE062\endcsname{The message identifies a configuration prerequisite; it does not prove the exact reason the feed owner is absent.}
+\expandafter\def\csname EvidenceTitleE063\endcsname{Default port list unavailable}
+\expandafter\def\csname EvidenceObservationE063\endcsname{Target creation is rejected because the default Port List is not available.}
+\expandafter\def\csname EvidenceLimitationE063\endcsname{This blocks creating a scan target; it is an environmental assessment limitation, not a vulnerability on .20 or .40.}
+\expandafter\def\csname EvidenceTitleE064\endcsname{Repeated port-list rejection}
+\expandafter\def\csname EvidenceObservationE064\endcsname{A second full-dialogue screenshot records the same default Port List error.}
+\expandafter\def\csname EvidenceLimitationE064\endcsname{Retained as a distinct retry view; repeated identical errors are not additional target vulnerabilities.}
+\expandafter\def\csname EvidenceTitleE065\endcsname{Port-list error close-up}
+\expandafter\def\csname EvidenceObservationE065\endcsname{The cropped dialog makes the default Port List error and CYS4151-Targets name legible.}
+\expandafter\def\csname EvidenceLimitationE065\endcsname{The original supplied file is already a crop. It has less identity/time context than the full-frame versions.}
+\expandafter\def\csname EvidenceTitleE066\endcsname{Feed status rechecked}
+\expandafter\def\csname EvidenceObservationE066\endcsname{The NVT feed remains Current while SCAP remains Update in progress.}
+\expandafter\def\csname EvidenceLimitationE066\endcsname{A repeated UI state does not establish the whole duration or root cause of the outstanding import.}
+\expandafter\def\csname EvidenceTitleE067\endcsname{ICMP request and reply capture}
+\expandafter\def\csname EvidenceObservationE067\endcsname{Wireshark shows Amina's .250 requests and Bruno's .100 replies using the attacker-IP display filter.}
+\expandafter\def\csname EvidenceLimitationE067\endcsname{This is connectivity testing, not a scan or an exploit; capture loss and other paths are not evaluated.}
+\expandafter\def\csname EvidenceTitleE068\endcsname{Wireshark capture with identity overlay}
+\expandafter\def\csname EvidenceObservationE068\endcsname{The same ICMP exchange is shown with Amina's matricule present in the host overlay.}
+\expandafter\def\csname EvidenceLimitationE068\endcsname{This is a separate image of the same exchange, not independent evidence of additional traffic volume.}
+\expandafter\def\csname EvidenceTitleE069\endcsname{Later feed-status review}
+\expandafter\def\csname EvidenceObservationE069\endcsname{Amina revisits the feed-status page; NVT is Current and SCAP remains in progress.}
+\expandafter\def\csname EvidenceLimitationE069\endcsname{The visible state corroborates the incomplete feed. Do not treat the UI countdown as a test timestamp.}
+\expandafter\def\csname EvidenceTitleE070\endcsname{Repeated gvmd metadata errors}
+\expandafter\def\csname EvidenceObservationE070\endcsname{The terminal shows the missing GVMD Data and CERT feed.xml warnings with Amina's identity overlay.}
+\expandafter\def\csname EvidenceLimitationE070\endcsname{This is similar to E051 but retained as an independently supplied file; there is no successful import message.}
+\expandafter\def\csname EvidenceTitleE071\endcsname{VirtualBox settings warning}
+\expandafter\def\csname EvidenceObservationE071\endcsname{The VirtualBox settings window shows network/serial settings and Invalid settings detected.}
+\expandafter\def\csname EvidenceLimitationE071\endcsname{The relevant warning details are not expanded; no specific resource or adapter cause can be established from this frame alone.}
+\expandafter\def\csname EvidenceTitleE072\endcsname{Video-memory settings during troubleshooting}
+\expandafter\def\csname EvidenceObservationE072\endcsname{The settings view shows video memory256MB and Invalid settings detected.}
+\expandafter\def\csname EvidenceLimitationE072\endcsname{Video memory is not system RAM or disk capacity. This is not evidence that insufficient VRAM caused GVM's feed problems.}
+\expandafter\def\csname EvidenceTitleE073\endcsname{Scanner feed-version startup messages}
+\expandafter\def\csname EvidenceObservationE073\endcsname{sudo tail -f /var/log/gvm/gvmd.log reports No feed version available yet and OSPd OpenVAS is still starting.}
+\expandafter\def\csname EvidenceLimitationE073\endcsname{The messages justify checking scanner readiness; they do not confirm eventual startup or feed completion.}
+\expandafter\def\csname EvidenceTitleE074\endcsname{Manual full-feed synchronization}
+\expandafter\def\csname EvidenceObservationE074\endcsname{sudo greenbone-feed-sync --type all acquires a feed-update lock and starts downloading Notus and NASL content as the \_gvm user.}
+\expandafter\def\csname EvidenceLimitationE074\endcsname{A download starting is not a completed transfer or database import. No lock files should be deleted based on this view alone.}
+\expandafter\def\csname EvidenceTitleE075\endcsname{Feed network traffic and troubleshooting notes}
+\expandafter\def\csname EvidenceObservationE075\endcsname{A traffic monitor shows the NAT-side address10.0.2.15 communicating with the Greenbone feed destination, beside troubleshooting guidance.}
+\expandafter\def\csname EvidenceLimitationE075\endcsname{The 95.4Mb scale label is not cumulative bytes downloaded. Third-party chat advice in the screenshot is not executed-command evidence.}
+\expandafter\def\csname EvidenceTitleE076\endcsname{Explicit scan-unavailable notification}
+\expandafter\def\csname EvidenceObservationE076\endcsname{The GSA banner says feeds are synchronizing and scans are not available during this time.}
+\expandafter\def\csname EvidenceLimitationE076\endcsname{This already-cropped source records the banner only, not a full identity/time context.}
+\expandafter\def\csname EvidenceTitleE077\endcsname{Renamed target still fails}
+\expandafter\def\csname EvidenceObservationE077\endcsname{A target named vul is also rejected because the default Port List is unavailable.}
+\expandafter\def\csname EvidenceLimitationE077\endcsname{Changing the target name does not fix the missing dependency; no successful task creation follows in the supplied evidence.}
+\expandafter\def\csname EvidenceTitleE078\endcsname{SCAP size at first recorded checkpoint}
+\expandafter\def\csname EvidenceObservationE078\endcsname{The monitor displays 998M at 12:59:28 PM EDT on03October2026.}
+\expandafter\def\csname EvidenceLimitationE078\endcsname{This measures directory usage, not disk free space or imported vulnerability count.}
+\expandafter\def\csname EvidenceTitleE079\endcsname{SCAP size thirty seconds later}
+\expandafter\def\csname EvidenceObservationE079\endcsname{The monitor displays1002M at12:59:58 PM EDT, showing local data growth relative to E078.}
+\expandafter\def\csname EvidenceLimitationE079\endcsname{Two size readings alone do not establish sustained throughput, completion percentage or why a feed later stalled.}
+\expandafter\def\csname EvidenceTitleE080\endcsname{Final recorded size checkpoint}
+\expandafter\def\csname EvidenceObservationE080\endcsname{The monitor reaches1.1G at01:26:53 PM EDT. Amina's source report records the assessment as incomplete.}
+\expandafter\def\csname EvidenceLimitationE080\endcsname{No target, completed scan, CVSS export or successful import is demonstrated by this final screenshot.}
