@@ -268,6 +268,10 @@ PC1's pfSense is the default router, and controls packets addressed to or routed
 \subsection{Shared Preparation and the Host-Only Failure}
 The team first created the virtual router and attempted to connect guests using host-only networking. That arrangement did not join guests across five separate physical PCs. A host-only network is normally local to one hypervisor; a cross-PC lab needs an explicitly shared network. The later screenshots show bridged adapters connected to the relevant physical Wi-Fi interfaces. The earlier failure is \textbf{team-reported}; the later adapter configuration is \textbf{observed}.
 
+\begin{troublebox}[Difficulty Encountered - Host-Only Networking]
+\textbf{Problem.} Our guests on different physical PCs could not communicate through the initial host-only arrangement. \textbf{Why.} Each host-only network was local to its own hypervisor; assigning matching IP prefixes did not join those separate networks. \textbf{Response.} We changed the lab-facing adapters to Bridged Adapter on the appropriate physical interfaces and retained the agreed static addresses. \textbf{Outcome.} The later bridged settings and eight-host discovery result corroborate shared-LAN connectivity (\ev{E004}, \ev{E005}, \ev{E030}). This overcame the reachability problem, not the separate need for isolation and verified monitoring coverage.
+\end{troublebox}
+
 The repeatable setup order is: install the hypervisor, create/import each guest, connect the correct adapter, install the guest OS, set addressing, validate the gateway and peer path, install or start the role-specific tools, then take a clean snapshot. Use trusted installation media and keep vulnerable images on an authorized lab-only physical network. NAT on pfSense's WAN is not, by itself, proof that a bridged LAN is isolated from every non-lab device. The actual snapshots and installer wizard sequence were not supplied; the steps below are a reconstruction supported by the configuration evidence, not screenshots of every installer screen.
 
 \begin{tabularx}{\linewidth}{@{}L{2.9cm}X X@{}}
@@ -385,6 +389,9 @@ ping -c 4 192.168.50.1
 
 \textbf{Application service.} \ev{E029} shows the Apache sites \texttt{000-default.conf} and \texttt{vul-bank.conf}, followed by an active Apache service. \ev{E020} shows a local Windows hosts-file entry mapping \texttt{vul-bank.duckdns.org} to \texttt{192.168.50.20}; this is lab name resolution, not evidence of a DNS-spoofing attack. The initial \texttt{nodpath} typo is followed by \texttt{notepad hosts}. The screenshots do not preserve the application checkout, dependency install or Node service definition; no invented repository or installation command is supplied.
 \screenshot{E020}
+\begin{troublebox}[Difficulty Encountered - Hosts-File Command Typo]
+\textbf{Problem.} The first attempt to open the hosts file failed with an unrecognized-command message. \textbf{Why.} We entered \texttt{nodpath}, which was not the intended editor command. \textbf{Response.} The capture shows the corrected \texttt{notepad hosts} command and the lab mapping to \texttt{192.168.50.20}. \textbf{Outcome.} The file could be opened and the later browser view reached VulnBank by its lab hostname. This was a local command-entry problem, not an attack on DNS.
+\end{troublebox}
 \textbf{Check application reachability.} After the local name mapping, open the lab hostname and confirm that the intended demo application is returned.
 \screenshot{E028}
 
@@ -435,6 +442,9 @@ These checks identify the actual NIC and route, verify the gateway and tool avai
 
 \subsection{PC5: Amina's Kali/OpenVAS Scanner}
 Amina's dedicated PDF reports an initial RAM increase from 2,000 MB to 4,000 MB to clear an installation problem, followed by a disk increase from 30 GB to 80 GB, 8,000 MB RAM and two processors for the feed attempts. The earlier team account emphasized disk shortage. Both are recorded as \textbf{reported resource interventions}; neither explains all later errors. The screenshots of video-memory settings are not proof that VRAM caused GVM's feed failure.
+\begin{troublebox}[Difficulty Encountered - Scanner VM Resources]
+\textbf{Problem.} We encountered resource problems while preparing OpenVAS. The team reported insufficient disk space, and Amina also documented an initial installation error addressed by increasing system RAM. \textbf{Response.} Her report records disk expansion from 30 GB to 80 GB and later allocation of 8,000 MB RAM and two processors. \textbf{Outcome.} Services and the local web interface became available, but the subsequent feed/import problems remained. These changes addressed reported setup constraints; they did not prove that all additional disk space was usable or that scanning was ready. Video memory was not the same resource as RAM or disk.
+\end{troublebox}
 \textbf{Prepare evidence capture.} Amina first adjusted the host terminal's input and selection properties. These are recording-environment settings, not scanner results.
 \screenshot{E054}
 \textbf{Confirm terminal settings.} The second supplied view documents the same preparation at a closer scale; it is reproduced in full as received.
@@ -443,6 +453,9 @@ Amina's dedicated PDF reports an initial RAM increase from 2,000 MB to 4,000 MB 
 \screenshot{E071}
 \textbf{Distinguish resource types.} The next settings screen concerns display memory, which must not be confused with system RAM or disk capacity.
 \screenshot{E072}
+\begin{troublebox}[Difficulty Encountered - VirtualBox Settings Warning]
+\textbf{Problem.} VirtualBox displayed \texttt{Invalid settings detected} while we reviewed the VM settings. \textbf{Why.} The warning details were not expanded in the supplied captures, so the exact incompatible setting is unknown. \textbf{Response and outcome.} We recorded the settings review, but no confirmed correction of this warning is shown. It must not be presented as proof that increasing video memory fixed OpenVAS.
+\end{troublebox}
 
 \begin{cmdbox}[PC5 Kali - observed service and feed commands]
 \begin{reportcode}
@@ -461,6 +474,9 @@ watch -n 15 sudo du -sh /var/lib/gvm/scap-data/
 Service starts are visible in \ev{E048}/\ev{E056}; the log path and sync command are visible in \ev{E073}/\ev{E074}. The screenshots show GSA at \texttt{127.0.0.1:9392}. Configure the lab-facing NIC as \texttt{192.168.50.250/24} and verify the route before scanning; \ev{E050} corroborates that address in ICMP traffic. A second NAT address is visible during feed troubleshooting, so direct uplinks should be reviewed before any containment test.
 \textbf{Open the local web interface.} An initial administrative login failed. This is part of bringing the scanner up, not an attack against a target host.
 \screenshot{E057}
+\begin{troublebox}[Difficulty Encountered - GSA Login Rejected]
+\textbf{Problem.} The local scanner portal returned \texttt{Invalid password or username}. \textbf{Why.} The submitted credentials were not accepted; the image does not distinguish a wrong username from a wrong password. \textbf{Response.} We retried access before proceeding to the task list. \textbf{Outcome.} The later authenticated GSA views show that portal access resumed, but the exact credential correction or reset was not recorded. The next obstacle was feed readiness, not portal reachability.
+\end{troublebox}
 
 \textbf{Readiness gate.} An accessible GSA login is not a ready scanner. The feed owner, imported port lists, scan configurations, scanner connection and selected feed versions must be usable before a target/task can be created. Amina's target list attempt included additional lab hosts in some views; no complete successful target definition or scan launch is demonstrated. The final outcome appears in Section~\ref{phase:assessment}.
 
@@ -481,9 +497,11 @@ Mixed local clocks & Guest EDT and other local/UTC displays appear together. & P
 \partheading{04 / EXERCISE SEQUENCE}{From Reconnaissance to Demonstrated Impact}
 \label{sec:red}
 \subsection{Strategy and Initial Position}
-\textbf{Operators: Bruno (PC4), with Rayan (PC3) after infrastructure setup.} The attack workstation was \texttt{192.168.50.100}; the principal targets became VulnBank at \texttt{192.168.50.20} and Metasploitable2 at \texttt{192.168.50.40}. The goal was to test reachable services, obtain controlled access where justified, and demonstrate limited impact. The team did not first bypass an external perimeter: the starting point was an authorized connection to the lab LAN.
+\textbf{Red Team voice: Bruno (PC4), with Rayan (PC3) after infrastructure setup.} We began on Kali at \texttt{192.168.50.100}, already connected to the authorized lab. We therefore did not need to break through an Internet perimeter. Our first question was which systems were reachable and what they exposed. We wanted each test to answer that question more precisely before we attempted controlled access.
 
-The Red Team strategy was evidence-led target selection. Discovery reduced uncertainty about live assets; enumeration narrowed the work to a vulnerable server and a web application; protocol-specific checks supplied more precise leads; the FTP exploit was then validated against the actual target. After root access, the team demonstrated account control. It subsequently assessed VulnBank as a separate application, preserved a rejected injection attempt, and used the default-credential path reported in its own narrative. These are distinct attack paths, not a demonstrated pivot from Metasploitable into VulnBank.
+Our strategy was to narrow the attack surface in stages. We first discovered live addresses, then identified their services, then checked the access policies of the services that looked most relevant. Those results led us to two different targets: Metasploitable2 at \texttt{192.168.50.40} for the server-side path, and VulnBank at \texttt{192.168.50.20} for the application path. We did not assume that access to one meant access to the other.
+
+For each path, we followed the same reasoning: establish the service, choose a matching test, inspect the actual response, and verify the resulting access before describing its impact. When an attempt failed or a tool produced conflicting output, we retained that result and explained the next decision. The narrative below follows the exercise phases; it does not turn an expected outcome from the setup guide into a claim that we achieved it.
 
 \begin{center}
 \begin{tikzpicture}[font=\small,stage/.style={draw=redteam,fill=redteamlight!30,rounded corners=2pt,text width=3.25cm,minimum height=1.25cm,align=center,inner sep=4pt}]
@@ -500,32 +518,41 @@ The Red Team strategy was evidence-led target selection. Discovery reduced uncer
 
 \subsection{Reconnaissance: Establish the Asset Map (Task 2)}
 \label{phase:recon}
+Before selecting an exploit, we needed an inventory of the systems actually online. We chose \texttt{nmap -sn} because it performs host discovery without following it with a port scan. This gave us a manageable starting list and avoided running service tests against addresses that had not yet responded.
 \begin{cmdbox}[Recorded on PC4 Kali - discovery]
 \begin{reportcode}
 nmap -sn 192.168.50.0/24
 \end{reportcode}
 \end{cmdbox}
-\texttt{-sn} performs host discovery without a subsequent port scan. On a directly connected Ethernet-style subnet, a privileged Nmap run normally uses ARP discovery; other probe behaviour depends on privilege and path. It is therefore inaccurate to promise a TCP port-scan signature for every discovery sweep. The command is still active traffic, not invisible reconnaissance.
+The sweep reported eight live addresses, including our own Kali machine. We used those responses to build the asset map for the next step. On a directly connected Ethernet-style subnet, a privileged Nmap run normally uses ARP discovery; probe behaviour depends on privilege and path. We treated this as active discovery, not invisible reconnaissance, and did not assume it would produce a TCP port-scan alert.
 
 \reportfigure{E030}{Complete discovery screenshot, \ev{E030}.}{Eight hosts are reported up in 8.35 seconds, including the attacker's own address. The no-DNS-server warning does not invalidate discovery by numeric IP. MAC vendor labels repeat across several bridged guests and should not be treated as authoritative operating-system evidence.}
 
-\textbf{Decision.} The inventory established which addresses could be investigated next. The gateway, workstation, sensor and scanner remained part of the asset map, but the subsequent exploitation effort focused on \texttt{192.168.50.20} and \texttt{192.168.50.40} because of their exposed service profiles.
+\begin{troublebox}[Difficulty Encountered - Nmap DNS Warning]
+\textbf{Problem.} Nmap warned that it could not determine DNS servers and disabled reverse-DNS resolution. \textbf{Why.} Resolver information was unavailable to that scan; the screenshot does not establish the underlying configuration cause. \textbf{Response.} We continued with the authorized numeric IP addresses rather than relying on hostnames. \textbf{Outcome.} Discovery still returned eight live addresses, allowing service enumeration to proceed. This was a working bypass of the naming dependency, not evidence that DNS itself was repaired.
+\end{troublebox}
+
+Having established who was online, our next question was what each host was running. We kept the gateway, workstation, sensor and scanner in the inventory, then used service identification to decide where a controlled exploitation test would be most useful. That next pass, rather than the discovery result alone, led us to concentrate on \texttt{192.168.50.20} and \texttt{192.168.50.40}.
 
 \subsection{Scanning and Service Enumeration (Task 3)}
 \label{phase:scanning}
-The discovery result is followed by service identification, a full TCP scan and targeted protocol checks, in that order. The Red Team PDF also lists a per-host \texttt{-A} pass with saved text files. \texttt{-A} enables version detection, default scripts, OS detection and traceroute; some of these require privileges and sufficient responsive ports. Not every per-host output is preserved in the screenshots. The displayed results for the application, Ubuntu2 and Metasploitable are the basis used here; guessed OS labels are not promoted to confirmed asset identity.
+We moved from addresses to services using the per-host \texttt{-A} pass recorded in our Red Team report. We chose it to collect service versions, default-script results, OS hints and traceroute information together, and used \texttt{-oN} to retain normal text output. Some parts of that scan require appropriate privileges and responsive ports, so we treated guessed OS labels as hints rather than confirmed identities. Not every per-host result was preserved; the following captures show the results available for our target selection.
 \screenshot{E031}
-\textbf{Inspect the second priority host.} Metasploitable's broader legacy-service footprint gives the team a distinct server-side path to investigate.
+The application host exposed VulnBank on ports 80 and 3000, which gave us a web-assessment path. Metasploitable exposed a much broader collection of legacy services, which gave us a separate server-side path. We inspected that second result before deciding which service to test first.
 \screenshot{E032}
 
 \subsubsection{Scan the Selected Hosts Across the TCP Port Range}
+The initial service results were useful, but we still needed to check for listeners outside the default port selection. We therefore ran a full TCP port scan against the two chosen targets. Keeping the target list explicit also kept this deeper test within the systems we had selected for the exercise.
 \begin{cmdbox}[Recorded PC4 command - full TCP service scan]
 \begin{reportcode}
 nmap -sV -sC -p- 192.168.50.20 192.168.50.40 -oN full_scan.txt
 \end{reportcode}
 \end{cmdbox}
-\texttt{-sV} identifies responding service versions; \texttt{-sC} runs default NSE scripts; \texttt{-p-} covers TCP ports 1--65535 in this scan; \texttt{-oN} saves normal text output. This does not scan all UDP services. A full-range TCP result is broader than the default port selection, not a complete assessment of every possible protocol or application route.
+We used \texttt{-sV} for service versions, \texttt{-sC} for default NSE checks, \texttt{-p-} for TCP ports 1--65535, and \texttt{-oN} to save the result. On the application host, the displayed output again identified the three relevant listeners: SSH, HTTP and Express. That helped us move on to web fingerprinting instead of continuing to search blindly for another TCP service. The scan did not cover all UDP services or every application route, so it was not a complete security assessment by itself.
 \screenshot{E033}
+\begin{troublebox}[Difficulty Encountered - Corrupt Shell History]
+\textbf{Problem.} Kali displayed a corrupt Zsh history-file warning. \textbf{Why.} The shell could not read its history normally; the original cause of the file damage was not established. \textbf{Response.} We continued issuing the required commands directly and retained their displayed results rather than depending on history alone. \textbf{Outcome.} The Nmap scan still ran. No repair of the history file is evidenced, and the warning was not a target-side security control.
+\end{troublebox}
 
 \begin{tabularx}{\linewidth}{@{}L{3.1cm}L{3.0cm}X@{}}
 \toprule
@@ -541,7 +568,7 @@ nmap -sV -sC -p- 192.168.50.20 192.168.50.40 -oN full_scan.txt
 \end{tabularx}
 
 \subsubsection{Fingerprint the Web Listeners}
-The open web ports justify a separate HTTP technology/header check before selecting an application test.
+With two web listeners on \texttt{192.168.50.20}, we wanted to know whether they exposed the same application and which technologies answered on each port. We used WhatWeb to identify visible web technologies and \texttt{curl -I} to inspect response headers without retrieving a full page body. This helped us choose application-specific tests rather than applying the DVWA instructions to a different application.
 \begin{cmdbox}[Recorded PC4 commands - web technology and HTTP headers]
 \begin{reportcode}
 whatweb 192.168.50.20
@@ -551,24 +578,26 @@ curl -I http://192.168.50.20:3000
 \end{reportcode}
 \end{cmdbox}
 \reportfigure{E034}{Complete HTTP fingerprinting and header screenshot, \ev{E034}.}{Both HTTP listeners return 200 responses and a 2778-byte page; Apache and Express headers identify the stack. The displayed HTTPS connection refusal supports the cleartext-service concern. Matching lengths do not prove identical authorization or that traffic on port 3000 passes through Apache.}
+These responses confirmed VulnBank as our web target and gave us a separate transport-security concern to record. We then returned to Metasploitable's service list: before choosing an exploit, we wanted to establish whether its file-transfer and file-sharing services also allowed unintended access.
 
 \subsubsection{Validate Anonymous Service Access}
+Open ports alone did not tell us whether authentication was enforced. We chose \texttt{smb-enum-shares} to inspect the exposed SMB shares and \texttt{ftp-anon} to test anonymous FTP authentication. Each script answered a specific question raised by the preceding service scan.
 \begin{cmdbox}[Recorded PC4 commands - access-policy checks]
 \begin{reportcode}
 nmap --script=smb-enum-shares -p445 192.168.50.40
 nmap --script=ftp-anon -p21 192.168.50.40
 \end{reportcode}
 \end{cmdbox}
-The SMB script lists shares and access information; the FTP script attempts anonymous authentication. \ev{E035}--\ev{E036} show a \texttt{tmp} share classified as anonymous \texttt{READ/WRITE} and an FTP response \texttt{230} indicating anonymous login. These are configuration exposures, not proof that customer files were stolen. Anonymous FTP access and the vsftpd backdoor are separate weaknesses: disabling anonymous logins alone is not a sufficient remedy for a backdoored binary.
+The SMB output classified the \texttt{tmp} share as anonymous \texttt{READ/WRITE}; the FTP check returned \texttt{230}, indicating that anonymous authentication was accepted. We now had concrete access-policy findings rather than just a list of open ports. We retained both results for remediation, while avoiding a claim of file theft because no such operation was demonstrated.
 \screenshot{E035}
 \textbf{Read the continuation and FTP result.} The second capture completes the share-access output and records the separate anonymous FTP check.
 \screenshot{E036}
 
-\textbf{Decision.} The exact FTP banner suggested a candidate exploit, while the share/FTP checks demonstrated permissive access policy. The team selected the known vsftpd module on the explicitly authorized target. The Red Team PDF mentions \texttt{distccd} as a backup lead; it was not demonstrated as an additional successful exploit and is not counted as one.
+We chose the FTP path for our controlled initial-access test because the exact vsftpd banner gave us a specific backdoor hypothesis to investigate. The anonymous-access checks strengthened our assessment of the host's permissive configuration, but they did not themselves prove that the backdoor was present. Those are different weaknesses: disabling anonymous login would not repair a backdoored binary. We also noted \texttt{distccd} as a backup lead in our report, but did not demonstrate a separate exploit against it.
 
 \subsection{Threat Modelling and Test Selection (Task 4)}
 \label{phase:threat}
-The next exercise step turns the discovered services into a test plan. This is an analytical step based on the preceding screenshots; no separate threat-model screenshot was supplied. The final findings chapter develops the risk ratings after the test results are known.
+At this point, we translated the service observations into a test plan: what asset could be affected, what access an attacker might gain, and what bounded test could confirm or reject the hypothesis. This connects our reconnaissance to the later exploitation choices. The table is analysis based on the preceding evidence, not a separate captured threat-modelling session; the final findings chapter develops the ratings after considering the test results.
 \begin{tabularx}{\linewidth}{@{}L{3.2cm}X X@{}}
 \toprule
 \textbf{Asset / lead} & \textbf{Potential consequence} & \textbf{Next justified test}\\
@@ -582,60 +611,68 @@ Firewall and monitoring & Unnoticed activity or incomplete containment & Start o
 
 \subsection{Vulnerability Scanning: Amina's OpenVAS Attempt (Task 5)}
 \label{phase:assessment}
-This scanning phase is placed before initial access in the exercise sequence. Amina's defensive scanner preparation occurred alongside Red Team work; it did not produce a successful scan that enabled the subsequent exploit. The team used the earlier manual service evidence instead. The dedicated PC5 report explicitly states \textbf{Incomplete - assessment blocked}. The screenshots show a reachable local interface, an initial login failure, an empty task list, an unset feed-owner warning, missing GVMD/CERT metadata, SCAP import in progress and repeated default-port-list rejection. The NVT feed alone was Current.
+\textbf{Blue Team voice: Amina on PC5.} We wanted an independent vulnerability assessment to complement the Red Team's manual enumeration. OpenVAS was intended to give us broader coverage, after which we could compare its findings with targeted manual checks and prioritize remediation. We therefore needed a working scanner, usable feeds and a valid target before trusting any results.
+
+Our preparation ran alongside Red Team work; this section appears before initial access to follow the exercise phases. It did not produce a completed scan that enabled the later exploit. Instead, we encountered a sequence of readiness problems and recorded the outcome as \textbf{Incomplete - assessment blocked}. The Red Team proceeded from its manual service evidence, not an OpenVAS report that did not exist.
 \subsubsection{Open the Task List and Check Readiness}
-After reaching GSA, review the task list and readiness message before attempting a scan. The first view explicitly says scans are unavailable during synchronization.
+After reaching GSA, we checked the task list rather than immediately assuming the scanner was ready. It showed no tasks and explicitly said that scans were unavailable while the feeds synchronized. This told us to investigate readiness before interpreting the absence of results as anything about the target network.
 \screenshot{E058}
-\textbf{Recheck the task list.} A later frame shows an inactivity warning and still no tasks. The disappearance of a feed banner in one frame must not be interpreted as successful import.
+We revisited the task list, but still had no scan task. A later frame showed an inactivity warning instead of the feed banner; that was not enough to conclude that import had finished. We therefore moved to the feed-status page to check the individual components directly.
 \screenshot{E059}
 
 \reportfigure{E060}{OpenVAS feed-status evidence: NVT Current while SCAP is still importing (\ev{E060}).}{Different feeds have different functions. GVMD Data supplies port lists and scan configurations; SCAP supplies vulnerability/product metadata. A SCAP progress message alone is not the direct explanation of an absent default port list. The accompanying feed-owner and GVMD-data errors establish the broader readiness gap.}
 
 \subsubsection{Attempt Target Creation and Preserve Each Error}
-Enter the intended lab target list and save it only after checking scope. The first supplied target dialog does not show a successful save.
+We entered the intended lab addresses in a target named \texttt{CYS4151-Targets}. Creating this object was necessary before a scan task could refer to it. Our first dialog records the intended configuration, but not a successful save, so we retained the later error messages to explain why we could not progress.
 \screenshot{E049}
-\textbf{Retry record.} A second capture records the repeated target-definition attempt.
+We tried saving the target again and kept this second configuration view so the attempted scope remained visible alongside the failure.
 \screenshot{E061}
-\textbf{Interpret the feed-owner error.} Target creation reports an unmet prerequisite; it does not identify a vulnerability in the selected hosts.
+The next message said the feed owner was not set. This pointed us back to the scanner's own prerequisites rather than to a security weakness on the selected hosts.
 \screenshot{E062}
-\textbf{Interpret the missing port list.} The next attempt is blocked before a scan can be launched.
+A subsequent attempt reported that the default port list was unavailable. We needed that list to define the intended scan coverage, so the error stopped us before launch and justified inspecting the manager's imported data.
 \screenshot{E063}
 \textbf{Preserve the repeated failure.} The second full-dialogue view corroborates that the error persisted, rather than adding another independent finding.
 \screenshot{E064}
 
 \reportfigure{E065}{The default-port-list error that blocked target creation (\ev{E065}).}{The failure occurs before a scan task is launched. It cannot support a finding that the selected target hosts are secure or vulnerable, nor a scanner-derived severity chart.}
+\begin{troublebox}[Difficulty Encountered - Missing Feed Owner and Port List]
+\textbf{Problem.} We could not save the target because GVM reported an unset feed owner and an unavailable default port list. \textbf{Why.} Required scanner data/configuration was not ready; GVMD Data supplies the default port lists and scan configurations. The evidence does not isolate the underlying reason that those objects were missing. \textbf{Response.} We checked Feed Status, inspected manager logs, retried target creation and attempted synchronization. \textbf{Outcome.} The task remained blocked. No completed scan or CVSS export was produced, so this difficulty is recorded as unresolved rather than as an obstacle we successfully overcame.
+\end{troublebox}
 
 \subsubsection{Inspect Service Logs and Revisit Feed Status}
-The failed target save led Amina to the manager logs. These messages show the metadata that GVM could not read.
+The interface told us what was missing, but not enough about why. We therefore inspected the manager logs to see which data GVM was failing to read. The missing \texttt{feed.xml} messages gave us a more precise troubleshooting lead than repeatedly changing the target name.
 \screenshot{E051}
 \textbf{Corroborate the warning with identity context.} The next supplied view preserves the same class of error with Amina's overlay.
 \screenshot{E070}
-\textbf{Check scanner startup.} Tailing the manager log also reports that the scanner has not yet supplied a feed version.
+We also used \texttt{sudo tail -f /var/log/gvm/gvmd.log} to follow new manager messages as they appeared. It reported that the scanner had not yet supplied a feed version and was still starting. That helped us distinguish an accessible web interface from an assessment engine that was actually ready.
 \screenshot{E073}
-\textbf{Return to the feed-status page.} NVT and SCAP need separate interpretation; one being current does not establish that every required object is ready.
+We returned to Feed Status to compare those messages with the interface. NVT was Current while SCAP remained in progress, so we could not use the status of one component as proof that the whole scanner was ready.
 \screenshot{E066}
 \textbf{Later status checkpoint.} SCAP remains in progress in this additional supplied view.
 \screenshot{E069}
 
 \subsubsection{Synchronize and Measure Progress Without Assuming Completion}
-Amina then invokes the full-feed sync. A lock acquisition and download start justify monitoring its progress, not launching a scan immediately.
+We next ran \texttt{sudo greenbone-feed-sync --type all} to request the configured feeds together. The output showed a lock acquisition and the start of Notus/NASL downloads. This told us the synchronization process had begun, so our next step was to monitor progress and later recheck imported objects; it did not justify claiming a successful scan.
 \screenshot{E074}
-\textbf{Check the download path.} The traffic view uses a NAT-side address and contains external troubleshooting advice; only the displayed network activity is execution evidence.
+We looked at the traffic view to understand the active download path. It showed a NAT-side address communicating with the feed service. The external troubleshooting advice visible beside it was reference material, not proof that every suggested command had been executed.
 \screenshot{E075}
-\textbf{Measure local directory usage.} The first timed checkpoint shows 998M in the SCAP data directory.
+We used \texttt{watch -n 15 sudo du -sh /var/lib/gvm/scap-data/} because repeated directory-size readings could show whether local feed data was growing. The first timed checkpoint showed 998M. This measured usage, not free disk space or database-import completion.
 \screenshot{E078}
-\textbf{Compare the next checkpoint.} The monitor shows 1002M thirty seconds later.
+Thirty seconds later, the monitor showed 1002M. That gave us evidence of local growth and a reason to continue checking, but no completed target or task was yet demonstrated.
 \screenshot{E079}
 \textbf{Retain the separately supplied view of this checkpoint.} It supports the same usage reading, not another completed import.
 \screenshot{E052}
-\textbf{Review the later 1.1G reading.} Directory growth is visible, but readiness must still be checked in GVM.
+The later reading reached 1.1G. We still needed GVM to expose the required data objects and accept a target; a larger directory alone could not answer that question.
 \screenshot{E053}
 \textbf{Preserve the final identity-bearing checkpoint.} The later capture and Amina's dedicated PDF both belong to the incomplete attempt.
 \screenshot{E080}
 \textbf{Check whether scans are available.} The supplied notification still describes synchronization as blocking scan availability.
 \screenshot{E076}
-\textbf{Record the final target retry.} Renaming the target to \texttt{vul} does not resolve the absent port-list dependency.
+We also retried with the target name \texttt{vul}, but the missing-port-list error persisted. This confirmed that changing the target name had not removed the readiness obstacle. We ended the documented attempt without a launched scan and carried the blocker into the remediation plan.
 \screenshot{E077}
+\begin{troublebox}[Difficulty Encountered - Synchronization Never Reached Readiness]
+\textbf{Problem.} Feed files grew, but the scanner still could not create the intended target. \textbf{Why.} Downloaded directory content and imported, usable scan objects are different stages; the exact cause of the remaining import failure was not established. \textbf{Response.} Amina's report records five attempts, resource increases, log inspection and progress monitoring. \textbf{Outcome.} The final record remained incomplete. The next required work is a controlled feed-owner/import investigation and readiness retest, not another claimed successful vulnerability scan.
+\end{troublebox}
 
 \begin{tabularx}{\linewidth}{@{}L{3.4cm}X X@{}}
 \toprule
@@ -664,20 +701,22 @@ sudo journalctl -u gvmd -u ospd-openvas -n 100 --no-pager
 greenbone-feed-sync --help
 \end{reportcode}
 \end{cmdbox}
-Check the installed feed-sync version and follow its matching distribution guidance. Avoid repeated overlapping syncs and do not delete an active lock to force progress. Confirm a valid feed owner, imported default port lists, usable scan configurations and a connected scanner in the GUI; then create the target, choose an authorized non-destructive scan profile and preserve the final export. A generic \texttt{gvmd --rebuild} command is not prescribed without checking support in the installed version.
+For a follow-up, we would use these diagnostics to separate remaining resource constraints from service and feed-import problems: \texttt{df} checks filesystem capacity and inodes, \texttt{lsblk} checks the disk layout, and \texttt{free} checks RAM. The GVM setup and service-log checks would then identify the next actionable failure. This is our proposed next investigation, not a set of completed historical fixes. We would follow the installed version's guidance, avoid overlapping syncs or deleting an active lock, and require a valid feed owner, port list, scan configuration and connected scanner before attempting a new scan.
 
 \subsection{Initial Access: Validate the FTP Backdoor (Task 6)}
 \label{phase:access}
 \subsubsection{Select the Matching Module}
+Our manual service evidence gave us a testable lead even though OpenVAS had not completed. We opened Metasploit and searched for a vsftpd exploit so we could review the module associated with the version we had observed on \texttt{192.168.50.40}.
 \begin{cmdbox}[Recorded on PC4 - launch Metasploit and search]
 \begin{reportcode}
 msfconsole
 search type:exploit vsftpd
 \end{reportcode}
 \end{cmdbox}
-The first line launches Metasploit from Kali. The search then runs inside its console and returns a candidate module; this is not yet evidence of target access.
+The first command opened Metasploit from Kali; the search ran inside its console and returned \texttt{vsftpd\_234\_backdoor}. This gave us a candidate to configure, not proof that the target would be vulnerable. Our next step was to verify its target and payload settings before execution.
 \screenshot{E037}
 \subsubsection{Configure and Review the Target}
+We selected the module, set \texttt{RHOSTS} to the authorized target, and chose the interactive shell payload. We then used \texttt{show options} to inspect the settings rather than assuming that a previous session or a default value pointed to the correct host.
 \begin{cmdbox}[Recorded inside the Metasploit console]
 \begin{reportcode}
 use exploit/unix/ftp/vsftpd_234_backdoor
@@ -686,20 +725,24 @@ set PAYLOAD cmd/unix/interact
 show options
 \end{reportcode}
 \end{cmdbox}
-These are \textbf{Metasploit-console commands}, not commands for a normal shell. \texttt{RHOSTS} selects the target and the displayed \texttt{RPORT} remains 21. \texttt{cmd/unix/interact} handles the shell exposed by this module; no reverse-payload \texttt{LHOST} is required for this bind-shell example. \texttt{show options} establishes the configured target before execution.
-\textbf{Confirm scope before execution.} The configured target, port and payload are displayed before the test is run.
+The options showed \texttt{192.168.50.40} on FTP port 21 with \texttt{cmd/unix/interact}. This is a bind-shell interaction, so a reverse-payload \texttt{LHOST} was not required. All these lines belong in the \textbf{Metasploit console}, not an ordinary shell. Once the displayed settings matched our intended test, we proceeded to execution.
 \screenshot{E038}
 
 \subsubsection{Run the Controlled Test}
+We ran the configured module and checked whether it actually created a usable session. We kept the failed attempt in the record because it explains why the next invocation was necessary in this particular session.
 \begin{cmdbox}[Recorded inside Metasploit - execute the selected test]
 \begin{reportcode}
 run
 \end{reportcode}
 \end{cmdbox}
-\ev{E037} is the module search, and \ev{E038} is configuration only. \ev{E039} shows an unsuccessful first run followed by a second \texttt{run} that connects to the existing backdoor listener and opens a shell. The test result, not the version string alone, establishes exploitation. CVE-2011-2523 concerns a tampered vsftpd distribution; it is not a statement that every installation reporting version 2.3.4 necessarily contains that backdoor.
+Our first run ended without creating a session. We tried again; this time the output reported an already-open backdoor listener and opened a command shell. That changed the finding from a version-based suspicion into demonstrated access on this target. We did not establish why the first run failed, so this is not a claim that every such test requires two attempts. CVE-2011-2523 concerns a tampered vsftpd distribution, not every installation carrying the 2.3.4 version label. With a shell available, our next step was to verify its user and host identity.
 \screenshot{E039}
+\begin{troublebox}[Difficulty Encountered - First FTP Test Created No Session]
+\textbf{Problem.} Our first \texttt{run} ended without a command session. \textbf{Why.} The capture does not isolate the cause; we cannot conclude that this exploit always fails on its first invocation. \textbf{Response.} We ran the configured test again against the same authorized target. \textbf{Outcome.} The second invocation connected to the already-open backdoor listener and returned a root shell. We then used \texttt{whoami}, \texttt{id} and \texttt{hostname} to verify the result instead of relying on the session message alone.
+\end{troublebox}
 
 \subsubsection{Verify the Resulting Identity}
+We used three short checks to answer different questions: \texttt{whoami} identified the effective user, \texttt{id} confirmed the numeric privileges, and \texttt{hostname} checked that we were on the intended machine. A shell prompt alone would not have answered all three.
 \begin{cmdbox}[Recorded inside the target session - identity checks]
 \begin{reportcode}
 whoami
@@ -707,24 +750,27 @@ id
 hostname
 \end{reportcode}
 \end{cmdbox}
-The corresponding visible values are \texttt{root}, \texttt{uid=0(root) gid=0(root)}, and \texttt{metasploitable}. The session's timestamp is \texttt{2026-10-03 12:33:28 -0400}, equivalent to 16:33:28 UTC if that host clock was accurate. The supplied record does not establish why the first run failed; a mandatory retry is not presented as a universal exploit procedure.
+We obtained \texttt{root}, \texttt{uid=0(root) gid=0(root)}, and \texttt{metasploitable}. Together, those values confirmed root access on the correct target and justified the bounded account-control demonstration discussed under post-exploitation. We had already reached root; there was no need to invent a later privilege-escalation step. The session timestamp is \texttt{2026-10-03 12:33:28 -0400}, equivalent to 16:33:28 UTC if that clock was accurate.
 \reportfigure{E040}{Complete shell and identity-check screenshot, \ev{E040}.}{The connection is from \texttt{192.168.50.100:45051} to \texttt{192.168.50.40:6200}. The session reports root and the hostname \texttt{metasploitable}, corroborating both privilege and target identity.}
 
 \subsection{Web Application Assessment (Task 7)}
 \label{phase:web}
-VulnBank on \texttt{192.168.50.20} was a separate application assessment, not the DVWA host described in the earlier guide. The login page explicitly describes simulated funds and advertises the seeded administrator credentials.
+For the application path, we examined VulnBank at \texttt{192.168.50.20} separately from the server we had compromised. Our FTP shell did not establish access to this application. We first tried a tautology-style input in the login form to see whether the submitted value could bypass authentication. We used the actual VulnBank interface, not the DVWA modules described in the earlier guide.
 
 \begin{cmdbox}[Observed browser input - not a shell command]
 \begin{reportcode}
 ' OR '1'='1
 \end{reportcode}
 \end{cmdbox}
-\ev{E041} shows \texttt{Invalid credentials}. This records a negative result for the tested payload. It does not establish whether the application uses parameterized SQL, another database, validation, or a different protection, nor does it prove that all SQL-injection cases would fail.
+The page returned \texttt{Invalid credentials}, so this attempt did not give us access. We kept that negative result and did not continue the narrative as though injection had succeeded. It also did not tell us which server-side protection rejected the input or whether every other injection test would fail. Our next move was to investigate the administrator login itself, including the default credential advertised on the page.
 \screenshot{E041}
+\begin{troublebox}[Difficulty Encountered - SQL-Injection Attempt Rejected]
+\textbf{Problem.} The login payload returned \texttt{Invalid credentials}. \textbf{Why.} It did not bypass this login path; the evidence does not reveal the database implementation or protection responsible. \textbf{Response.} We recorded the failed attempt and examined the default-administrator credential path next. \textbf{Outcome.} We later obtained the application access described below, but did not overcome or prove SQL injection itself. A successful alternative path must not be reported as a successful injection.
+\end{troublebox}
 
 \subsubsection{Credential Assessment (Task 8)}
 \label{phase:credentials}
-\textbf{Decision.} The team shifted from the rejected injection attempt to the known login/account surface. The source report describes using a guessed administrator name and a password list, followed by manually trying the candidate credential. The page's public \texttt{admin/admin} hint is independently visible, so default-credential exposure is a simpler explanation of the path than a sophisticated injection exploit.
+We shifted to the credential path because the failed input had not bypassed the login and the application exposed a seeded administrator hint. We used \texttt{admin} as the username and invoked Hydra against the login endpoint to test candidate passwords. As our source report records, we then checked the reported credential by logging in directly. The visible \texttt{admin/admin} hint means the default-credential concern did not depend solely on automated guessing.
 
 \begin{cmdbox}[Historical Hydra invocation - retained to explain its mixed result]
 \begin{reportcode}
@@ -733,17 +779,20 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt \
   "/api/login:username=^USER^&password=^PASS^:F=Invalid"
 \end{reportcode}
 \end{cmdbox}
-\texttt{-l} fixes the username, \texttt{-P} selects a password file, and the module string describes a POST body and a failure marker. This historical invocation is \textbf{not endorsed as a validated recipe} for VulnBank's endpoint. The request method, body type and failure test must match the real API, which cannot be established from this screenshot alone. The configured large wordlist does not prove that all entries were tried.
+We used \texttt{-l} to keep the username fixed and \texttt{-P} to supply the candidate password file; the module string described the POST fields and expected failure marker. The output was mixed: an \texttt{admin/admin} candidate appeared alongside repeated HTTP 401 errors. That made independent verification essential. We do not present this historical command as a cleanly validated recipe for the endpoint, or claim that the entire wordlist was tested.
 
 \reportfigure{E042}{Complete Hydra screenshot showing the candidate and HTTP 401 errors, \ev{E042}.}{The candidate \texttt{login: admin password: admin} appears alongside repeated errors. An API can return 401 without using HTTP Basic authentication; the tool's suggestion is not proof of that protocol. A candidate line requires a controlled independent login check.}
 
-\textbf{Observed and reported outcome.} The Red Team PDF, physical pages 12--13, records a successful manual login with \texttt{admin/admin}. \ev{E043} shows the resulting administrator workspace, four demo accounts and a \texttt{DEMO PASSWORD} column heading. This corroborates administrative access, but the supplied frame does not show customer password values. Plaintext storage/extraction remains a reported concern requiring separate evidence; it is not silently promoted to a demonstrated password dump.
+As recorded in our Red Team report, we tried \texttt{admin/admin} manually and reached an administrator session. The next screenshot corroborates that session: the admin workspace and four demo accounts are visible. We then asked what that access permitted, rather than stopping at the login screen. The frame also contains a \texttt{DEMO PASSWORD} column heading, but not customer password values; the plaintext-password concern remains reported rather than a demonstrated dump in this evidence set.
+\begin{troublebox}[Difficulty Encountered - Hydra HTTP 401 Errors]
+\textbf{Problem.} Hydra printed repeated HTTP 401 errors alongside an \texttt{admin/admin} candidate. \textbf{Why.} The request/response handling was not validated for this endpoint; a 401 response alone does not prove HTTP Basic authentication. \textbf{Response.} As our source report records, we tested the candidate through a manual application login. \textbf{Outcome.} The administrator session corroborates access, but the automated run remained unreliable. Independent verification let us continue the lab without claiming that we fixed Hydra's module configuration.
+\end{troublebox}
 \screenshot{E043}
 
 \textbf{Recommended retest, not performed here.} Capture the real request in browser developer tools, compare a known-invalid and known-valid lab login, verify the returned session and role, and only then evaluate throttling/lockout with an approved small attempt limit. Do not keep treating error responses as proof of successful password discovery or switch authentication mechanisms solely because Hydra suggests it.
 
 \subsubsection{Verify the Bounded Application Impact}
-\ev{E044} shows the transfer form; \ev{E045} shows a 5,000.00 FCFA simulated Orange Money receipt, reference \texttt{VB-ORANGE-000002}, dated \texttt{2026-10-03 17:47:35 UTC}. The page explicitly states: no real funds or SMS were sent. The receipt illustrates the impact of access to an administrator session, not a real-world payment or a separate proof of a transfer-authorization bypass.
+With the administrator session available, we explored the demo transfer function to show the practical impact of that access. We first opened the transfer form, then completed a 5,000.00 FCFA simulated Orange Money transaction. The receipt, \texttt{VB-ORANGE-000002}, is dated \texttt{2026-10-03 17:47:35 UTC}. This moved the application result beyond merely viewing a dashboard: we demonstrated a privileged session performing a demo operation. The page explicitly states that no real funds or SMS were sent, and we do not describe the transaction as a separately proven authorization bypass.
 \screenshot{E044}
 
 \reportfigure{E045}{Complete simulated transfer receipt screenshot, \ev{E045}.}{The amount, receipt reference, timestamp and simulation warning are visible together. Other balance movements exist in the session, so the entire before/after balance difference is not attributed to this one transaction.}
@@ -752,7 +801,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt \
 \label{phase:post}
 This material appears here to follow the exercise task sequence. The source Red Team narrative describes the account-change demonstration before its web checks; reordering its presentation does not change that historical account or the retained timestamps.
 
-\textbf{Decision.} Root identity alone establishes serious impact; the team chose a bounded account-control demonstration to show its practical consequence. The following historical commands ran \emph{inside the existing root shell}, not on Bruno's Kali host. The password shown is a disposable lab value already present in the source evidence; it must never be reused elsewhere.
+Returning to the impact of the Metasploitable session, we wanted to show what root access allowed us to do. We chose a bounded account-control test: change the disposable \texttt{msfadmin} password, inspect its account entry, then test a separate login. The following historical commands ran \emph{inside our existing root shell}, not on Bruno's Kali host. The displayed password is a lab-only value from the source evidence and must never be reused elsewhere.
 
 \begin{cmdbox}[Recorded inside the Metasploitable root shell]
 \begin{reportcode}
@@ -760,7 +809,7 @@ echo "msfadmin:YouGotH@cked1234." | chpasswd
 grep msfadmin /etc/shadow
 \end{reportcode}
 \end{cmdbox}
-\texttt{chpasswd} accepts a username/password pair on standard input and changes the account password. Reading the shadow entry demonstrates privileged access to the account database; without a before-hash it is not, by itself, a before/after comparison. \ev{E046} records the action; the source report states it succeeded. The independent SSH session below corroborates that the account could subsequently be used, although the typed password is not visible.
+We supplied a username/password pair to \texttt{chpasswd} and used \texttt{grep} to inspect the account's shadow entry. The output showed that we could read the privileged account database, but a single hash was not a before/after comparison. We therefore did not stop at the file check: our next step was to attempt a separate SSH login, as recorded in our source report.
 \screenshot{E046}
 
 \begin{cmdbox}[Recorded from a separate PC4 terminal]
@@ -768,21 +817,23 @@ grep msfadmin /etc/shadow
 ssh msfadmin@192.168.50.40
 \end{reportcode}
 \end{cmdbox}
-\ev{E047} shows a \texttt{msfadmin@metasploitable} shell. This is a second connection to the \emph{same target}, not lateral movement to another host. It also does not demonstrate new privilege escalation: root was obtained at initial access. No kernel exploit, persistent scheduled task or implanted SSH key is evidenced. Persistence mechanisms are discussed as risks only.
+The separate terminal reached a \texttt{msfadmin@metasploitable} shell. Our report records this as verification using the newly set password; the screenshot confirms the login, although it does not reveal the password typed. This demonstrated a second usable connection to the same target. It was neither lateral movement to another host nor a new privilege escalation, because our initial session was already root. The next required action was recovery of the altered lab account, not additional uncontrolled modification.
 \screenshot{E047}
 
 \textbf{Recovery requirement.} Restore the lab account or revert the clean target snapshot after preserving evidence; verify the original intended login and document restoration. No restoration capture was supplied. The late console-login failures in Rayan's inventory are relevant but cannot independently prove causality.
 \screenshot{E021}
 
 \subsection{Where the Evidence Ends}
-The supplied record demonstrates one compromised operating-system target, account modification and a second SSH connection to it, plus a reported default-credential application login corroborated by administrator access and a demo transaction. It does not demonstrate a SOCKS pivot, successful compromise of Fahdil's workstation, XSS execution, a separate local privilege-escalation exploit, or an actual credential-hash cracking run. Those expected tasks in the preparatory guides remain gaps or analytical discussion, not fabricated successful steps.
+Our server-side sequence was discovery, service validation, module selection, root verification and an account-control test. Our application sequence was a rejected login payload, a credential candidate requiring manual verification, administrator access and a simulated transaction. These chains explain why we chose each next action. We did not demonstrate a SOCKS pivot, compromise of Fahdil's workstation, XSS execution, a separate local privilege-escalation exploit or hash cracking. Those expected tasks remain gaps or analysis, not additional successes added to the story.
 
 \partheading{05 / BLUE TEAM}{Detection, Investigation and Containment (Tasks 11--12)}
 \label{sec:blue}
 \subsection{Strategy: Observe First, Then Apply a Scoped Control}
-\textbf{Owners: Marshall (PC1), Fahdil (PC2), Amina (PC5).} Marshall operated the separate Suricata/Kali sensor at \texttt{192.168.50.200} and administered pfSense at \texttt{192.168.50.1}. Fahdil provided Windows 10 and application-side observations. Amina prepared OpenVAS at \texttt{192.168.50.250} and investigated its feed readiness. The intended division combined network detection, endpoint context and vulnerability assessment; the evidence establishes different completion levels for each.
+\textbf{Blue Team voice: Marshall (PC1), Fahdil (PC2), Amina (PC5).} Our aim was to understand the traffic reaching the lab before choosing a defensive action. Marshall operated Suricata on the separate Kali VM at \texttt{192.168.50.200} and administered pfSense at \texttt{192.168.50.1}. Fahdil supplied the Windows 10 and application-side observations. Amina worked on the independent OpenVAS assessment at \texttt{192.168.50.250}; its incomplete outcome is documented in Task 5.
 
-The Blue Team's strategic objective was to recognize the attack source, constrain harmful traffic without losing legitimate management access, and verify the effect on a defined network path. Detection was not automatic prevention: Suricata operated as a passive IDS. The documented blocking action was configured \textbf{using the pfSense web portal}, not a demonstrated claim that the portal itself became inaccessible to all Red Team traffic.
+We separated detection from containment. Suricata could show us suspicious activity, but as a passive IDS it did not stop that traffic. We therefore used the alert's source, destination and signature to decide what to investigate, configured a targeted rule \textbf{through the pfSense web portal}, and then checked a specific traffic path to see what changed. Our strategy was not to block every noisy host: Amina's approved scanner and unrelated background traffic had to be distinguished from Bruno's exercise source.
+
+The sequence below explains how we moved from a working log view to a source-based block and a bounded verification result. It also records what we could not yet establish. A configured rule is not automatically a network-wide block, and a readable log excerpt is not automatically a complete campaign timeline.
 
 \begin{tabularx}{\linewidth}{@{}L{2.5cm}X X@{}}
 \toprule
@@ -797,15 +848,17 @@ Recover & No completed target rebuild or account restoration is supplied. & Pres
 \end{tabularx}
 
 \subsection{Start Monitoring Before the Red Team Runs a Test}
-The early configuration output in \ev{E009} validates rule parsing. The later statistics show hours of sensor activity, and the live logs contain the Red source. These observations support preparation followed by detection, but not a complete minute-by-minute record of every test. In a repeat run, start the sensor and packet capture \emph{before} discovery, preserve the baseline time and agree the permitted test window with the Red Team.
+We first needed to know that the sensor could load its configuration and produce useful evidence. The configuration test in \ev{E009} gave us the first check; later logs and statistics established actual activity. Our intention was to observe the exercise from the beginning, but the supplied excerpts do not prove that every phase was captured continuously. For the working live view, we chose \texttt{tail -f} on \texttt{fast.log} because it let us see new human-readable alerts without first parsing JSON.
 
 \begin{cmdbox}[PC1 Kali - observed monitoring command]
 \begin{reportcode}
 sudo tail -f /var/log/suricata/fast.log
 \end{reportcode}
 \end{cmdbox}
-This is the command the team demonstrated working. It displays recent log lines and then follows appended data until \texttt{Ctrl+C}. It does not start Suricata and it does not block packets. The fast output must be enabled and the file readable; no log format is guaranteed to exist on an unconfigured installation.
+This command gave us a working view of recent alerts and new appended records until we stopped it with \texttt{Ctrl+C}. We could read the source, destination and signature directly, which helped us decide what to investigate next. It neither started Suricata nor blocked packets; the enabled logging output and running sensor supplied the data.
 \screenshot{E006}
+
+The working tail also exposed a practical issue: unrelated traffic appeared alongside the lab events. For a repeat investigation, we would use the following rotation-aware and fixed-string filters to focus the display on Bruno's address. These are follow-up improvements, not commands claimed to be present in the original screenshot.
 
 \begin{cmdbox}[PC1 Kali - recommended rotation-aware filtering]
 \begin{reportcode}
@@ -815,7 +868,7 @@ sudo tail -n 0 -F /var/log/suricata/fast.log | \
   grep --line-buffered -F '192.168.50.100:'
 \end{reportcode}
 \end{cmdbox}
-Run each live follow command in its own terminal or stop it before running the next command. \texttt{-F} follows a filename across rotation; \texttt{-n 0} starts with new lines only. The fixed-string filter matches either endpoint, not just the source, and avoids treating the IP's dots as regex wildcards. It is appropriate to the supplied IPv4 \texttt{IP:port} log representation. Inspect the source-to-destination direction on each matching line.
+We would choose \texttt{-F} to follow the filename across rotation and \texttt{-n 0} when only new events were wanted. The fixed-string match keeps the IP's dots literal, but can match either endpoint, so direction still needs to be read. Each live-follow command must run in its own terminal or be stopped before the next one. The complete screenshot below remains our original fast-log evidence; it is not presented as the output of these proposed filters.
 
 \reportfigure{E007}{Complete fast.log screenshot with the original identity overlay, \ev{E007}.}{SID \texttt{2024364} records \texttt{ET SCAN Possible Nmap User-Agent Observed}. The visible source is \texttt{192.168.50.100} and the destination is \texttt{192.168.50.1:80}. This ties the alert to Bruno's lab source and a gateway HTTP request, not to an assumed generic scan event.}
 
@@ -832,16 +885,18 @@ Kali DHCP hostname & An environment indicator, not proof that the host is malici
 \bottomrule
 \end{tabularx}
 
-\textbf{Decision.} Investigate the authorized Red source \texttt{192.168.50.100}, the service it reached, and the corresponding test window. Do not block Amina's permitted scanner simply because it generates many probes. A matching alert and an agreed exercise source make a targeted rule defensible; alert volume alone does not.
-\textbf{Check sensor health as well as alerts.} The statistics view provides cumulative capture counters. It is useful for judging capture quality, not for counting successful blocks.
+The Nmap-labelled request from \texttt{192.168.50.100} to the gateway's HTTP port gave us a concrete source and service to investigate. We compared that with the assigned lab roles rather than treating every event as an attack. This made Bruno's source the focus of the containment test; it did not justify blocking Amina simply for scanning. We also examined the sensor statistics to understand the capture workload, while keeping those counters separate from any claim about packets blocked.
 \screenshot{E011}
 
 \subsection{Investigate EVE Parse Failures Without Losing Evidence}
-The team encountered \texttt{Invalid numeric literal at line 48, column 501} when querying \texttt{eve.json}. The repeated error establishes malformed JSON input at that location; it does not establish that Suricata was caught mid-write. A truncated record, mixed log content or corruption must be investigated. Ordinary \texttt{jq} also requires valid input, not only slurp mode.
-\textbf{Compare with the earlier structured output.} The supplied EVE screenshot demonstrates that a structured alert was readable at another point; its endpoints are outside the lab scope.
+After the plain-text alerts gave us an initial view, we wanted structured fields that could be filtered by source and signature. We therefore tried querying \texttt{eve.json} with \texttt{jq}, but repeatedly received \texttt{Invalid numeric literal at line 48, column 501}. We could continue reading \texttt{fast.log}, so the parsing failure did not mean that all detection had stopped. The earlier structured screenshot below shows readable JSON from another point in the session, not proof that the later malformed record had been repaired.
 \screenshot{E010}
 
-For a repeat investigation, preserve a snapshot of the file, inspect the reported line, and emit a separate error record for every unparseable input line. The following workflow is a \textbf{recommended diagnostic}, not a claim that the historical file was repaired. It assumes standard newline-delimited EVE JSON. Run on Marshall's Kali VM, where the log exists.
+\begin{troublebox}[Difficulty Encountered - EVE JSON Parsing Failure]
+\textbf{Problem.} The \texttt{jq} queries stopped at the same malformed input location. \textbf{Why.} The input was not valid JSON there; a partial write, mixed content or corruption are possible explanations, but none was established. \textbf{Response.} We used the working \texttt{fast.log} view to continue investigation. The snapshot and diagnostic parser below provide a proposed way to examine bad lines without silently discarding their existence. \textbf{Outcome.} Plain-text monitoring provided a workaround. The diagnostic parser was tested offline with synthetic data; repair or replay of the original live EVE file was not demonstrated.
+\end{troublebox}
+
+Our next diagnostic step would be to preserve a snapshot before changing anything, inspect the failing line, and retain an error record for every malformed line. We chose this approach to protect the evidence and distinguish missing data from a genuine absence of alerts. The workflow is a \textbf{recommended diagnostic} for standard newline-delimited EVE JSON on Marshall's Kali VM, not a claim that we repaired the historical log.
 
 \begin{cmdbox}[Preserve and inspect the source log]
 \begin{reportcode}
@@ -867,7 +922,7 @@ jq -c 'select(type=="object") | select(has("parse_error"))' \
   ~/CYS4151/evidence/eve.review.ndjson
 \end{reportcode}
 \end{cmdbox}
-Valid records remain available for analysis; invalid records produce diagnostic objects with the input line number. The preserved snapshot retains the original offending text. Absence of an alert in the parsed subset is not proof no attack occurred, especially if malformed records or missing capture coverage remain.
+This parser would let us continue examining valid records while recording which input lines failed. We would use those line numbers to return to the unchanged snapshot and inspect the original text. That gives the next filtering step an auditable basis instead of silently treating discarded lines as though they never existed. A quiet result from the valid subset would still not prove that no attack occurred.
 
 \begin{cmdbox}[Review valid Red-source alerts in a small frozen lab snapshot]
 \begin{reportcode}
@@ -885,18 +940,18 @@ jq -sr 'map(select(type=="object") |
   ~/CYS4151/evidence/eve.review.ndjson
 \end{reportcode}
 \end{cmdbox}
-The signature is nested under \texttt{.alert}, and the case-insensitive match includes uppercase \texttt{SCAN}. Sorting the snapshot is useful for a short lab record; do not slurp an unbounded production log into memory. ISO timestamps with differing offsets must be normalized before claiming cross-system chronological order. This sorting example is for a same-source/same-offset snapshot.
+We would then filter on the actual Red source and the signature stored under \texttt{.alert}, using a case-insensitive match so uppercase \texttt{SCAN} is included. For a small frozen snapshot, sorting the selected records would help us compare them with the test sequence. It is not suitable for slurping an unbounded production log, and timestamps with different offsets must be normalized before cross-system ordering. This proposed analysis supports the next decision; it does not create missing historical evidence.
 
 \subsection{Contain Through the pfSense Web Portal}
-\textbf{Trigger.} The relevant detection was repeated Nmap-labelled gateway traffic from \texttt{192.168.50.100}. \textbf{Objective.} Restrict that source on the path pfSense can enforce while preserving administration from a trusted Blue Team host.
+Once we had a relevant alert and an identified lab source, we moved from observation to containment. We chose pfSense because the observed traffic was directed to the gateway, where a firewall rule could act on it. Our objective was to restrict \texttt{192.168.50.100} while retaining legitimate Blue Team administration. We used the web portal so we could inspect the alias, rule fields and applied order together.
 
-The screenshots support the following sequence, with unshown intermediate clicks treated as reconstruction rather than separate proof:
+The following narrative follows the captured configuration states. Intermediate clicks that are not visible are reconstruction, not separate proof:
 \begin{enumerate}
-\item Marshall opened the pfSense web portal at \texttt{https://192.168.50.1} from the Blue Team environment.
-\item Under \textbf{Firewall > Aliases}, he entered a Host(s) alias for \texttt{192.168.50.100}. The initial screenshot names it \texttt{bruno}; the later rules view references \texttt{Blocked\_Attackers}. The exact rename or membership transition is not supplied.
-\item Under \textbf{Firewall > Rules > LAN}, he configured a source-based block. The visible destination is Any and the description is \texttt{Block attacker IP - Task 12 hardening}. The source port should be Any because ephemeral client ports are not a stable attacker identity.
-\item The final rules screen shows \texttt{Blocked\_Attackers} above the broad default LAN allow rule and a successful rule reload banner. The user-defined rule order matters: the earlier matching action governs a new connection unless an earlier automatic/group/floating rule or existing state applies.
-\item The team compared ICMP traffic to the gateway before and after the change, using the pfSense shell capture shown below.
+\item We opened \texttt{https://192.168.50.1} from the Blue Team environment to configure the control on the gateway, not on the passive sensor.
+\item We entered the source in a Host(s) alias under \textbf{Firewall > Aliases}. Grouping the address made the rule easier to identify and maintain. The first screenshot calls it \texttt{bruno}; the later rule uses \texttt{Blocked\_Attackers}. We do not have the intermediate rename or membership capture.
+\item We configured a source block under \textbf{Firewall > Rules > LAN}. The visible destination is Any and the description identifies the Task 12 block. A source-port restriction would not reliably identify the attacker because client ports can change between requests.
+\item We placed the block before the broad default LAN allow rule and applied the change. The later screen shows that ordering and a successful reload banner. We still had to consider automatic rules and existing states rather than assuming this position blocked every connection.
+\item We then compared gateway ICMP traffic before and after the change. This was the next step because saving a rule demonstrated configuration intent, not its actual effect.
 \end{enumerate}
 
 \reportfigure{E002}{Complete pfSense portal alias-configuration screenshot, \ev{E002}.}{A Host(s) alias groups an address; it does not block packets by itself. A matching firewall rule must reference the intended alias, and both configuration and rule changes must be saved/applied. The default-password warning is an additional hardening concern.}
@@ -914,14 +969,18 @@ The screenshots support the following sequence, with unshown intermediate clicks
 
 \textbf{Important caveats.} The rule editor's \textbf{Log} checkbox is unchecked in \ev{E001}; this image therefore cannot support a claim that matching block events were recorded in the firewall log. The anti-lockout rule still appears above the block in \ev{E003}. Netgate documents that this automatic allowance overrides ordinary LAN restrictions for administration. It cannot be treated as a complete web-portal denial test.
 \screenshot{E001}
+\begin{troublebox}[Difficulty Encountered - Proving the Firewall Block]
+\textbf{Problem.} A rule in the GUI did not, by itself, prove that the intended requests were denied. The editor also shows logging unchecked, and the final rule list retains anti-lockout above the source block. \textbf{Why.} Management exceptions, existing states and traffic that bypasses the gateway can produce different outcomes. \textbf{Response.} We checked the gateway's ICMP traffic with \texttt{tcpdump} rather than relying on the rule screenshot alone. \textbf{Outcome.} We obtained scoped evidence of a response change. Complete portal denial, endpoint containment and a logged block trail were not established and remain follow-up tests.
+\end{troublebox}
 
 \subsection{Verify the Specific Path That Was Tested}
+We chose \texttt{tcpdump} on pfSense to compare packets on the actual gateway interface. Filtering on ICMP and Bruno's address kept the verification focused on one path and made the request/reply behaviour easier to compare before and after the rule change.
 \begin{cmdbox}[Observed on pfSense - shell, not the Kali sensor]
 \begin{reportcode}
 tcpdump -ni em1 icmp and host 192.168.50.100
 \end{reportcode}
 \end{cmdbox}
-\texttt{-n} avoids address-to-name resolution and \texttt{-i em1} selects the observed pfSense LAN interface. The capture filter selects ICMP involving the Red source. \ev{E003} shows request/reply pairs around 17:39:24--25 and requests without visible replies around 17:40:17--27.
+We used \texttt{-n} to keep addresses numeric and \texttt{-i em1} to select the pfSense LAN interface shown in the record. The capture showed request/reply pairs around 17:39:24--25, followed by requests without visible replies around 17:40:17--27. That gave us evidence consistent with a change in gateway ICMP handling. It did not answer whether every TCP service or direct peer-to-peer path was blocked, so those became separate verification requirements.
 
 \reportfigure{E003}{Complete gateway ICMP capture and pfSense rule-context screenshot, \ev{E003}.}{Together with the rule reload and visible block counter, the before/after pattern is consistent with gateway ICMP containment. A capture on ingress may still show a packet that the firewall drops, so seeing a request after blocking is not evidence that the block failed.}
 
@@ -938,7 +997,7 @@ Firewall event logging & Editor checkbox unchecked & Matching block-log evidence
 \end{tabularx}
 
 \subsection{Recommended Completion of the Containment Test}
-The following actions are a \textbf{future verification plan}, not historical events added to the record. Back up pfSense configuration and retain local console access before changing management rules.
+Our next defensive priority would be to close the verification gaps exposed by that test. We would enable the relevant rule logging, check fresh connection behaviour and preserve Blue Team management access while testing each intended path separately. The actions below are a \textbf{future verification plan}, not additional steps claimed to have succeeded. We would first back up the configuration and retain local console access so a management-rule error could be recovered safely.
 \begin{enumerate}
 \item Verify the actual members of \texttt{Blocked\_Attackers}; keep approved management clients separate from test sources. Enable logging on the relevant block rule, save and apply.
 \item If the goal includes denying access \emph{to} pfSense's GUI, first create and test a narrow trusted-management allow rule. Only then consider disabling the automatic anti-lockout rule under \textbf{System > Advanced > Admin Access}. Do not remove the only available management path.
@@ -956,10 +1015,10 @@ pfctl -t Blocked_Attackers -T show
 tcpdump -ni em1 'host 192.168.50.100 and (icmp or tcp)'
 \end{reportcode}
 \end{cmdbox}
-The table command requires that the named table actually exists in the loaded ruleset. A \texttt{pfctl -T add} operation changes a runtime table, not the saved GUI alias definition, and may be lost on reload; it is not substituted for the documented persistent GUI workflow. Packet capture and \texttt{pfctl} run on pfSense, not on the separate Suricata guest.
+For that retest, we would use \texttt{pfctl -sr} to inspect loaded rules, \texttt{pfctl -ss} to inspect states, and the table query to check the active block-list contents. These answer different questions from simply viewing the saved GUI fields. The named table must exist; changing it with \texttt{pfctl -T add} would affect runtime state rather than the persistent GUI alias and may be lost on reload. We would run these checks on pfSense, not on the separate Suricata guest.
 
 \subsection{Packet Capture and Endpoint Corroboration}
-\ev{E050}, \ev{E067} and \ev{E068} show Wireshark's \texttt{ip.addr==192.168.50.100} display filter and ICMP exchanges between Amina and Bruno. They prove that those hosts communicated and that the selected packet was an echo reply. They are not a capture of the FTP backdoor or a complete record of Red Team traffic.
+We also used Wireshark to examine a known exchange between Amina's scanner and Bruno's workstation. The \texttt{ip.addr==192.168.50.100} display filter reduced the view to packets involving the Red source, and the decoded echo reply showed that the two lab hosts could communicate. This helped us corroborate their addresses and the captured path; it did not give us evidence of the FTP exploit or universal sensor coverage.
 \screenshot{E050}
 \textbf{Follow the same exchange in the later capture view.} The request and reply directions corroborate the scanner and attacker addresses.
 \screenshot{E067}
@@ -978,7 +1037,7 @@ tshark -r capture.pcapng \
 \end{cmdbox}
 Replace \texttt{eth0} only after checking the actual sensor interface. The \texttt{-f} expression is a capture filter; \texttt{-Y} is a Wireshark display filter. The 60-second limit bounds this verification capture. HTTPS application payloads are not exposed just by adding an HTTP filter. Review traffic visibility before assuming that a quiet capture means the target received no attack.
 
-Fahdil's Windows 10 observations show the application's interface, not Windows Security event logs. For an authorized retest, local audit policy must first enable the relevant events. Then review successful/failed logons and process creation only on the system that generated them; remote packets that never reach authentication need not generate a 4625 event.
+Fahdil supplied the workstation-side view by opening VulnBank from Windows 10 and recording the application state. This gave us another vantage point on the lab, but it was not a Windows Security log investigation. To complete that part in a repeat exercise, we would first verify local audit policy, then inspect the relevant logon and process events on the system that generated them. A packet blocked before authentication need not create a failed-logon event.
 \screenshot{E018}
 \textbf{Later workstation observation.} The following image preserves the subsequent application view without claiming that the unchanged screen proves an absence of attacks.
 \screenshot{E019}
@@ -992,6 +1051,8 @@ Get-WinEvent -FilterHashtable @{
 \end{reportcode}
 \end{cmdbox}
 On the Ubuntu application host, inspect the \emph{configured} Apache access/error log paths and application service logs. A normal HTTP access log often omits POST bodies, so it cannot be promised to contain every literal login payload. \texttt{who} and shell history likewise do not reliably record an unregistered backdoor shell. No missing log is reconstructed as fabricated evidence here.
+
+Looking back, our defensive chain was a configuration check, a working live alert view, identification of the exercise source, a source-based gateway rule and a focused packet comparison. Amina's scanner difficulties and the missing endpoint/raw-log evidence showed us where our visibility was incomplete. Those limits shaped our next recommendations: repair scanner readiness, enable scoped firewall logging, verify endpoint controls, and repeat the same permitted and denied paths before claiming closure.
 
 \subsection{Joint Exercise Timeline}
 \begin{tabularx}{\linewidth}{@{}L{3.4cm}X L{2.4cm}@{}}

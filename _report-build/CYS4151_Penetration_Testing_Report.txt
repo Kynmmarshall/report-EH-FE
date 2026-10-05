@@ -81,7 +81,7 @@ original paths, dimensions and SHA-256 hashes.
 
 
 
-Confidential - Academic Lab Use Only                                                                       i / 85
+Confidential - Academic Lab Use Only                                                                       i / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -107,76 +107,76 @@ Document Control                                                                
 4 Laboratory Setup and Readiness                                                                                      6
     4.1    Shared Preparation and the Host-Only Failure . . . . . . . . . . . . . . . . . . . . . . . . . . . .       6
     4.2    PC1: Marshall’s Router and Separate Sensor . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       6
-    4.3    PC2: Fahdil’s Windows 10 Workstation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-    4.4    PC3: Rayan’s Application and Target Guests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
-    4.5    PC4: Bruno’s Kali Attack Workstation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
-    4.6    PC5: Amina’s Kali/OpenVAS Scanner . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
-    4.7    Problems Encountered and Lessons Applied . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+    4.3    PC2: Fahdil’s Windows 10 Workstation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+    4.4    PC3: Rayan’s Application and Target Guests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+    4.5    PC4: Bruno’s Kali Attack Workstation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+    4.6    PC5: Amina’s Kali/OpenVAS Scanner . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+    4.7    Problems Encountered and Lessons Applied . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
 
-5 From Reconnaissance to Demonstrated Impact                                                                          26
-    5.1    Strategy and Initial Position . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
-    5.2    Reconnaissance: Establish the Asset Map (Task 2) . . . . . . . . . . . . . . . . . . . . . . . . . . 26
-    5.3    Scanning and Service Enumeration (Task 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
-    5.4    Threat Modelling and Test Selection (Task 4) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
-    5.5    Vulnerability Scanning: Amina’s OpenVAS Attempt (Task 5) . . . . . . . . . . . . . . . . . . . . . 32
-    5.6    Initial Access: Validate the FTP Backdoor (Task 6) . . . . . . . . . . . . . . . . . . . . . . . . . . 46
-    5.7    Web Application Assessment (Task 7) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
-    5.8    Post-Exploitation and Privilege Analysis (Tasks 9–10) . . . . . . . . . . . . . . . . . . . . . . . . . 54
-    5.9    Where the Evidence Ends . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+5 From Reconnaissance to Demonstrated Impact                                                                          29
+    5.1    Strategy and Initial Position . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+    5.2    Reconnaissance: Establish the Asset Map (Task 2) . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+    5.3    Scanning and Service Enumeration (Task 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+    5.4    Threat Modelling and Test Selection (Task 4) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+    5.5    Vulnerability Scanning: Amina’s OpenVAS Attempt (Task 5) . . . . . . . . . . . . . . . . . . . . . 37
+    5.6    Initial Access: Validate the FTP Backdoor (Task 6) . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+    5.7    Web Application Assessment (Task 7) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+    5.8    Post-Exploitation and Privilege Analysis (Tasks 9–10) . . . . . . . . . . . . . . . . . . . . . . . . . 59
+    5.9    Where the Evidence Ends . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
 
-6 Detection, Investigation and Containment (Tasks 11–12)                                                              57
-    6.1    Strategy: Observe First, Then Apply a Scoped Control . . . . . . . . . . . . . . . . . . . . . . . . 57
-    6.2    Start Monitoring Before the Red Team Runs a Test . . . . . . . . . . . . . . . . . . . . . . . . . . 57
-    6.3    Investigate EVE Parse Failures Without Losing Evidence . . . . . . . . . . . . . . . . . . . . . . . 60
+6 Detection, Investigation and Containment (Tasks 11–12)                                                              62
+    6.1    Strategy: Observe First, Then Apply a Scoped Control . . . . . . . . . . . . . . . . . . . . . . . . 62
+    6.2    Start Monitoring Before the Red Team Runs a Test . . . . . . . . . . . . . . . . . . . . . . . . . . 62
+    6.3    Investigate EVE Parse Failures Without Losing Evidence . . . . . . . . . . . . . . . . . . . . . . . 65
 
 
-Confidential - Academic Lab Use Only                                                                        ii / 85
+Confidential - Academic Lab Use Only                                                                        ii / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
-    6.4    Contain Through the pfSense Web Portal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 62
-    6.5    Verify the Specific Path That Was Tested . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 64
-    6.6    Recommended Completion of the Containment Test . . . . . . . . . . . . . . . . . . . . . . . . 65
-    6.7    Packet Capture and Endpoint Corroboration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
-    6.8    Joint Exercise Timeline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 70
+    6.4    Contain Through the pfSense Web Portal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 67
+    6.5    Verify the Specific Path That Was Tested . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 69
+    6.6    Recommended Completion of the Containment Test . . . . . . . . . . . . . . . . . . . . . . . . 70
+    6.7    Packet Capture and Endpoint Corroboration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 71
+    6.8    Joint Exercise Timeline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 75
 
-7 Vulnerability Findings and Risk Assessment                                                                         71
-    7.1    Rating Method and Scope of Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 71
-    7.2    F01 - Backdoored FTP Provides Root Access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
-    7.3    F02 - Anonymous Writable SMB Share . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
-    7.4    F03 - Anonymous FTP Authentication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
-    7.5    F04 - Advertised Default VulnBank Administrator Credential . . . . . . . . . . . . . . . . . . . . 72
-    7.6    F05 - Cleartext Web Application Listeners . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
-    7.7    F06 - pfSense Default Administrator Password Warning . . . . . . . . . . . . . . . . . . . . . . . 73
-    7.8    F07 - Flat Subnet Limits Gateway Containment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
-    7.9    F08 - Block-Rule Logging Disabled in the Captured Configuration . . . . . . . . . . . . . . . . . . 73
-    7.10 Additional Observations Not Counted as Confirmed Findings . . . . . . . . . . . . . . . . . . . . 74
-    7.11 Threat Model and Scenario Impact . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 74
+7 Vulnerability Findings and Risk Assessment                                                                         76
+    7.1    Rating Method and Scope of Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76
+    7.2    F01 - Backdoored FTP Provides Root Access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+    7.3    F02 - Anonymous Writable SMB Share . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+    7.4    F03 - Anonymous FTP Authentication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+    7.5    F04 - Advertised Default VulnBank Administrator Credential . . . . . . . . . . . . . . . . . . . . 77
+    7.6    F05 - Cleartext Web Application Listeners . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 78
+    7.7    F06 - pfSense Default Administrator Password Warning . . . . . . . . . . . . . . . . . . . . . . . 78
+    7.8    F07 - Flat Subnet Limits Gateway Containment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 78
+    7.9    F08 - Block-Rule Logging Disabled in the Captured Configuration . . . . . . . . . . . . . . . . . . 78
+    7.10 Additional Observations Not Counted as Confirmed Findings . . . . . . . . . . . . . . . . . . . . 79
+    7.11 Threat Model and Scenario Impact . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 79
 
-8 Hardening, Recovery and Retesting                                                                                  76
-    8.1    Prioritized Remediation Register . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76
-    8.2    Verification Commands and Their Limits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76
-    8.3    Incident Response Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
-    8.4    Red and Blue Team Handoffs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 78
-    8.5    Minimum Retest Record . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 78
+8 Hardening, Recovery and Retesting                                                                                  81
+    8.1    Prioritized Remediation Register . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 81
+    8.2    Verification Commands and Their Limits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 81
+    8.3    Incident Response Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 82
+    8.4    Red and Blue Team Handoffs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 83
+    8.5    Minimum Retest Record . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 83
 
-9 Outcomes, Coverage and Lessons Learned                                                                             79
-    9.1    Assessment Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 79
-    9.2    Examination Task Coverage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 79
-    9.3    Lessons for the Next Exercise . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 80
-    9.4    Deliverable Completeness . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 80
+9 Outcomes, Coverage and Lessons Learned                                                                             84
+    9.1    Assessment Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 84
+    9.2    Examination Task Coverage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 84
+    9.3    Lessons for the Next Exercise . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 85
+    9.4    Deliverable Completeness . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 85
 
-10 Source Documents and Technical References                                                                         81
-    10.1 Supplied PDFs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 81
-    10.2 Public Technical References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 81
-    10.3 Build and Verification Record . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 82
+10 Source Documents and Technical References                                                                         86
+    10.1 Supplied PDFs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 86
+    10.2 Public Technical References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 86
+    10.3 Build and Verification Record . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 87
 
-A Source Image Register                                                                                              83
-
-
+A Source Image Register                                                                                              88
 
 
-Confidential - Academic Lab Use Only                                                                      iii / 85
+
+
+Confidential - Academic Lab Use Only                                                                      iii / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -185,114 +185,114 @@ List of Figures
     1      As-built ownership and logical connectivity. All eight lab addresses are shown in full; WAN con-
            nectivity and endpoint traffic are deliberately distinguished. . . . . . . . . . . . . . . . . . . . .   5
     2      E004 - PC1 pfSense NAT adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     7
-    3      E005 - PC1 pfSense bridged LAN adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     7
-    4      E015 - pfSense interface assignment dialogue . . . . . . . . . . . . . . . . . . . . . . . . . . . .     8
+    3      E005 - PC1 pfSense bridged LAN adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     8
+    4      E015 - pfSense interface assignment dialogue . . . . . . . . . . . . . . . . . . . . . . . . . . . .     9
     5      E016 - pfSense LAN address entry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     9
-    6      E012 - Shared early pfSense console . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    9
-    7      E008 - Package service-restart prompt . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
-    8      E009 - Suricata configuration and rule test . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-    9      E013 - Fahdil’s early VM inventory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
-    10     E014 - Early gateway bridge configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
-    11     E017 - Fahdil verifies VulnBank reachability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
-    12     E027 - Application VM bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
-    13     E026 - Ubuntu2 bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
-    14     E025 - Metasploitable2 bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
-    15     E022 - Application VM static address . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
-    16     E023 - Ubuntu2 address gateway and DNS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
-    17     E020 - Local hosts-file setup and command typo . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
-    18     E028 - VulnBank reached by local hostname . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
-    19     E029 - Apache application service active . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
-    20     E024 - Metasploitable2 static interfaces file . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
-    21     E054 - Windows terminal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
-    22     E055 - Terminal properties close-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
-    23     E071 - VirtualBox settings warning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
-    24     E072 - Video-memory settings during troubleshooting . . . . . . . . . . . . . . . . . . . . . . . . 23
-    25     E048 - GVM service startup commands . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
-    26     E056 - GVM startup with name overlay . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
-    27     E057 - GSA authentication failure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+    6      E012 - Shared early pfSense console . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+    7      E008 - Package service-restart prompt . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+    8      E009 - Suricata configuration and rule test . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+    9      E013 - Fahdil’s early VM inventory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+    10     E014 - Early gateway bridge configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+    11     E017 - Fahdil verifies VulnBank reachability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+    12     E027 - Application VM bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+    13     E026 - Ubuntu2 bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+    14     E025 - Metasploitable2 bridged adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+    15     E022 - Application VM static address . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+    16     E023 - Ubuntu2 address gateway and DNS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+    17     E020 - Local hosts-file setup and command typo . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+    18     E028 - VulnBank reached by local hostname . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+    19     E029 - Apache application service active . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+    20     E024 - Metasploitable2 static interfaces file . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+    21     E054 - Windows terminal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+    22     E055 - Terminal properties close-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+    23     E071 - VirtualBox settings warning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+    24     E072 - Video-memory settings during troubleshooting . . . . . . . . . . . . . . . . . . . . . . . . 25
+    25     E048 - GVM service startup commands . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+    26     E056 - GVM startup with name overlay . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+    27     E057 - GSA authentication failure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
     28     Red Team decision sequence. Each transition requires an observed result rather than assuming
-           the preparatory guide succeeded. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
-    29     E030 - Eight live lab addresses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
-    30     E031 - Service identification on application and Ubuntu2 . . . . . . . . . . . . . . . . . . . . . . 28
-    31     E032 - Metasploitable service footprint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
-    32     E033 - Full TCP port scan . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29
-    33     E034 - Web technology and HTTP headers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
-    34     E035 - SMB share enumeration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
-    35     E036 - Anonymous SMB and FTP results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
-    36     E058 - GSA tasks blocked by feed synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . 33
-    37     E059 - Empty task list and session warning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+           the preparatory guide succeeded. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+    29     E030 - Eight live lab addresses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+    30     E031 - Service identification on application and Ubuntu2 . . . . . . . . . . . . . . . . . . . . . . 31
+    31     E032 - Metasploitable service footprint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+    32     E033 - Full TCP port scan . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+    33     E034 - Web technology and HTTP headers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+    34     E035 - SMB share enumeration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+    35     E036 - Anonymous SMB and FTP results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+    36     E058 - GSA tasks blocked by feed synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+    37     E059 - Empty task list and session warning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
 
-Confidential - Academic Lab Use Only                                                                      iv / 85
+Confidential - Academic Lab Use Only                                                                      iv / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
-    38     E060 - NVT current while SCAP imports . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
-    39     E049 - Initial scanner target definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
-    40     E061 - Target creation attempted again . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
-    41     E062 - Feed owner not set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
-    42     E063 - Default port list unavailable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
-    43     E064 - Repeated port-list rejection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
-    44     E065 - Port-list error close-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
-    45     E051 - Missing Greenbone metadata files . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
-    46     E070 - Repeated gvmd metadata errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
-    47     E073 - Scanner feed-version startup messages . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
-    48     E066 - Feed status rechecked . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
-    49     E069 - Later feed-status review . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
-    50     E074 - Manual full-feed synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
-    51     E075 - Feed network traffic and troubleshooting notes . . . . . . . . . . . . . . . . . . . . . . . 41
-    52     E078 - SCAP size at first recorded checkpoint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
-    53     E079 - SCAP size thirty seconds later . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
-    54     E052 - SCAP directory growth observation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
-    55     E053 - SCAP directory at 1.1G . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
-    56     E080 - Final recorded size checkpoint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
-    57     E076 - Explicit scan-unavailable notification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
-    58     E077 - Renamed target still fails . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
-    59     E037 - Metasploit module selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
-    60     E038 - Target and payload configured . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
-    61     E039 - First attempt and successful root session . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
-    62     E040 - Independent identity checks in the shell . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
-    63     E041 - SQL-injection attempt rejected . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
-    64     E042 - Hydra candidate amid HTTP401 errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
-    65     E043 - Administrator session on VulnBank . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
-    66     E044 - Demo transaction capability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
-    67     E045 - Simulated 5000FCFA transfer receipt . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
-    68     E046 - Post-compromise account modification . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
-    69     E047 - Separate SSH session to the target . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
-    70     E021 - Target inventory and failed console logins    . . . . . . . . . . . . . . . . . . . . . . . . . . 56
-    71     E006 - Initial readable Suricata alerts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
-    72     E007 - Red-source Nmap alerts in fast.log . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
-    73     E011 - Suricata capture statistics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60
-    74     E010 - Structured EVE alert output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
-    75     E002 - Bruno address entered in a pfSense alias . . . . . . . . . . . . . . . . . . . . . . . . . . . 63
+    38     E060 - NVT current while SCAP imports . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+    39     E049 - Initial scanner target definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+    40     E061 - Target creation attempted again . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+    41     E062 - Feed owner not set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+    42     E063 - Default port list unavailable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+    43     E064 - Repeated port-list rejection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+    44     E065 - Port-list error close-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+    45     E051 - Missing Greenbone metadata files . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+    46     E070 - Repeated gvmd metadata errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+    47     E073 - Scanner feed-version startup messages . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+    48     E066 - Feed status rechecked . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+    49     E069 - Later feed-status review . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+    50     E074 - Manual full-feed synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+    51     E075 - Feed network traffic and troubleshooting notes . . . . . . . . . . . . . . . . . . . . . . . 46
+    52     E078 - SCAP size at first recorded checkpoint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+    53     E079 - SCAP size thirty seconds later . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+    54     E052 - SCAP directory growth observation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+    55     E053 - SCAP directory at 1.1G . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+    56     E080 - Final recorded size checkpoint . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+    57     E076 - Explicit scan-unavailable notification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+    58     E077 - Renamed target still fails . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+    59     E037 - Metasploit module selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+    60     E038 - Target and payload configured . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+    61     E039 - First attempt and successful root session . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
+    62     E040 - Independent identity checks in the shell . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+    63     E041 - SQL-injection attempt rejected . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+    64     E042 - Hydra candidate amid HTTP401 errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+    65     E043 - Administrator session on VulnBank . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 57
+    66     E044 - Demo transaction capability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+    67     E045 - Simulated 5000FCFA transfer receipt . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+    68     E046 - Post-compromise account modification . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+    69     E047 - Separate SSH session to the target . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60
+    70     E021 - Target inventory and failed console logins    . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+    71     E006 - Initial readable Suricata alerts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 63
+    72     E007 - Red-source Nmap alerts in fast.log . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 64
+    73     E011 - Suricata capture statistics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 65
+    74     E010 - Structured EVE alert output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+    75     E002 - Bruno address entered in a pfSense alias . . . . . . . . . . . . . . . . . . . . . . . . . . . 68
 
 
 
 
-Confidential - Academic Lab Use Only                                                                        v / 85
+Confidential - Academic Lab Use Only                                                                        v / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
     76     Observed pfSense rule-order explanation based on E003. The automatic management exception
            remains above the source block. This diagram does not imply that unshown floating or group
-           rules were audited. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 63
-    77     E001 - pfSense block-rule editor . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 64
-    78     E003 - Gateway capture before and after containment . . . . . . . . . . . . . . . . . . . . . . . 65
-    79     E050 - Wireshark connectivity observation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 67
-    80     E067 - ICMP request and reply capture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 67
-    81     E068 - Wireshark capture with identity overlay . . . . . . . . . . . . . . . . . . . . . . . . . . . 68
-    82     E018 - Fahdil observes the admin workspace . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 69
-    83     E019 - Later Windows 10 application observation . . . . . . . . . . . . . . . . . . . . . . . . . . 69
+           rules were audited. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 68
+    77     E001 - pfSense block-rule editor . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 69
+    78     E003 - Gateway capture before and after containment . . . . . . . . . . . . . . . . . . . . . . . 70
+    79     E050 - Wireshark connectivity observation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
+    80     E067 - ICMP request and reply capture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
+    81     E068 - Wireshark capture with identity overlay . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
+    82     E018 - Fahdil observes the admin workspace . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 74
+    83     E019 - Later Windows 10 application observation . . . . . . . . . . . . . . . . . . . . . . . . . . 74
     84     Severity distribution of the eight deduplicated report findings. Counts are generated from the
-           findings register, not from a scanner export or screenshot count. . . . . . . . . . . . . . . . . . . 71
+           findings register, not from a scanner export or screenshot count. . . . . . . . . . . . . . . . . . . 76
     85     Analyst risk matrix for the eight registered findings. Colour is supplemented by IDs; empty cells
-           are not evidence of tested-safe assets. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 75
+           are not evidence of tested-safe assets. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 80
     86     Operational strategy and handoffs. Dashed links indicate evidence correlation or an agreed veri-
-           fication handoff, not proof that every offensive action has a matching defender log. . . . . . . . . 78
+           fication handoff, not proof that every offensive action has a matching defender log. . . . . . . . . 83
 
 
 
 
-Confidential - Academic Lab Use Only                                                                      vi / 85
+Confidential - Academic Lab Use Only                                                                      vi / 90
 SECURETECH / CYS 4151                                                                Penetration Testing Report
 
 
@@ -338,7 +338,7 @@ containment
 
 
 
-Confidential - Academic Lab Use Only                                                                     1 / 85
+Confidential - Academic Lab Use Only                                                                     1 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -388,7 +388,7 @@ traceable in the coverage table; the report does not equate a documented procedu
 
 
 
-Confidential - Academic Lab Use Only                                                                       2 / 85
+Confidential - Academic Lab Use Only                                                                       2 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -429,7 +429,7 @@ evidence; real credentials must never be used in this environment.
 
 
 
-Confidential - Academic Lab Use Only                                                                       3 / 85
+Confidential - Academic Lab Use Only                                                                       3 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -485,7 +485,7 @@ other host’s traffic. The actual captured Nmap traffic proves visibility of th
 
 
 
-Confidential - Academic Lab Use Only                                                                      4 / 85
+Confidential - Academic Lab Use Only                                                                      4 / 90
 Confidential - Academic Lab Use Only
 
 
@@ -530,7 +530,7 @@ Confidential - Academic Lab Use Only                                            
 
 
                                                                                                                                                                                                                             Penetration Testing Report
-5 / 85
+5 / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -546,6 +546,14 @@ arrangement did not join guests across five separate physical PCs. A host-only n
 hypervisor; a cross-PC lab needs an explicitly shared network. The later screenshots show bridged adapters
 connected to the relevant physical Wi-Fi interfaces. The earlier failure is team-reported; the later adapter
 configuration is observed.
+  Difficulty Encountered - Host-Only Networking
+  Problem. Our guests on different physical PCs could not communicate through the initial host-only arrange-
+  ment. Why. Each host-only network was local to its own hypervisor; assigning matching IP prefixes did not
+  join those separate networks. Response. We changed the lab-facing adapters to Bridged Adapter on the ap-
+  propriate physical interfaces and retained the agreed static addresses. Outcome. The later bridged settings
+  and eight-host discovery result corroborate shared-LAN connectivity (E004, E005, E030). This overcame the
+  reachability problem, not the separate need for isolation and verified monitoring coverage.
+
 The repeatable setup order is: install the hypervisor, create/import each guest, connect the correct adapter,
 install the guest OS, set addressing, validate the gateway and peer path, install or start the role-specific tools,
 then take a clean snapshot. Use trusted installation media and keep vulnerable images on an authorized
@@ -579,15 +587,15 @@ PC5 Amina                Install Kali/GVM; allocate disk and memory    Service c
 
 pfSense VM. Create a FreeBSD-compatible virtual machine, attach the installer, install to its virtual disk and
 remove the installation medium after reboot. Map WAN and LAN using the actual NIC identifiers. The final PC1
+
+
+Confidential - Academic Lab Use Only                                                                       6 / 90
+SECURETECH / CYS 4151                                                                      Penetration Testing Report
+
+
 captures show Adapter 1 set to NAT and Adapter 2 bridged to the host’s MediaTek Wi-Fi interface with cable
 connected (E004, E005). Earlier shared setup captures in Fahdil’s folder show pfSense 2.5.2; the containment
 shell shows 2.9.0. These are stages in the supplied record, not proof of two concurrent gateways.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                       6 / 85
-SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
 
@@ -602,6 +610,12 @@ Next setup step. Connect the second adapter to the shared lab segment, keeping i
 
 
 
+Confidential - Academic Lab Use Only                                                                             7 / 90
+SECURETECH / CYS 4151                                                                Penetration Testing Report
+
+
+
+
 Figure 3: E005 - PC1 pfSense bridged LAN adapter
 Comment. Adapter 2 is bridged to the MediaTek Wi-Fi 6 MT7921 host interface, with Allow All promiscuous mode and
 Cable Connected selected.
@@ -609,17 +623,18 @@ Evidence Limit. Promiscuous mode does not create a mirror port or guarantee deli
 
 In the console, assign WAN and LAN, choose Set interface(s) IP address, select LAN and enter
 192.168.50.1/24. Use a DHCP pool outside the static-address reservations only if DHCP is intentionally
-
-Confidential - Academic Lab Use Only                                                                             7 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
-
-
 enabled; do not introduce a competing DHCP server on a shared uplink. Open https://192.168.50.1 from
 an approved management client, review certificate identity, configure DNS forwarding/resolution as intended,
 and replace the initial administrator password. The later screenshot still displays the default-password warning,
 so password replacement is a required remediation, not a completed action in this report. Shared setup
 evidence. The following console captures were supplied in Fahdil’s folder. They illustrate interface assignment,
 LAN address entry and the resulting early console state; they are not attributed to the later PC1 session.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                     8 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
 
@@ -635,17 +650,17 @@ Address entry. Select the LAN interface and enter the intended gateway address.
 
 
 
-Confidential - Academic Lab Use Only                                                                          8 / 85
-SECURETECH / CYS 4151                                                                     Penetration Testing Report
-
-
-
-
 Figure 5: E016 - pfSense LAN address entry
 Comment. Console option 2 is selected, followed by LAN em1 and an entered IPv4 address of 192.168.50.1.
 Evidence Limit. The frame records address entry, not every remaining prefix, DNS or DHCP prompt.
 
 Console verification. Check the displayed interface mapping and LAN address after configuration.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                          9 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
 
@@ -657,15 +672,15 @@ inferred.
 
 Kali/Suricata VM. Create a separate Linux guest on PC1, bridge its lab-facing interface and assign
 192.168.50.200/24. Determine the interface name from the guest rather than borrowing pfSense’s em1.
-
-
-Confidential - Academic Lab Use Only                                                                           9 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
-
-
 The observed Suricata configuration test is not proof that a long-running service has started; the later alert and
 statistics captures establish operation. Package preparation. During setup, review the service-restart prompt
 generated by package maintenance before proceeding to the sensor checks.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                          10 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
 
@@ -701,7 +716,7 @@ peer-generated test observed at the sensor is still needed to validate any addit
 
 
 
-Confidential - Academic Lab Use Only                                                                         10 / 85
+Confidential - Academic Lab Use Only                                                                         11 / 90
 SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
@@ -726,7 +741,7 @@ guest’s hardware.
 
 
 
-Confidential - Academic Lab Use Only                                                                            11 / 85
+Confidential - Academic Lab Use Only                                                                            12 / 90
 SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
@@ -751,7 +766,7 @@ Evidence Limit. The image is in PC2’s preparation record and does not replace 
 
 
 
-Confidential - Academic Lab Use Only                                                                         12 / 85
+Confidential - Academic Lab Use Only                                                                         13 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -795,7 +810,7 @@ Verify its bridged adapter and review the secondary NAT connection before testin
 
 
 
-Confidential - Academic Lab Use Only                                                                   13 / 85
+Confidential - Academic Lab Use Only                                                                   14 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -819,7 +834,7 @@ Evidence Limit. Hypervisor settings are not proof of all traffic being routed th
 Connect Metasploitable2. Review both adapters so the vulnerable guest has no unintended route outside the
 authorized segment.
 
-Confidential - Academic Lab Use Only                                                                        14 / 85
+Confidential - Academic Lab Use Only                                                                        15 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -840,7 +855,7 @@ other Netplan files before editing; avoid two definitions competing for the same
 
 
 
-Confidential - Academic Lab Use Only                                                                       15 / 85
+Confidential - Academic Lab Use Only                                                                       16 / 90
 SECURETECH / CYS 4151                                                                        Penetration Testing Report
 
 
@@ -870,7 +885,7 @@ observed record.
 
 
 
-Confidential - Academic Lab Use Only                                                                              16 / 85
+Confidential - Academic Lab Use Only                                                                              17 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -903,8 +918,8 @@ or Node service definition; no invented repository or installation command is su
 
 
 
-Confidential - Academic Lab Use Only                                                                             17 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
+Confidential - Academic Lab Use Only                                                                             18 / 90
+SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
 
@@ -915,8 +930,21 @@ hosts entry maps 192.168.50.20 to vul-bank.duckdns.org.
 Evidence Limit. Unrelated existing host entries are outside scope. This local name override is not evidence of a
 DNS-spoofing attack.
 
+  Difficulty Encountered - Hosts-File Command Typo
+  Problem. The first attempt to open the hosts file failed with an unrecognized-command message. Why. We
+  entered nodpath, which was not the intended editor command. Response. The capture shows the corrected
+  notepad hosts command and the lab mapping to 192.168.50.20. Outcome. The file could be opened
+  and the later browser view reached VulnBank by its lab hostname. This was a local command-entry problem,
+  not an attack on DNS.
+
 Check application reachability. After the local name mapping, open the lab hostname and confirm that the
 intended demo application is returned.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                   19 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
 
@@ -926,10 +954,6 @@ Comment. Rayan opens vul-bank.duckdns.org and the VulnBank demo login page. The 
 security training simulation with no real money.
 Evidence Limit. The local hosts-file mapping establishes the intended lab name; this does not authorize testing a public
 DNS destination.
-
-Confidential - Academic Lab Use Only                                                                         18 / 85
-SECURETECH / CYS 4151                                                                  Penetration Testing Report
-
 
    PC3 Ubuntu - observed service check and recommended verification
    ls /etc/apache2/sites-enabled/*.conf
@@ -944,6 +968,12 @@ Confidential - Academic Lab Use Only                                            
 The service status establishes that Apache is running, not that VulnBank is secure. Later remote headers
 identify Apache 2.4.58 and Express on ports 80/3000. Exposing the application directly on 3000 is an additional
 route to assess; identical page lengths do not prove identical access controls.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                         20 / 90
+SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
 
@@ -968,7 +998,7 @@ loopback configuration. Preserve loopback and replace only the intended NIC stan
 
 
 
-Confidential - Academic Lab Use Only                                                                       19 / 85
+Confidential - Academic Lab Use Only                                                                       21 / 90
 SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
@@ -1010,7 +1040,7 @@ evidence directory. Do not perform blanket upgrades midway through an assessment
 recorded version change. The execution screenshots identify Nmap 7.95, Hydra 9.5 and a Metasploit 6.4.84-dev
 
 
-Confidential - Academic Lab Use Only                                                                            20 / 85
+Confidential - Academic Lab Use Only                                                                            22 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -1023,8 +1053,18 @@ Amina’s dedicated PDF reports an initial RAM increase from 2,000 MB to 4,000 M
 problem, followed by a disk increase from 30 GB to 80 GB, 8,000 MB RAM and two processors for the feed
 attempts. The earlier team account emphasized disk shortage. Both are recorded as reported resource
 interventions; neither explains all later errors. The screenshots of video-memory settings are not proof that
-VRAM caused GVM’s feed failure. Prepare evidence capture. Amina first adjusted the host terminal’s input and
-selection properties. These are recording-environment settings, not scanner results.
+VRAM caused GVM’s feed failure.
+  Difficulty Encountered - Scanner VM Resources
+  Problem. We encountered resource problems while preparing OpenVAS. The team reported insufficient
+  disk space, and Amina also documented an initial installation error addressed by increasing system RAM.
+  Response. Her report records disk expansion from 30 GB to 80 GB and later allocation of 8,000 MB RAM
+  and two processors. Outcome. Services and the local web interface became available, but the subsequent
+  feed/import problems remained. These changes addressed reported setup constraints; they did not prove
+  that all additional disk space was usable or that scanning was ready. Video memory was not the same re-
+  source as RAM or disk.
+
+Prepare evidence capture. Amina first adjusted the host terminal’s input and selection properties. These are
+recording-environment settings, not scanner results.
 
 
 
@@ -1041,7 +1081,7 @@ reproduced in full as received.
 
 
 
-Confidential - Academic Lab Use Only                                                                       21 / 85
+Confidential - Academic Lab Use Only                                                                       23 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -1065,7 +1105,7 @@ from this frame alone.
 Distinguish resource types. The next settings screen concerns display memory, which must not be confused
 with system RAM or disk capacity.
 
-Confidential - Academic Lab Use Only                                                                             22 / 85
+Confidential - Academic Lab Use Only                                                                             24 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -1075,6 +1115,12 @@ Figure 24: E072 - Video-memory settings during troubleshooting
 Comment. The settings view shows video memory256MB and Invalid settings detected.
 Evidence Limit. Video memory is not system RAM or disk capacity. This is not evidence that insufficient VRAM caused
 GVM’s feed problems.
+
+  Difficulty Encountered - VirtualBox Settings Warning
+  Problem. VirtualBox displayed Invalid settings detected while we reviewed the VM settings. Why.
+  The warning details were not expanded in the supplied captures, so the exact incompatible setting is un-
+  known. Response and outcome. We recorded the settings review, but no confirmed correction of this warn-
+  ing is shown. It must not be presented as proof that increasing video memory fixed OpenVAS.
 
    PC5 Kali - observed service and feed commands
    sudo systemctl start ospd-openvas
@@ -1090,7 +1136,7 @@ log and synchronization operations appear with their matching screenshots in the
 
 
 
-Confidential - Academic Lab Use Only                                                                       23 / 85
+Confidential - Academic Lab Use Only                                                                       25 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -1114,7 +1160,7 @@ Service starts are visible in E048/E056; the log path and sync command are visib
 screenshots show GSA at 127.0.0.1:9392. Configure the lab-facing NIC as 192.168.50.250/24 and verify
 
 
-Confidential - Academic Lab Use Only                                                                           24 / 85
+Confidential - Academic Lab Use Only                                                                           26 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
@@ -1130,36 +1176,50 @@ Figure 27: E057 - GSA authentication failure
 Comment. The local GSA login page reports Invalid password or username with admin entered.
 Evidence Limit. This is a scanner-administration login problem, not evidence of a Red Team credential attack.
 
+  Difficulty Encountered - GSA Login Rejected
+  Problem. The local scanner portal returned Invalid password or username. Why. The submitted
+  credentials were not accepted; the image does not distinguish a wrong username from a wrong password.
+  Response. We retried access before proceeding to the task list. Outcome. The later authenticated GSA views
+  show that portal access resumed, but the exact credential correction or reset was not recorded. The next
+  obstacle was feed readiness, not portal reachability.
+
 Readiness gate. An accessible GSA login is not a ready scanner. The feed owner, imported port lists, scan
 configurations, scanner connection and selected feed versions must be usable before a target/task can be
 created. Amina’s target list attempt included additional lab hosts in some views; no complete successful target
 definition or scan launch is demonstrated. The final outcome appears in Section 5.5.
 
 
+
+
+Confidential - Academic Lab Use Only                                                                            27 / 90
+SECURETECH / CYS 4151                                                                 Penetration Testing Report
+
+
 4.7 Problems Encountered and Lessons Applied
 
 
-Problem                   Response and evidence                            What remains important
+Problem                   Response and evidence                         What remains important
 
-Host-only across          Team reported failed inter-PC reachability;      Bridging fixes reachability, not security
-physical PCs              later settings show bridged adapters.            isolation or guaranteed IDS visibility.
-Resource pressure         Disk/RAM increases reported; service and         Check guest filesystem capacity as well as
-on PC5                    feed troubleshooting captured.                   virtual disk size; do not assume feed
-                                                                           import is fixed.
-Feed owner / port         Repeated target creation, log inspection         No completed scan; preserve error
-list absent               and full-feed synchronization.                   evidence and rerun after readiness checks.
-Copy-pasted               Earlier PDFs produced typographic                Verify extracted commands contain ASCII
-command flags             hyphens; corrected PDF text mapping is           hyphen-minus, not just that glyphs look
-                          retained here.                                   correct.
-Malformed EVE             Team encountered a repeated JSON parse           Preserve the bad line and investigate its
-input                     error; fast.log remained readable.               origin. A partial write is only one
-                                                                           hypothesis.
-Mixed local clocks        Guest EDT and other local/UTC displays           Preserve offsets and correlate carefully; do
-                          appear together.                                 not invent response-time statistics.
+Host-only across          Team reported failed inter-PC reachability;   Bridging fixes reachability, not security
+physical PCs              later settings show bridged adapters.         isolation or guaranteed IDS visibility.
+Resource pressure         Disk/RAM increases reported; service and      Check guest filesystem capacity as well as
+on PC5                    feed troubleshooting captured.                virtual disk size; do not assume feed
+                                                                        import is fixed.
+Feed owner / port         Repeated target creation, log inspection      No completed scan; preserve error
+list absent               and full-feed synchronization.                evidence and rerun after readiness checks.
+Copy-pasted               Earlier PDFs produced typographic             Verify extracted commands contain ASCII
+command flags             hyphens; corrected PDF text mapping is        hyphen-minus, not just that glyphs look
+                          retained here.                                correct.
+Malformed EVE             Team encountered a repeated JSON parse        Preserve the bad line and investigate its
+input                     error; fast.log remained readable.            origin. A partial write is only one
+                                                                        hypothesis.
+Mixed local clocks        Guest EDT and other local/UTC displays        Preserve offsets and correlate carefully; do
+                          appear together.                              not invent response-time statistics.
 
 
 
-Confidential - Academic Lab Use Only                                                                            25 / 85
+
+Confidential - Academic Lab Use Only                                                                      28 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -1170,17 +1230,19 @@ Confidential - Academic Lab Use Only                                            
 
 5.1 Strategy and Initial Position
 
-Operators: Bruno (PC4), with Rayan (PC3) after infrastructure setup. The attack workstation was
-192.168.50.100; the principal targets became VulnBank at 192.168.50.20 and Metasploitable2 at
-192.168.50.40. The goal was to test reachable services, obtain controlled access where justified, and
-demonstrate limited impact. The team did not first bypass an external perimeter: the starting point was an
-authorized connection to the lab LAN.
-The Red Team strategy was evidence-led target selection. Discovery reduced uncertainty about live assets;
-enumeration narrowed the work to a vulnerable server and a web application; protocol-specific checks supplied
-more precise leads; the FTP exploit was then validated against the actual target. After root access, the team
-demonstrated account control. It subsequently assessed VulnBank as a separate application, preserved a
-rejected injection attempt, and used the default-credential path reported in its own narrative. These are distinct
-attack paths, not a demonstrated pivot from Metasploitable into VulnBank.
+Red Team voice: Bruno (PC4), with Rayan (PC3) after infrastructure setup. We began on Kali at
+192.168.50.100, already connected to the authorized lab. We therefore did not need to break through an
+Internet perimeter. Our first question was which systems were reachable and what they exposed. We wanted
+each test to answer that question more precisely before we attempted controlled access.
+Our strategy was to narrow the attack surface in stages. We first discovered live addresses, then identified their
+services, then checked the access policies of the services that looked most relevant. Those results led us to two
+different targets: Metasploitable2 at 192.168.50.40 for the server-side path, and VulnBank at
+192.168.50.20 for the application path. We did not assume that access to one meant access to the other.
+For each path, we followed the same reasoning: establish the service, choose a matching test, inspect the
+actual response, and verify the resulting access before describing its impact. When an attempt failed or a tool
+produced conflicting output, we retained that result and explained the next decision. The narrative below
+follows the exercise phases; it does not turn an expected outcome from the setup guide into a claim that we
+achieved it.
 
                                                                                                  Verify bounded
      Discover live assets              Enumerate services        Choose exact test
@@ -1194,19 +1256,22 @@ guide succeeded.
 
 5.2 Reconnaissance: Establish the Asset Map (Task 2)
 
+Before selecting an exploit, we needed an inventory of the systems actually online. We chose nmap -sn
+because it performs host discovery without following it with a port scan. This gave us a manageable starting list
+and avoided running service tests against addresses that had not yet responded.
    Recorded on PC4 Kali - discovery
 
    nmap -sn 192.168.50.0/24
 
--sn performs host discovery without a subsequent port scan. On a directly connected Ethernet-style subnet, a
-privileged Nmap run normally uses ARP discovery; other probe behaviour depends on privilege and path. It is
-therefore inaccurate to promise a TCP port-scan signature for every discovery sweep. The command is still
-active traffic, not invisible reconnaissance.
+The sweep reported eight live addresses, including our own Kali machine. We used those responses to build the
+asset map for the next step. On a directly connected Ethernet-style subnet, a privileged Nmap run normally
+uses ARP discovery; probe behaviour depends on privilege and path. We treated this as active discovery, not
+invisible reconnaissance, and did not assume it would produce a TCP port-scan alert.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                       26 / 85
+Confidential - Academic Lab Use Only                                                                       29 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -1221,24 +1286,32 @@ identification.
 Interpretation. Eight hosts are reported up in 8.35 seconds, including the attacker’s own address. The
 no-DNS-server warning does not invalidate discovery by numeric IP. MAC vendor labels repeat across several
 bridged guests and should not be treated as authoritative operating-system evidence.
-Decision. The inventory established which addresses could be investigated next. The gateway, workstation,
-sensor and scanner remained part of the asset map, but the subsequent exploitation effort focused on
-192.168.50.20 and 192.168.50.40 because of their exposed service profiles.
+  Difficulty Encountered - Nmap DNS Warning
+  Problem. Nmap warned that it could not determine DNS servers and disabled reverse-DNS resolution. Why.
+  Resolver information was unavailable to that scan; the screenshot does not establish the underlying config-
+  uration cause. Response. We continued with the authorized numeric IP addresses rather than relying on
+  hostnames. Outcome. Discovery still returned eight live addresses, allowing service enumeration to pro-
+  ceed. This was a working bypass of the naming dependency, not evidence that DNS itself was repaired.
+
+Having established who was online, our next question was what each host was running. We kept the gateway,
+workstation, sensor and scanner in the inventory, then used service identification to decide where a controlled
+exploitation test would be most useful. That next pass, rather than the discovery result alone, led us to
+concentrate on 192.168.50.20 and 192.168.50.40.
 
 
 5.3 Scanning and Service Enumeration (Task 3)
 
-The discovery result is followed by service identification, a full TCP scan and targeted protocol checks, in that
-order. The Red Team PDF also lists a per-host -A pass with saved text files. -A enables version detection, default
-scripts, OS detection and traceroute; some of these require privileges and sufficient responsive ports. Not every
-per-host output is preserved in the screenshots. The displayed results for the application, Ubuntu2 and
-Metasploitable are the basis used here; guessed OS labels are not promoted to confirmed asset identity.
+We moved from addresses to services using the per-host -A pass recorded in our Red Team report. We chose it
+to collect service versions, default-script results, OS hints and traceroute information together, and used -oN to
+retain normal text output. Some parts of that scan require appropriate privileges and responsive ports, so we
+treated guessed OS labels as hints rather than confirmed identities. Not every per-host result was preserved;
+the following captures show the results available for our target selection.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                        27 / 85
-SECURETECH / CYS 4151                                                                      Penetration Testing Report
+Confidential - Academic Lab Use Only                                                                        30 / 90
+SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
 
@@ -1249,8 +1322,15 @@ Comment. 192.168.50.20 shows SSH 9.6p1, Apache 2.4.58 on TCP80 and Node.js Expre
 Evidence Limit. Nmap’s OS guesses include alternatives; use guest configuration and banners to corroborate. No DVWA
 page is demonstrated.
 
-Inspect the second priority host. Metasploitable’s broader legacy-service footprint gives the team a distinct
-server-side path to investigate.
+The application host exposed VulnBank on ports 80 and 3000, which gave us a web-assessment path.
+Metasploitable exposed a much broader collection of legacy services, which gave us a separate server-side path.
+We inspected that second result before deciding which service to test first.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                      31 / 90
+SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
 
@@ -1261,18 +1341,26 @@ RPC information.
 Evidence Limit. Version strings are leads; each vulnerability needs a distinct validation. This screenshot alone is not a
 shell-access result.
 
-Confidential - Academic Lab Use Only                                                                            28 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
-
 
 5.3.1 Scan the Selected Hosts Across the TCP Port Range
 
+The initial service results were useful, but we still needed to check for listeners outside the default port
+selection. We therefore ran a full TCP port scan against the two chosen targets. Keeping the target list explicit
+also kept this deeper test within the systems we had selected for the exercise.
    Recorded PC4 command - full TCP service scan
    nmap -sV -sC -p- 192.168.50.20 192.168.50.40 -oN full_scan.txt
 
--sV identifies responding service versions; -sC runs default NSE scripts; -p- covers TCP ports 1–65535 in this
-scan; -oN saves normal text output. This does not scan all UDP services. A full-range TCP result is broader than
-the default port selection, not a complete assessment of every possible protocol or application route.
+We used -sV for service versions, -sC for default NSE checks, -p- for TCP ports 1–65535, and -oN to save the
+result. On the application host, the displayed output again identified the three relevant listeners: SSH, HTTP and
+Express. That helped us move on to web fingerprinting instead of continuing to search blindly for another TCP
+service. The scan did not cover all UDP services or every application route, so it was not a complete security
+assessment by itself.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                            32 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
 
@@ -1283,31 +1371,40 @@ ports; the target’s broad service list begins below.
 Evidence Limit. Only TCP is covered and some output continues off-screen. The corrupt Zsh history warning is a local
 tooling issue.
 
+  Difficulty Encountered - Corrupt Shell History
+  Problem. Kali displayed a corrupt Zsh history-file warning. Why. The shell could not read its history normally;
+  the original cause of the file damage was not established. Response. We continued issuing the required
+  commands directly and retained their displayed results rather than depending on history alone. Outcome.
+  The Nmap scan still ran. No repair of the history file is evidenced, and the warning was not a target-side
+  security control.
 
-Target                    Visible service       Decision supported
+Target                    Visible service          Decision supported
 
-192.168.50.20             22/TCP, OpenSSH       Administrative service; no successful SSH exploitation of this host is
-                          9.6p1                 shown.
-192.168.50.20             80/TCP, Apache        Inspect VulnBank and its login/administrative functions.
+192.168.50.20             22/TCP, OpenSSH          Administrative service; no successful SSH exploitation of this host is
+                          9.6p1                    shown.
+192.168.50.20             80/TCP, Apache           Inspect VulnBank and its login/administrative functions.
                           2.4.58
-192.168.50.20             3000/TCP, Express     Compare the direct application listener with the HTTP front end.
-192.168.50.30             22/TCP in initial     Retain as Ubuntu2 infrastructure; the visible evidence does not
-                          view                  justify a DVWA-specific attack.
-192.168.50.40             21/TCP, vsftpd        Validate anonymous FTP and investigate the matching backdoor
-                          2.3.4                 module.
-192.168.50.40             SMB, old SSH and      Enumerate access policy; treat remaining services as leads pending
-                          other services        individual validation.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                         29 / 85
-SECURETECH / CYS 4151                                                                     Penetration Testing Report
+192.168.50.20             3000/TCP, Express        Compare the direct application listener with the HTTP front end.
+192.168.50.30             22/TCP in initial        Retain as Ubuntu2 infrastructure; the visible evidence does not
+                          view                     justify a DVWA-specific attack.
+192.168.50.40             21/TCP, vsftpd           Validate anonymous FTP and investigate the matching backdoor
+                          2.3.4                    module.
+192.168.50.40             SMB, old SSH and         Enumerate access policy; treat remaining services as leads pending
+                          other services           individual validation.
 
 
 5.3.2 Fingerprint the Web Listeners
 
-The open web ports justify a separate HTTP technology/header check before selecting an application test.
+With two web listeners on 192.168.50.20, we wanted to know whether they exposed the same application
+and which technologies answered on each port. We used WhatWeb to identify visible web technologies and
+
+
+Confidential - Academic Lab Use Only                                                                          33 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
+
+
+curl -I to inspect response headers without retrieving a full page body. This helped us choose
+application-specific tests rather than applying the DVWA instructions to a different application.
    Recorded PC4 commands - web technology and HTTP headers
 
    whatweb 192.168.50.20
@@ -1327,26 +1424,30 @@ server-side authentication source was supplied.
 Interpretation. Both HTTP listeners return 200 responses and a 2778-byte page; Apache and Express headers
 identify the stack. The displayed HTTPS connection refusal supports the cleartext-service concern. Matching
 lengths do not prove identical authorization or that traffic on port 3000 passes through Apache.
+These responses confirmed VulnBank as our web target and gave us a separate transport-security concern to
+record. We then returned to Metasploitable’s service list: before choosing an exploit, we wanted to establish
+whether its file-transfer and file-sharing services also allowed unintended access.
 
 
 5.3.3 Validate Anonymous Service Access
 
+Open ports alone did not tell us whether authentication was enforced. We chose smb-enum-shares to
+inspect the exposed SMB shares and ftp-anon to test anonymous FTP authentication. Each script answered a
+specific question raised by the preceding service scan.
    Recorded PC4 commands - access-policy checks
 
    nmap --script=smb-enum-shares -p445 192.168.50.40
    nmap --script=ftp-anon -p21 192.168.50.40
 
-The SMB script lists shares and access information; the FTP script attempts anonymous authentication.
-E035–E036 show a tmp share classified as anonymous READ/WRITE and an FTP response 230 indicating
-anonymous login. These are configuration exposures, not proof that customer files were stolen. Anonymous
-FTP access and the vsftpd backdoor are separate weaknesses: disabling anonymous logins alone is not a
-sufficient remedy for a backdoored binary.
+The SMB output classified the tmp share as anonymous READ/WRITE; the FTP check returned 230, indicating
 
-
-
-
-Confidential - Academic Lab Use Only                                                                          30 / 85
+Confidential - Academic Lab Use Only                                                                          34 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
+
+
+that anonymous authentication was accepted. We now had concrete access-policy findings rather than just a
+list of open ports. We retained both results for remediation, while avoiding a claim of file theft because no such
+operation was demonstrated.
 
 
 
@@ -1362,27 +1463,31 @@ separate anonymous FTP check.
 
 
 
+Confidential - Academic Lab Use Only                                                                        35 / 90
+SECURETECH / CYS 4151                                                                Penetration Testing Report
+
+
+
+
 Figure 35: E036 - Anonymous SMB and FTP results
 Comment. The tmp share is reported as anonymous READ/WRITE. A separate ftp-anon check reports Anonymous FTP
 login allowed with FTP code230.
 Evidence Limit. These are confirmed service-policy exposures; no file theft or anonymous write test is shown.
 
-Decision. The exact FTP banner suggested a candidate exploit, while the share/FTP checks demonstrated
-
-Confidential - Academic Lab Use Only                                                                        31 / 85
-SECURETECH / CYS 4151                                                                Penetration Testing Report
-
-
-permissive access policy. The team selected the known vsftpd module on the explicitly authorized target. The
-Red Team PDF mentions distccd as a backup lead; it was not demonstrated as an additional successful exploit
-and is not counted as one.
+We chose the FTP path for our controlled initial-access test because the exact vsftpd banner gave us a specific
+backdoor hypothesis to investigate. The anonymous-access checks strengthened our assessment of the host’s
+permissive configuration, but they did not themselves prove that the backdoor was present. Those are different
+weaknesses: disabling anonymous login would not repair a backdoored binary. We also noted distccd as a
+backup lead in our report, but did not demonstrate a separate exploit against it.
 
 
 5.4 Threat Modelling and Test Selection (Task 4)
 
-The next exercise step turns the discovered services into a test plan. This is an analytical step based on the
-preceding screenshots; no separate threat-model screenshot was supplied. The final findings chapter develops
-the risk ratings after the test results are known.
+At this point, we translated the service observations into a test plan: what asset could be affected, what access
+an attacker might gain, and what bounded test could confirm or reject the hypothesis. This connects our
+reconnaissance to the later exploitation choices. The table is analysis based on the preceding evidence, not a
+separate captured threat-modelling session; the final findings chapter develops the ratings after considering the
+test results.
 Asset / lead               Potential consequence                       Next justified test
 
 Metasploitable FTP         Possible remote execution if the backdoor   Review the exact module, then verify
@@ -1398,26 +1503,29 @@ monitoring                 containment                                 the sourc
                                                                        affected by a block.
 
 
+
+
+Confidential - Academic Lab Use Only                                                                     36 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
+
+
 5.5 Vulnerability Scanning: Amina’s OpenVAS Attempt (Task 5)
 
-This scanning phase is placed before initial access in the exercise sequence. Amina’s defensive scanner
-preparation occurred alongside Red Team work; it did not produce a successful scan that enabled the
-subsequent exploit. The team used the earlier manual service evidence instead. The dedicated PC5 report
-explicitly states Incomplete - assessment blocked. The screenshots show a reachable local interface, an initial
-login failure, an empty task list, an unset feed-owner warning, missing GVMD/CERT metadata, SCAP import in
-progress and repeated default-port-list rejection. The NVT feed alone was Current.
+Blue Team voice: Amina on PC5. We wanted an independent vulnerability assessment to complement the Red
+Team’s manual enumeration. OpenVAS was intended to give us broader coverage, after which we could
+compare its findings with targeted manual checks and prioritize remediation. We therefore needed a working
+scanner, usable feeds and a valid target before trusting any results.
+Our preparation ran alongside Red Team work; this section appears before initial access to follow the exercise
+phases. It did not produce a completed scan that enabled the later exploit. Instead, we encountered a
+sequence of readiness problems and recorded the outcome as Incomplete - assessment blocked. The Red
+Team proceeded from its manual service evidence, not an OpenVAS report that did not exist.
 
 
 5.5.1 Open the Task List and Check Readiness
 
-After reaching GSA, review the task list and readiness message before attempting a scan. The first view explicitly
-says scans are unavailable during synchronization.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                     32 / 85
-SECURETECH / CYS 4151                                                                      Penetration Testing Report
+After reaching GSA, we checked the task list rather than immediately assuming the scanner was ready. It
+showed no tasks and explicitly said that scans were unavailable while the feeds synchronized. This told us to
+investigate readiness before interpreting the absence of results as anything about the target network.
 
 
 
@@ -1426,8 +1534,15 @@ Figure 36: E058 - GSA tasks blocked by feed synchronization
 Comment. The UI shows Tasks0of0 and a feed-synchronizing notification stating that scans are unavailable.
 Evidence Limit. The scanner interface is reachable, but this view establishes no created task or completed assessment.
 
-Recheck the task list. A later frame shows an inactivity warning and still no tasks. The disappearance of a feed
-banner in one frame must not be interpreted as successful import.
+We revisited the task list, but still had no scan task. A later frame showed an inactivity warning instead of the
+feed banner; that was not enough to conclude that import had finished. We therefore moved to the feed-status
+page to check the individual components directly.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                         37 / 90
+SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
 
@@ -1436,12 +1551,6 @@ Figure 37: E059 - Empty task list and session warning
 Comment. The UI shows Tasks0of0 with an inactivity/session-expiry warning.
 Evidence Limit. The absence of a feed banner in this frame is not proof of completed feed import; later status views still
 show an update in progress.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                            33 / 85
-SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
 
@@ -1458,8 +1567,13 @@ readiness gap.
 
 5.5.2 Attempt Target Creation and Preserve Each Error
 
-Enter the intended lab target list and save it only after checking scope. The first supplied target dialog does not
-show a successful save.
+We entered the intended lab addresses in a target named CYS4151-Targets. Creating this object was
+necessary before a scan task could refer to it. Our first dialog records the intended configuration, but not a
+successful save, so we retained the later error messages to explain why we could not progress.
+
+
+Confidential - Academic Lab Use Only                                                                            38 / 90
+SECURETECH / CYS 4151                                                                         Penetration Testing Report
 
 
 
@@ -1468,11 +1582,8 @@ Figure 39: E049 - Initial scanner target definition
 Comment. The New Target dialog names CYS4151-Targets and contains a horizontally truncated lab-address list.
 Evidence Limit. The full address list and successful Save are not visible. Subsequent evidence shows target creation failing.
 
-Confidential - Academic Lab Use Only                                                                            34 / 85
-SECURETECH / CYS 4151                                                                         Penetration Testing Report
-
-
-Retry record. A second capture records the repeated target-definition attempt.
+We tried saving the target again and kept this second configuration view so the attempted scope remained
+visible alongside the failure.
 
 
 
@@ -1481,8 +1592,12 @@ Figure 40: E061 - Target creation attempted again
 Comment. The CYS4151-Targets dialog again contains the lab address list before saving.
 Evidence Limit. The field is truncated and target creation has not succeeded in this frame.
 
-Interpret the feed-owner error. Target creation reports an unmet prerequisite; it does not identify a
-vulnerability in the selected hosts.
+The next message said the feed owner was not set. This pointed us back to the scanner’s own prerequisites
+rather than to a security weakness on the selected hosts.
+
+
+Confidential - Academic Lab Use Only                                                                             39 / 90
+SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
 
@@ -1493,11 +1608,9 @@ synchronization.
 Evidence Limit. The message identifies a configuration prerequisite; it does not prove the exact reason the feed owner is
 absent.
 
-Confidential - Academic Lab Use Only                                                                             35 / 85
-SECURETECH / CYS 4151                                                                        Penetration Testing Report
-
-
-Interpret the missing port list. The next attempt is blocked before a scan can be launched.
+A subsequent attempt reported that the default port list was unavailable. We needed that list to define the
+intended scan coverage, so the error stopped us before launch and justified inspecting the manager’s imported
+data.
 
 
 
@@ -1506,6 +1619,10 @@ Figure 42: E063 - Default port list unavailable
 Comment. Target creation is rejected because the default Port List is not available.
 Evidence Limit. This blocks creating a scan target; it is an environmental assessment limitation, not a vulnerability on .20
 or .40.
+
+Confidential - Academic Lab Use Only                                                                             40 / 90
+SECURETECH / CYS 4151                                                                         Penetration Testing Report
+
 
 Preserve the repeated failure. The second full-dialogue view corroborates that the error persisted, rather than
 adding another independent finding.
@@ -1518,10 +1635,6 @@ Comment. A second full-dialogue screenshot records the same default Port List er
 Evidence Limit. Retained as a distinct retry view; repeated identical errors are not additional target vulnerabilities.
 
 
-Confidential - Academic Lab Use Only                                                                              36 / 85
-SECURETECH / CYS 4151                                                                         Penetration Testing Report
-
-
 
 
 Figure 44: E065 - Port-list error close-up
@@ -1532,16 +1645,24 @@ Interpretation. The failure occurs before a scan task is launched. It cannot sup
 target hosts are secure or vulnerable, nor a scanner-derived severity chart.
 
 
+Confidential - Academic Lab Use Only                                                                               41 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
+
+
+  Difficulty Encountered - Missing Feed Owner and Port List
+  Problem. We could not save the target because GVM reported an unset feed owner and an unavailable de-
+  fault port list. Why. Required scanner data/configuration was not ready; GVMD Data supplies the default
+  port lists and scan configurations. The evidence does not isolate the underlying reason that those objects
+  were missing. Response. We checked Feed Status, inspected manager logs, retried target creation and at-
+  tempted synchronization. Outcome. The task remained blocked. No completed scan or CVSS export was
+  produced, so this difficulty is recorded as unresolved rather than as an obstacle we successfully overcame.
+
+
 5.5.3 Inspect Service Logs and Revisit Feed Status
 
-The failed target save led Amina to the manager logs. These messages show the metadata that GVM could not
-read.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                               37 / 85
-SECURETECH / CYS 4151                                                                       Penetration Testing Report
+The interface told us what was missing, but not enough about why. We therefore inspected the manager logs to
+see which data GVM was failing to read. The missing feed.xml messages gave us a more precise
+troubleshooting lead than repeatedly changing the target name.
 
 
 
@@ -1557,15 +1678,20 @@ Amina’s overlay.
 
 
 
+Confidential - Academic Lab Use Only                                                                         42 / 90
+SECURETECH / CYS 4151                                                                       Penetration Testing Report
+
+
+
+
 Figure 46: E070 - Repeated gvmd metadata errors
 Comment. The terminal shows the missing GVMD Data and CERT feed.xml warnings with Amina’s identity overlay.
 Evidence Limit. This is similar to E051 but retained as an independently supplied file; there is no successful import
 message.
 
-Check scanner startup. Tailing the manager log also reports that the scanner has not yet supplied a feed version.
-
-Confidential - Academic Lab Use Only                                                                            38 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
+We also used sudo tail -f /var/log/gvm/gvmd.log to follow new manager messages as they
+appeared. It reported that the scanner had not yet supplied a feed version and was still starting. That helped us
+distinguish an accessible web interface from an assessment engine that was actually ready.
 
 
 
@@ -1574,8 +1700,15 @@ Figure 47: E073 - Scanner feed-version startup messages
 Comment. sudo tail -f /var/log/gvm/gvmd.log reports No feed version available yet and OSPd OpenVAS is still starting.
 Evidence Limit. The messages justify checking scanner readiness; they do not confirm eventual startup or feed completion.
 
-Return to the feed-status page. NVT and SCAP need separate interpretation; one being current does not
-establish that every required object is ready.
+
+
+Confidential - Academic Lab Use Only                                                                            43 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
+
+
+We returned to Feed Status to compare those messages with the interface. NVT was Current while SCAP
+remained in progress, so we could not use the status of one component as proof that the whole scanner was
+ready.
 
 
 
@@ -1589,27 +1722,23 @@ Later status checkpoint. SCAP remains in progress in this additional supplied vi
 
 
 
-Confidential - Academic Lab Use Only                                                                         39 / 85
-SECURETECH / CYS 4151                                                                   Penetration Testing Report
-
-
-
-
 Figure 49: E069 - Later feed-status review
 Comment. Amina revisits the feed-status page; NVT is Current and SCAP remains in progress.
 Evidence Limit. The visible state corroborates the incomplete feed. Do not treat the UI countdown as a test timestamp.
 
 
+
+
+Confidential - Academic Lab Use Only                                                                         44 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
+
+
 5.5.4 Synchronize and Measure Progress Without Assuming Completion
 
-Amina then invokes the full-feed sync. A lock acquisition and download start justify monitoring its progress, not
-launching a scan immediately.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                         40 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
+We next ran sudo greenbone-feed-sync --type all to request the configured feeds together. The
+output showed a lock acquisition and the start of Notus/NASL downloads. This told us the synchronization
+process had begun, so our next step was to monitor progress and later recheck imported objects; it did not
+justify claiming a successful scan.
 
 
 
@@ -1620,8 +1749,15 @@ content as the _gvm user.
 Evidence Limit. A download starting is not a completed transfer or database import. No lock files should be deleted based
 on this view alone.
 
-Check the download path. The traffic view uses a NAT-side address and contains external troubleshooting
-advice; only the displayed network activity is execution evidence.
+We looked at the traffic view to understand the active download path. It showed a NAT-side address
+communicating with the feed service. The external troubleshooting advice visible beside it was reference
+material, not proof that every suggested command had been executed.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                         45 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
 
@@ -1632,13 +1768,9 @@ beside troubleshooting guidance.
 Evidence Limit. The 95.4Mb scale label is not cumulative bytes downloaded. Third-party chat advice in the screenshot is
 not executed-command evidence.
 
-
-
-Confidential - Academic Lab Use Only                                                                         41 / 85
-SECURETECH / CYS 4151                                                                     Penetration Testing Report
-
-
-Measure local directory usage. The first timed checkpoint shows 998M in the SCAP data directory.
+We used watch -n 15 sudo du -sh /var/lib/gvm/scap-data/ because repeated directory-size
+readings could show whether local feed data was growing. The first timed checkpoint showed 998M. This
+measured usage, not free disk space or database-import completion.
 
 
 
@@ -1647,7 +1779,14 @@ Figure 52: E078 - SCAP size at first recorded checkpoint
 Comment. The monitor displays 998M at 12:59:28 PM EDT on03October2026.
 Evidence Limit. This measures directory usage, not disk free space or imported vulnerability count.
 
-Compare the next checkpoint. The monitor shows 1002M thirty seconds later.
+Thirty seconds later, the monitor showed 1002M. That gave us evidence of local growth and a reason to
+continue checking, but no completed target or task was yet demonstrated.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                         46 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
 
@@ -1663,17 +1802,15 @@ completed import.
 
 
 
-Confidential - Academic Lab Use Only                                                                         42 / 85
-SECURETECH / CYS 4151                                                                     Penetration Testing Report
-
-
-
-
 Figure 54: E052 - SCAP directory growth observation
 Comment. A watch command displays 1002M in /var/lib/gvm/scap-data/ at 12:59:58 PM EDT.
 Evidence Limit. Directory size is not free disk space and does not prove database import or scan readiness.
 
-Review the later 1.1G reading. Directory growth is visible, but readiness must still be checked in GVM.
+The later reading reached 1.1G. We still needed GVM to expose the required data objects and accept a target; a
+larger directory alone could not answer that question.
+
+Confidential - Academic Lab Use Only                                                                          47 / 90
+SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
 
@@ -1687,11 +1824,6 @@ the incomplete attempt.
 
 
 
-Confidential - Academic Lab Use Only                                                                          43 / 85
-SECURETECH / CYS 4151                                                                     Penetration Testing Report
-
-
-
 
 Figure 56: E080 - Final recorded size checkpoint
 Comment. The monitor reaches1.1G at01:26:53 PM EDT. Amina’s source report records the assessment as incomplete.
@@ -1701,19 +1833,19 @@ Check whether scans are available. The supplied notification still describes syn
 availability.
 
 
+Confidential - Academic Lab Use Only                                                                          48 / 90
+SECURETECH / CYS 4151                                                                     Penetration Testing Report
+
+
 
 
 Figure 57: E076 - Explicit scan-unavailable notification
 Comment. The GSA banner says feeds are synchronizing and scans are not available during this time.
 Evidence Limit. This already-cropped source records the banner only, not a full identity/time context.
 
-Record the final target retry. Renaming the target to vul does not resolve the absent port-list dependency.
-
-
-
-
-Confidential - Academic Lab Use Only                                                                         44 / 85
-SECURETECH / CYS 4151                                                                    Penetration Testing Report
+We also retried with the target name vul, but the missing-port-list error persisted. This confirmed that
+changing the target name had not removed the readiness obstacle. We ended the documented attempt
+without a launched scan and carried the blocker into the remediation plan.
 
 
 
@@ -1723,21 +1855,36 @@ Comment. A target named vul is also rejected because the default Port List is un
 Evidence Limit. Changing the target name does not fix the missing dependency; no successful task creation follows in the
 supplied evidence.
 
+  Difficulty Encountered - Synchronization Never Reached Readiness
+  Problem. Feed files grew, but the scanner still could not create the intended target. Why. Downloaded
+  directory content and imported, usable scan objects are different stages; the exact cause of the remaining
+  import failure was not established. Response. Amina’s report records five attempts, resource increases, log
+  inspection and progress monitoring. Outcome. The final record remained incomplete. The next required
+  work is a controlled feed-owner/import investigation and readiness retest, not another claimed successful
+  vulnerability scan.
 
-Checkpoint                  Observed evidence                              Why the next step followed
 
-Service start               ospd-openvas, notus-scanner and gsad           Open the local GSA interface and inspect
-                            invoked                                        readiness.
-Feed review                 NVT Current; SCAP Update in progress           Inspect import and metadata state rather
-                                                                           than assuming the UI implies readiness.
-Target creation             Feed-owner / default Port List errors          Examine gvmd logs and required data
-                                                                           objects.
-Log investigation           Missing feed.xml; scanner feed version         Attempt controlled synchronization and
-                            unavailable                                    monitor import progress.
-Full feed sync              Lock acquired; Notus/NASL downloads            Allow completion, then verify actual
-                            start                                          imported port lists and scan configs.
-Last recorded state         998M, 1002M, then 1.1G SCAP directory;         Record an incomplete task and schedule a
-                            no scan                                        separate retest after readiness.
+
+
+Confidential - Academic Lab Use Only                                                                         49 / 90
+SECURETECH / CYS 4151                                                             Penetration Testing Report
+
+
+
+Checkpoint                  Observed evidence                        Why the next step followed
+
+Service start               ospd-openvas, notus-scanner and gsad     Open the local GSA interface and inspect
+                            invoked                                  readiness.
+Feed review                 NVT Current; SCAP Update in progress     Inspect import and metadata state rather
+                                                                     than assuming the UI implies readiness.
+Target creation             Feed-owner / default Port List errors    Examine gvmd logs and required data
+                                                                     objects.
+Log investigation           Missing feed.xml; scanner feed version   Attempt controlled synchronization and
+                            unavailable                              monitor import progress.
+Full feed sync              Lock acquired; Notus/NASL downloads      Allow completion, then verify actual
+                            start                                    imported port lists and scan configs.
+Last recorded state         998M, 1002M, then 1.1G SCAP directory;   Record an incomplete task and schedule a
+                            no scan                                  separate retest after readiness.
 Resource history and uncertainty. Amina reports five attempts, including a final run of roughly an hour, and the
 increases to disk/RAM/CPU described in the setup chapter. The snapshots measure directory usage, not free
 disk capacity, and do not prove that all enlarged disk space became usable inside the guest. The deeper cause
@@ -1754,29 +1901,33 @@ compatibility and filesystem capacity are investigation leads, not established c
    sudo journalctl -u gvmd -u ospd-openvas -n 100 --no-pager
    greenbone-feed-sync --help
 
-Check the installed feed-sync version and follow its matching distribution guidance. Avoid repeated overlapping
-syncs and do not delete an active lock to force progress. Confirm a valid feed owner, imported default port lists,
-usable scan configurations and a connected scanner in the GUI; then create the target, choose an authorized
-
-Confidential - Academic Lab Use Only                                                                         45 / 85
-SECURETECH / CYS 4151                                                              Penetration Testing Report
-
-
-non-destructive scan profile and preserve the final export. A generic gvmd --rebuild command is not
-prescribed without checking support in the installed version.
+For a follow-up, we would use these diagnostics to separate remaining resource constraints from service and
+feed-import problems: df checks filesystem capacity and inodes, lsblk checks the disk layout, and free
+checks RAM. The GVM setup and service-log checks would then identify the next actionable failure. This is our
+proposed next investigation, not a set of completed historical fixes. We would follow the installed version’s
+guidance, avoid overlapping syncs or deleting an active lock, and require a valid feed owner, port list, scan
+configuration and connected scanner before attempting a new scan.
 
 
 5.6 Initial Access: Validate the FTP Backdoor (Task 6)
 
 5.6.1 Select the Matching Module
 
+Our manual service evidence gave us a testable lead even though OpenVAS had not completed. We opened
+Metasploit and searched for a vsftpd exploit so we could review the module associated with the version we had
+observed on 192.168.50.40.
    Recorded on PC4 - launch Metasploit and search
 
    msfconsole
    search type:exploit vsftpd
 
-The first line launches Metasploit from Kali. The search then runs inside its console and returns a candidate
-module; this is not yet evidence of target access.
+The first command opened Metasploit from Kali; the search ran inside its console and returned
+vsftpd_234_backdoor. This gave us a candidate to configure, not proof that the target would be vulnerable.
+Our next step was to verify its target and payload settings before execution.
+
+
+Confidential - Academic Lab Use Only                                                                 50 / 90
+SECURETECH / CYS 4151                                                              Penetration Testing Report
 
 
 
@@ -1789,6 +1940,9 @@ Evidence Limit. A search result and module ranking do not establish that a targe
 
 5.6.2 Configure and Review the Target
 
+We selected the module, set RHOSTS to the authorized target, and chose the interactive shell payload. We then
+used show options to inspect the settings rather than assuming that a previous session or a default value
+pointed to the correct host.
    Recorded inside the Metasploit console
 
    use exploit/unix/ftp/vsftpd_234_backdoor
@@ -1796,13 +1950,14 @@ Evidence Limit. A search result and module ranking do not establish that a targe
    set PAYLOAD cmd/unix/interact
    show options
 
-These are Metasploit-console commands, not commands for a normal shell. RHOSTS selects the target and the
-displayed RPORT remains 21. cmd/unix/interact handles the shell exposed by this module; no
-reverse-payload LHOST is required for this bind-shell example. show options establishes the configured
-target before execution. Confirm scope before execution. The configured target, port and payload are
-displayed before the test is run.
+The options showed 192.168.50.40 on FTP port 21 with cmd/unix/interact. This is a bind-shell
+interaction, so a reverse-payload LHOST was not required. All these lines belong in the Metasploit console, not
+an ordinary shell. Once the displayed settings matched our intended test, we proceeded to execution.
 
-Confidential - Academic Lab Use Only                                                                  46 / 85
+
+
+
+Confidential - Academic Lab Use Only                                                                  51 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -1815,18 +1970,21 @@ Evidence Limit. This is preparation, not a successful shell. The following scree
 
 5.6.3 Run the Controlled Test
 
+We ran the configured module and checked whether it actually created a usable session. We kept the failed
+attempt in the record because it explains why the next invocation was necessary in this particular session.
    Recorded inside Metasploit - execute the selected test
    run
 
-E037 is the module search, and E038 is configuration only. E039 shows an unsuccessful first run followed by a
-second run that connects to the existing backdoor listener and opens a shell. The test result, not the version
-string alone, establishes exploitation. CVE-2011-2523 concerns a tampered vsftpd distribution; it is not a
-statement that every installation reporting version 2.3.4 necessarily contains that backdoor.
+Our first run ended without creating a session. We tried again; this time the output reported an already-open
+backdoor listener and opened a command shell. That changed the finding from a version-based suspicion into
+demonstrated access on this target. We did not establish why the first run failed, so this is not a claim that every
+such test requires two attempts. CVE-2011-2523 concerns a tampered vsftpd distribution, not every installation
+carrying the 2.3.4 version label. With a shell available, our next step was to verify its user and host identity.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                             47 / 85
+Confidential - Academic Lab Use Only                                                                             52 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -1838,24 +1996,35 @@ opens shell session1 from .100 to .40:6200 at 12:33:28 -0400.
 Evidence Limit. Do not generalize that every first attempt must fail. The exact reason for the initial failure was not
 established.
 
+  Difficulty Encountered - First FTP Test Created No Session
+  Problem. Our first run ended without a command session. Why. The capture does not isolate the cause; we
+  cannot conclude that this exploit always fails on its first invocation. Response. We ran the configured test
+  again against the same authorized target. Outcome. The second invocation connected to the already-open
+  backdoor listener and returned a root shell. We then used whoami, id and hostname to verify the result
+  instead of relying on the session message alone.
+
 
 5.6.4 Verify the Resulting Identity
 
+We used three short checks to answer different questions: whoami identified the effective user, id confirmed
+the numeric privileges, and hostname checked that we were on the intended machine. A shell prompt alone
+would not have answered all three.
    Recorded inside the target session - identity checks
 
    whoami
    id
    hostname
 
-The corresponding visible values are root, uid=0(root) gid=0(root), and metasploitable. The
-session’s timestamp is 2026-10-03 12:33:28 -0400, equivalent to 16:33:28 UTC if that host clock was
-accurate. The supplied record does not establish why the first run failed; a mandatory retry is not presented as
-a universal exploit procedure.
+We obtained root, uid=0(root) gid=0(root), and metasploitable. Together, those values confirmed
+root access on the correct target and justified the bounded account-control demonstration discussed under
+post-exploitation. We had already reached root; there was no need to invent a later privilege-escalation step.
+The session timestamp is 2026-10-03 12:33:28 -0400, equivalent to 16:33:28 UTC if that clock was
+accurate.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                        48 / 85
+Confidential - Academic Lab Use Only                                                                        53 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -1872,21 +2041,23 @@ reports root and the hostname metasploitable, corroborating both privilege and t
 
 5.7 Web Application Assessment (Task 7)
 
-VulnBank on 192.168.50.20 was a separate application assessment, not the DVWA host described in the
-earlier guide. The login page explicitly describes simulated funds and advertises the seeded administrator
-credentials.
+For the application path, we examined VulnBank at 192.168.50.20 separately from the server we had
+compromised. Our FTP shell did not establish access to this application. We first tried a tautology-style input in
+the login form to see whether the submitted value could bypass authentication. We used the actual VulnBank
+interface, not the DVWA modules described in the earlier guide.
    Observed browser input - not a shell command
 
    ' OR '1'='1
 
-E041 shows Invalid credentials. This records a negative result for the tested payload. It does not
-establish whether the application uses parameterized SQL, another database, validation, or a different
-protection, nor does it prove that all SQL-injection cases would fail.
+The page returned Invalid credentials, so this attempt did not give us access. We kept that negative
+result and did not continue the narrative as though injection had succeeded. It also did not tell us which
+server-side protection rejected the input or whether every other injection test would fail. Our next move was to
+investigate the administrator login itself, including the default credential advertised on the page.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                             49 / 85
+Confidential - Academic Lab Use Only                                                                             54 / 90
 SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
@@ -1898,28 +2069,37 @@ The seeded admin/admin hint is also visible.
 Evidence Limit. One rejected payload does not prove that the application is free of SQL injection or identify the server-side
 protection used.
 
+  Difficulty Encountered - SQL-Injection Attempt Rejected
+  Problem. The login payload returned Invalid credentials. Why. It did not bypass this login path; the
+  evidence does not reveal the database implementation or protection responsible. Response. We recorded
+  the failed attempt and examined the default-administrator credential path next. Outcome. We later obtained
+  the application access described below, but did not overcome or prove SQL injection itself. A successful
+  alternative path must not be reported as a successful injection.
+
 
 5.7.1 Credential Assessment (Task 8)
 
-Decision. The team shifted from the rejected injection attempt to the known login/account surface. The source
-report describes using a guessed administrator name and a password list, followed by manually trying the
-candidate credential. The page’s public admin/admin hint is independently visible, so default-credential
-exposure is a simpler explanation of the path than a sophisticated injection exploit.
+We shifted to the credential path because the failed input had not bypassed the login and the application
+exposed a seeded administrator hint. We used admin as the username and invoked Hydra against the login
+endpoint to test candidate passwords. As our source report records, we then checked the reported credential
+by logging in directly. The visible admin/admin hint means the default-credential concern did not depend
+solely on automated guessing.
    Historical Hydra invocation - retained to explain its mixed result
 
    hydra -l admin -P /usr/share/wordlists/rockyou.txt \
      192.168.50.20 http-post-form \
      "/api/login:username=^USER^&password=^PASS^:F=Invalid"
 
--l fixes the username, -P selects a password file, and the module string describes a POST body and a failure
-marker. This historical invocation is not endorsed as a validated recipe for VulnBank’s endpoint. The request
-method, body type and failure test must match the real API, which cannot be established from this screenshot
-alone. The configured large wordlist does not prove that all entries were tried.
+We used -l to keep the username fixed and -P to supply the candidate password file; the module string
+described the POST fields and expected failure marker. The output was mixed: an admin/admin candidate
+appeared alongside repeated HTTP 401 errors. That made independent verification essential. We do not
+present this historical command as a cleanly validated recipe for the endpoint, or claim that the entire wordlist
+was tested.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                            50 / 85
+Confidential - Academic Lab Use Only                                                                            55 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -1934,16 +2114,23 @@ No clean completion is shown.
 Interpretation. The candidate login: admin password: admin appears alongside repeated errors. An API
 can return 401 without using HTTP Basic authentication; the tool’s suggestion is not proof of that protocol. A
 candidate line requires a controlled independent login check.
-Observed and reported outcome. The Red Team PDF, physical pages 12–13, records a successful manual login
-with admin/admin. E043 shows the resulting administrator workspace, four demo accounts and a DEMO
-PASSWORD column heading. This corroborates administrative access, but the supplied frame does not show
-customer password values. Plaintext storage/extraction remains a reported concern requiring separate
-evidence; it is not silently promoted to a demonstrated password dump.
+As recorded in our Red Team report, we tried admin/admin manually and reached an administrator session.
+The next screenshot corroborates that session: the admin workspace and four demo accounts are visible. We
+then asked what that access permitted, rather than stopping at the login screen. The frame also contains a
+DEMO PASSWORD column heading, but not customer password values; the plaintext-password concern remains
+reported rather than a demonstrated dump in this evidence set.
+  Difficulty Encountered - Hydra HTTP 401 Errors
+  Problem. Hydra printed repeated HTTP 401 errors alongside an admin/admin candidate. Why. The re-
+  quest/response handling was not validated for this endpoint; a 401 response alone does not prove HTTP
+  Basic authentication. Response. As our source report records, we tested the candidate through a manual
+  application login. Outcome. The administrator session corroborates access, but the automated run remained
+  unreliable. Independent verification let us continue the lab without claiming that we fixed Hydra’s module
+  configuration.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                        51 / 85
+Confidential - Academic Lab Use Only                                                                        56 / 90
 SECURETECH / CYS 4151                                                                Penetration Testing Report
 
 
@@ -1963,15 +2150,17 @@ successful password discovery or switch authentication mechanisms solely because
 
 5.7.2 Verify the Bounded Application Impact
 
-E044 shows the transfer form; E045 shows a 5,000.00 FCFA simulated Orange Money receipt, reference
-VB-ORANGE-000002, dated 2026-10-03 17:47:35 UTC. The page explicitly states: no real funds or SMS
-were sent. The receipt illustrates the impact of access to an administrator session, not a real-world payment or
-a separate proof of a transfer-authorization bypass.
+With the administrator session available, we explored the demo transfer function to show the practical impact
+of that access. We first opened the transfer form, then completed a 5,000.00 FCFA simulated Orange Money
+transaction. The receipt, VB-ORANGE-000002, is dated 2026-10-03 17:47:35 UTC. This moved the
+application result beyond merely viewing a dashboard: we demonstrated a privileged session performing a
+demo operation. The page explicitly states that no real funds or SMS were sent, and we do not describe the
+transaction as a separately proven authorization bypass.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                     52 / 85
+Confidential - Academic Lab Use Only                                                                     57 / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -1995,7 +2184,7 @@ Interpretation. The amount, receipt reference, timestamp and simulation warning 
 balance movements exist in the session, so the entire before/after balance difference is not attributed to this
 
 
-Confidential - Academic Lab Use Only                                                                      53 / 85
+Confidential - Academic Lab Use Only                                                                      58 / 90
 SECURETECH / CYS 4151                                                                        Penetration Testing Report
 
 
@@ -2007,20 +2196,20 @@ one transaction.
 This material appears here to follow the exercise task sequence. The source Red Team narrative describes the
 account-change demonstration before its web checks; reordering its presentation does not change that
 historical account or the retained timestamps.
-Decision. Root identity alone establishes serious impact; the team chose a bounded account-control
-demonstration to show its practical consequence. The following historical commands ran inside the existing
-root shell, not on Bruno’s Kali host. The password shown is a disposable lab value already present in the source
-evidence; it must never be reused elsewhere.
+Returning to the impact of the Metasploitable session, we wanted to show what root access allowed us to do.
+We chose a bounded account-control test: change the disposable msfadmin password, inspect its account
+entry, then test a separate login. The following historical commands ran inside our existing root shell, not on
+Bruno’s Kali host. The displayed password is a lab-only value from the source evidence and must never be
+reused elsewhere.
    Recorded inside the Metasploitable root shell
 
    echo "msfadmin:YouGotH@cked1234." | chpasswd
    grep msfadmin /etc/shadow
 
-chpasswd accepts a username/password pair on standard input and changes the account password. Reading
-the shadow entry demonstrates privileged access to the account database; without a before-hash it is not, by
-itself, a before/after comparison. E046 records the action; the source report states it succeeded. The
-independent SSH session below corroborates that the account could subsequently be used, although the typed
-password is not visible.
+We supplied a username/password pair to chpasswd and used grep to inspect the account’s shadow entry.
+The output showed that we could read the privileged account database, but a single hash was not a
+before/after comparison. We therefore did not stop at the file check: our next step was to attempt a separate
+SSH login, as recorded in our source report.
 
 
 
@@ -2035,15 +2224,16 @@ is not evidenced.
 
    ssh msfadmin@192.168.50.40
 
-E047 shows a msfadmin@metasploitable shell. This is a second connection to the same target, not lateral
-movement to another host. It also does not demonstrate new privilege escalation: root was obtained at initial
+The separate terminal reached a msfadmin@metasploitable shell. Our report records this as verification
+using the newly set password; the screenshot confirms the login, although it does not reveal the password
 
-Confidential - Academic Lab Use Only                                                                              54 / 85
+Confidential - Academic Lab Use Only                                                                              59 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
-access. No kernel exploit, persistent scheduled task or implanted SSH key is evidenced. Persistence mechanisms
-are discussed as risks only.
+typed. This demonstrated a second usable connection to the same target. It was neither lateral movement to
+another host nor a new privilege escalation, because our initial session was already root. The next required
+action was recovery of the altered lab account, not additional uncontrolled modification.
 
 
 
@@ -2061,7 +2251,7 @@ console-login failures in Rayan’s inventory are relevant but cannot independen
 
 
 
-Confidential - Academic Lab Use Only                                                                           55 / 85
+Confidential - Academic Lab Use Only                                                                           60 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
@@ -2076,17 +2266,17 @@ context, not conclusive correlation.
 
 5.9 Where the Evidence Ends
 
-The supplied record demonstrates one compromised operating-system target, account modification and a
-second SSH connection to it, plus a reported default-credential application login corroborated by administrator
-access and a demo transaction. It does not demonstrate a SOCKS pivot, successful compromise of Fahdil’s
-workstation, XSS execution, a separate local privilege-escalation exploit, or an actual credential-hash cracking
-run. Those expected tasks in the preparatory guides remain gaps or analytical discussion, not fabricated
-successful steps.
+Our server-side sequence was discovery, service validation, module selection, root verification and an
+account-control test. Our application sequence was a rejected login payload, a credential candidate requiring
+manual verification, administrator access and a simulated transaction. These chains explain why we chose each
+next action. We did not demonstrate a SOCKS pivot, compromise of Fahdil’s workstation, XSS execution, a
+separate local privilege-escalation exploit or hash cracking. Those expected tasks remain gaps or analysis, not
+additional successes added to the story.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                          56 / 85
+Confidential - Academic Lab Use Only                                                                          61 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -2097,15 +2287,19 @@ Confidential - Academic Lab Use Only                                            
 
 6.1 Strategy: Observe First, Then Apply a Scoped Control
 
-Owners: Marshall (PC1), Fahdil (PC2), Amina (PC5). Marshall operated the separate Suricata/Kali sensor at
-192.168.50.200 and administered pfSense at 192.168.50.1. Fahdil provided Windows 10 and
-application-side observations. Amina prepared OpenVAS at 192.168.50.250 and investigated its feed
-readiness. The intended division combined network detection, endpoint context and vulnerability assessment;
-the evidence establishes different completion levels for each.
-The Blue Team’s strategic objective was to recognize the attack source, constrain harmful traffic without losing
-legitimate management access, and verify the effect on a defined network path. Detection was not automatic
-prevention: Suricata operated as a passive IDS. The documented blocking action was configured using the
-pfSense web portal, not a demonstrated claim that the portal itself became inaccessible to all Red Team traffic.
+Blue Team voice: Marshall (PC1), Fahdil (PC2), Amina (PC5). Our aim was to understand the traffic reaching the
+lab before choosing a defensive action. Marshall operated Suricata on the separate Kali VM at
+192.168.50.200 and administered pfSense at 192.168.50.1. Fahdil supplied the Windows 10 and
+application-side observations. Amina worked on the independent OpenVAS assessment at 192.168.50.250;
+its incomplete outcome is documented in Task 5.
+We separated detection from containment. Suricata could show us suspicious activity, but as a passive IDS it did
+not stop that traffic. We therefore used the alert’s source, destination and signature to decide what to
+investigate, configured a targeted rule through the pfSense web portal, and then checked a specific traffic path
+to see what changed. Our strategy was not to block every noisy host: Amina’s approved scanner and unrelated
+background traffic had to be distinguished from Bruno’s exercise source.
+The sequence below explains how we moved from a working log view to a source-based block and a bounded
+verification result. It also records what we could not yet establish. A configured rule is not automatically a
+network-wide block, and a readable log excerpt is not automatically a complete campaign timeline.
 
 Stage                Evidence and interpretation                       Decision / next action
 
@@ -2124,22 +2318,24 @@ Recover              No completed target rebuild or account            Preserve 
 
 6.2 Start Monitoring Before the Red Team Runs a Test
 
-The early configuration output in E009 validates rule parsing. The later statistics show hours of sensor activity,
-and the live logs contain the Red source. These observations support preparation followed by detection, but
-not a complete minute-by-minute record of every test. In a repeat run, start the sensor and packet capture
-before discovery, preserve the baseline time and agree the permitted test window with the Red Team.
+We first needed to know that the sensor could load its configuration and produce useful evidence. The
+configuration test in E009 gave us the first check; later logs and statistics established actual activity. Our
+intention was to observe the exercise from the beginning, but the supplied excerpts do not prove that every
+phase was captured continuously. For the working live view, we chose tail -f on fast.log because it let us
+see new human-readable alerts without first parsing JSON.
    PC1 Kali - observed monitoring command
 
    sudo tail -f /var/log/suricata/fast.log
 
-This is the command the team demonstrated working. It displays recent log lines and then follows appended
-data until Ctrl+C. It does not start Suricata and it does not block packets. The fast output must be enabled and
-the file readable; no log format is guaranteed to exist on an unconfigured installation.
+This command gave us a working view of recent alerts and new appended records until we stopped it with
+Ctrl+C. We could read the source, destination and signature directly, which helped us decide what to
+investigate next. It neither started Suricata nor blocked packets; the enabled logging output and running sensor
+supplied the data.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                       57 / 85
+Confidential - Academic Lab Use Only                                                                       62 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
@@ -2151,6 +2347,9 @@ retransmission events.
 Evidence Limit. Long lines are clipped in the terminal window. Only the visible records can be interpreted; alert presence
 is not proof of exploit success.
 
+The working tail also exposed a practical issue: unrelated traffic appeared alongside the lab events. For a repeat
+investigation, we would use the following rotation-aware and fixed-string filters to focus the display on Bruno’s
+address. These are follow-up improvements, not commands claimed to be present in the original screenshot.
    PC1 Kali - recommended rotation-aware filtering
 
    sudo tail -n 50 -F /var/log/suricata/fast.log
@@ -2158,15 +2357,16 @@ is not proof of exploit success.
    sudo tail -n 0 -F /var/log/suricata/fast.log | \
      grep --line-buffered -F '192.168.50.100:'
 
-Run each live follow command in its own terminal or stop it before running the next command. -F follows a
-filename across rotation; -n 0 starts with new lines only. The fixed-string filter matches either endpoint, not
-just the source, and avoids treating the IP’s dots as regex wildcards. It is appropriate to the supplied IPv4
-IP:port log representation. Inspect the source-to-destination direction on each matching line.
+We would choose -F to follow the filename across rotation and -n 0 when only new events were wanted. The
+fixed-string match keeps the IP’s dots literal, but can match either endpoint, so direction still needs to be read.
+Each live-follow command must run in its own terminal or be stopped before the next one. The complete
+screenshot below remains our original fast-log evidence; it is not presented as the output of these proposed
+filters.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                           58 / 85
+Confidential - Academic Lab Use Only                                                                           63 / 90
 SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
@@ -2195,16 +2395,16 @@ retransmissions             flood without supporting packet evidence.
 Kali DHCP hostname          An environment indicator, not proof that the host is malicious.
 10.11.12.47 / public        Background addresses outside the assigned target prefix; exclude them from Red Team
 HTTPS                       findings unless scope and attribution are independently established.
-Decision. Investigate the authorized Red source 192.168.50.100, the service it reached, and the
-corresponding test window. Do not block Amina’s permitted scanner simply because it generates many probes.
-A matching alert and an agreed exercise source make a targeted rule defensible; alert volume alone does not.
-Check sensor health as well as alerts. The statistics view provides cumulative capture counters. It is useful for
-judging capture quality, not for counting successful blocks.
+The Nmap-labelled request from 192.168.50.100 to the gateway’s HTTP port gave us a concrete source and
+service to investigate. We compared that with the assigned lab roles rather than treating every event as an
+attack. This made Bruno’s source the focus of the containment test; it did not justify blocking Amina simply for
+scanning. We also examined the sensor statistics to understand the capture workload, while keeping those
+counters separate from any claim about packets blocked.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                         59 / 85
+Confidential - Academic Lab Use Only                                                                         64 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -2219,17 +2419,16 @@ attacks blocked.
 
 6.3 Investigate EVE Parse Failures Without Losing Evidence
 
-The team encountered Invalid numeric literal at line 48, column 501 when querying
-eve.json. The repeated error establishes malformed JSON input at that location; it does not establish that
-Suricata was caught mid-write. A truncated record, mixed log content or corruption must be investigated.
-Ordinary jq also requires valid input, not only slurp mode. Compare with the earlier structured output. The
-supplied EVE screenshot demonstrates that a structured alert was readable at another point; its endpoints are
-outside the lab scope.
+After the plain-text alerts gave us an initial view, we wanted structured fields that could be filtered by source
+and signature. We therefore tried querying eve.json with jq, but repeatedly received Invalid numeric
+literal at line 48, column 501. We could continue reading fast.log, so the parsing failure did not
+mean that all detection had stopped. The earlier structured screenshot below shows readable JSON from
+another point in the session, not proof that the later malformed record had been repaired.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                         60 / 85
+Confidential - Academic Lab Use Only                                                                         65 / 90
 SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
@@ -2240,10 +2439,18 @@ Comment. A tail of eve.json filtered with jq displays an alert object, the eth0 
 Its source is 10.11.12.47, outside the lab prefix.
 Evidence Limit. This event demonstrates logging output, not a Red Team attack against an in-scope target.
 
-For a repeat investigation, preserve a snapshot of the file, inspect the reported line, and emit a separate error
-record for every unparseable input line. The following workflow is a recommended diagnostic, not a claim that
-the historical file was repaired. It assumes standard newline-delimited EVE JSON. Run on Marshall’s Kali VM,
-where the log exists.
+  Difficulty Encountered - EVE JSON Parsing Failure
+  Problem. The jq queries stopped at the same malformed input location. Why. The input was not valid JSON
+  there; a partial write, mixed content or corruption are possible explanations, but none was established. Re-
+  sponse. We used the working fast.log view to continue investigation. The snapshot and diagnostic parser
+  below provide a proposed way to examine bad lines without silently discarding their existence. Outcome.
+  Plain-text monitoring provided a workaround. The diagnostic parser was tested offline with synthetic data;
+  repair or replay of the original live EVE file was not demonstrated.
+
+Our next diagnostic step would be to preserve a snapshot before changing anything, inspect the failing line, and
+retain an error record for every malformed line. We chose this approach to protect the evidence and distinguish
+missing data from a genuine absence of alerts. The workflow is a recommended diagnostic for standard
+newline-delimited EVE JSON on Marshall’s Kali VM, not a claim that we repaired the historical log.
    Preserve and inspect the source log
 
    mkdir -p ~/CYS4151/evidence
@@ -2255,6 +2462,14 @@ where the log exists.
 A copy of an actively written file may end with an incomplete final record. Preserve the acquisition time and do
 not overwrite or truncate the original log. If exact completeness is required, coordinate a rotation or quiesced
 collection with the operator.
+
+
+
+
+Confidential - Academic Lab Use Only                                                                           66 / 90
+SECURETECH / CYS 4151                                                                Penetration Testing Report
+
+
    Parse each line and retain diagnostics instead of silently dropping it
 
    sudo jq -Rnc '
@@ -2267,15 +2482,10 @@ collection with the operator.
    jq -c 'select(type=="object") | select(has("parse_error"))' \
      ~/CYS4151/evidence/eve.review.ndjson
 
-Valid records remain available for analysis; invalid records produce diagnostic objects with the input line
-number. The preserved snapshot retains the original offending text. Absence of an alert in the parsed subset is
-not proof no attack occurred, especially if malformed records or missing capture coverage remain.
-
-
-Confidential - Academic Lab Use Only                                                                           61 / 85
-SECURETECH / CYS 4151                                                            Penetration Testing Report
-
-
+This parser would let us continue examining valid records while recording which input lines failed. We would
+use those line numbers to return to the unchanged snapshot and inspect the original text. That gives the next
+filtering step an auditable basis instead of silently treating discarded lines as though they never existed. A quiet
+result from the valid subset would still not prove that no attack occurred.
    Review valid Red-source alerts in a small frozen lab snapshot
 
    jq -c 'select(type=="object") |
@@ -2291,37 +2501,39 @@ Confidential - Academic Lab Use Only                                            
       (.alert.signature // "")] | @tsv' \
      ~/CYS4151/evidence/eve.review.ndjson
 
-The signature is nested under .alert, and the case-insensitive match includes uppercase SCAN. Sorting the
-snapshot is useful for a short lab record; do not slurp an unbounded production log into memory. ISO
-timestamps with differing offsets must be normalized before claiming cross-system chronological order. This
-sorting example is for a same-source/same-offset snapshot.
+We would then filter on the actual Red source and the signature stored under .alert, using a case-insensitive
+match so uppercase SCAN is included. For a small frozen snapshot, sorting the selected records would help us
+compare them with the test sequence. It is not suitable for slurping an unbounded production log, and
+timestamps with different offsets must be normalized before cross-system ordering. This proposed analysis
+supports the next decision; it does not create missing historical evidence.
 
 
 6.4 Contain Through the pfSense Web Portal
 
-Trigger. The relevant detection was repeated Nmap-labelled gateway traffic from 192.168.50.100.
-Objective. Restrict that source on the path pfSense can enforce while preserving administration from a trusted
-Blue Team host.
-The screenshots support the following sequence, with unshown intermediate clicks treated as reconstruction
-rather than separate proof:
-1. Marshall opened the pfSense web portal at https://192.168.50.1 from the Blue Team environment.
-2. Under Firewall > Aliases, he entered a Host(s) alias for 192.168.50.100. The initial screenshot names it
-   bruno; the later rules view references Blocked_Attackers. The exact rename or membership transition
-   is not supplied.
-3. Under Firewall > Rules > LAN, he configured a source-based block. The visible destination is Any and the
-   description is Block attacker IP - Task 12 hardening. The source port should be Any because
-   ephemeral client ports are not a stable attacker identity.
-4. The final rules screen shows Blocked_Attackers above the broad default LAN allow rule and a
-   successful rule reload banner. The user-defined rule order matters: the earlier matching action governs a
-   new connection unless an earlier automatic/group/floating rule or existing state applies.
-5. The team compared ICMP traffic to the gateway before and after the change, using the pfSense shell
-   capture shown below.
+Once we had a relevant alert and an identified lab source, we moved from observation to containment. We
+chose pfSense because the observed traffic was directed to the gateway, where a firewall rule could act on it.
+Our objective was to restrict 192.168.50.100 while retaining legitimate Blue Team administration. We used
+the web portal so we could inspect the alias, rule fields and applied order together.
+The following narrative follows the captured configuration states. Intermediate clicks that are not visible are
+reconstruction, not separate proof:
+1. We opened https://192.168.50.1 from the Blue Team environment to configure the control on the
+   gateway, not on the passive sensor.
+2. We entered the source in a Host(s) alias under Firewall > Aliases. Grouping the address made the rule
+   easier to identify and maintain. The first screenshot calls it bruno; the later rule uses
+   Blocked_Attackers. We do not have the intermediate rename or membership capture.
+3. We configured a source block under Firewall > Rules > LAN. The visible destination is Any and the
+   description identifies the Task 12 block. A source-port restriction would not reliably identify the attacker
+   because client ports can change between requests.
+4. We placed the block before the broad default LAN allow rule and applied the change. The later screen
 
-
-
-
-Confidential - Academic Lab Use Only                                                                62 / 85
+Confidential - Academic Lab Use Only                                                                     67 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
+
+
+    shows that ordering and a successful reload banner. We still had to consider automatic rules and existing
+    states rather than assuming this position blocked every connection.
+5. We then compared gateway ICMP traffic before and after the change. This was the next step because saving
+   a rule demonstrated configuration intent, not its actual effect.
 
 
 
@@ -2359,8 +2571,7 @@ administration. It cannot be treated as a complete web-portal denial test.
 
 
 
-
-Confidential - Academic Lab Use Only                                                                       63 / 85
+Confidential - Academic Lab Use Only                                                                       68 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
@@ -2372,21 +2583,34 @@ checkbox is unchecked; tracking ID 1791048379 appears below.
 Evidence Limit. Some source fields are covered by the identity overlay. This editor view alone does not prove rule
 application or packet loss.
 
+  Difficulty Encountered - Proving the Firewall Block
+  Problem. A rule in the GUI did not, by itself, prove that the intended requests were denied. The editor also
+  shows logging unchecked, and the final rule list retains anti-lockout above the source block. Why. Man-
+  agement exceptions, existing states and traffic that bypasses the gateway can produce different outcomes.
+  Response. We checked the gateway’s ICMP traffic with tcpdump rather than relying on the rule screenshot
+  alone. Outcome. We obtained scoped evidence of a response change. Complete portal denial, endpoint
+  containment and a logged block trail were not established and remain follow-up tests.
+
 
 6.5 Verify the Specific Path That Was Tested
 
+We chose tcpdump on pfSense to compare packets on the actual gateway interface. Filtering on ICMP and
+Bruno’s address kept the verification focused on one path and made the request/reply behaviour easier to
+compare before and after the rule change.
    Observed on pfSense - shell, not the Kali sensor
 
    tcpdump -ni em1 icmp and host 192.168.50.100
 
--n avoids address-to-name resolution and -i em1 selects the observed pfSense LAN interface. The capture
-filter selects ICMP involving the Red source. E003 shows request/reply pairs around 17:39:24–25 and requests
-without visible replies around 17:40:17–27.
+We used -n to keep addresses numeric and -i em1 to select the pfSense LAN interface shown in the record.
+The capture showed request/reply pairs around 17:39:24–25, followed by requests without visible replies
+around 17:40:17–27. That gave us evidence consistent with a change in gateway ICMP handling. It did not
+answer whether every TCP service or direct peer-to-peer path was blocked, so those became separate
+verification requirements.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                          64 / 85
+Confidential - Academic Lab Use Only                                                                          69 / 90
 SECURETECH / CYS 4151                                                                  Penetration Testing Report
 
 
@@ -2421,16 +2645,18 @@ Firewall event logging      Editor checkbox          Matching block-log evidence
 
 6.6 Recommended Completion of the Containment Test
 
-The following actions are a future verification plan, not historical events added to the record. Back up pfSense
-configuration and retain local console access before changing management rules.
-1. Verify the actual members of Blocked_Attackers; keep approved management clients separate from
-   test sources. Enable logging on the relevant block rule, save and apply.
+Our next defensive priority would be to close the verification gaps exposed by that test. We would enable the
+relevant rule logging, check fresh connection behaviour and preserve Blue Team management access while
+testing each intended path separately. The actions below are a future verification plan, not additional steps
+claimed to have succeeded. We would first back up the configuration and retain local console access so a
+management-rule error could be recovered safely.
 
-
-Confidential - Academic Lab Use Only                                                                       65 / 85
+Confidential - Academic Lab Use Only                                                                       70 / 90
 SECURETECH / CYS 4151                                                             Penetration Testing Report
 
 
+1. Verify the actual members of Blocked_Attackers; keep approved management clients separate from
+   test sources. Enable logging on the relevant block rule, save and apply.
 2. If the goal includes denying access to pfSense’s GUI, first create and test a narrow trusted-management
    allow rule. Only then consider disabling the automatic anti-lockout rule under System > Advanced > Admin
    Access. Do not remove the only available management path.
@@ -2451,22 +2677,24 @@ Confidential - Academic Lab Use Only                                            
    pfctl -t Blocked_Attackers -T show
    tcpdump -ni em1 'host 192.168.50.100 and (icmp or tcp)'
 
-The table command requires that the named table actually exists in the loaded ruleset. A pfctl -T add
-operation changes a runtime table, not the saved GUI alias definition, and may be lost on reload; it is not
-substituted for the documented persistent GUI workflow. Packet capture and pfctl run on pfSense, not on the
-separate Suricata guest.
+For that retest, we would use pfctl -sr to inspect loaded rules, pfctl -ss to inspect states, and the table
+query to check the active block-list contents. These answer different questions from simply viewing the saved
+GUI fields. The named table must exist; changing it with pfctl -T add would affect runtime state rather than
+the persistent GUI alias and may be lost on reload. We would run these checks on pfSense, not on the separate
+Suricata guest.
 
 
 6.7 Packet Capture and Endpoint Corroboration
 
-E050, E067 and E068 show Wireshark’s ip.addr==192.168.50.100 display filter and ICMP exchanges
-between Amina and Bruno. They prove that those hosts communicated and that the selected packet was an
-echo reply. They are not a capture of the FTP backdoor or a complete record of Red Team traffic.
+We also used Wireshark to examine a known exchange between Amina’s scanner and Bruno’s workstation. The
+ip.addr==192.168.50.100 display filter reduced the view to packets involving the Red source, and the
+decoded echo reply showed that the two lab hosts could communicate. This helped us corroborate their
+addresses and the captured path; it did not give us evidence of the FTP exploit or universal sensor coverage.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                 66 / 85
+Confidential - Academic Lab Use Only                                                                 71 / 90
 SECURETECH / CYS 4151                                                                         Penetration Testing Report
 
 
@@ -2490,7 +2718,7 @@ Evidence Limit. This is connectivity testing, not a scan or an exploit; capture 
 
 Retain the identity-bearing view. This additional supplied screenshot records the same exchange with the
 
-Confidential - Academic Lab Use Only                                                                                  67 / 85
+Confidential - Academic Lab Use Only                                                                                  72 / 90
 SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
@@ -2516,15 +2744,16 @@ Replace eth0 only after checking the actual sensor interface. The -f expression 
 Wireshark display filter. The 60-second limit bounds this verification capture. HTTPS application payloads are
 not exposed just by adding an HTTP filter. Review traffic visibility before assuming that a quiet capture means
 the target received no attack.
-Fahdil’s Windows 10 observations show the application’s interface, not Windows Security event logs. For an
-authorized retest, local audit policy must first enable the relevant events. Then review successful/failed logons
-and process creation only on the system that generated them; remote packets that never reach authentication
-need not generate a 4625 event.
+Fahdil supplied the workstation-side view by opening VulnBank from Windows 10 and recording the application
+state. This gave us another vantage point on the lab, but it was not a Windows Security log investigation. To
+complete that part in a repeat exercise, we would first verify local audit policy, then inspect the relevant logon
+and process events on the system that generated them. A packet blocked before authentication need not create
+a failed-logon event.
 
 
 
 
-Confidential - Academic Lab Use Only                                                                         68 / 85
+Confidential - Academic Lab Use Only                                                                         73 / 90
 SECURETECH / CYS 4151                                                                    Penetration Testing Report
 
 
@@ -2548,7 +2777,7 @@ warning.
 Evidence Limit. The repeated page state does not prove there were no attacks or that remediation had been applied.
 
 
-Confidential - Academic Lab Use Only                                                                         69 / 85
+Confidential - Academic Lab Use Only                                                                         74 / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -2564,6 +2793,11 @@ On the Ubuntu application host, inspect the configured Apache access/error log p
 logs. A normal HTTP access log often omits POST bodies, so it cannot be promised to contain every literal login
 payload. who and shell history likewise do not reliably record an unregistered backdoor shell. No missing log is
 reconstructed as fabricated evidence here.
+Looking back, our defensive chain was a configuration check, a working live alert view, identification of the
+exercise source, a source-based gateway rule and a focused packet comparison. Amina’s scanner difficulties and
+the missing endpoint/raw-log evidence showed us where our visibility was incomplete. Those limits shaped our
+next recommendations: repair scanner readiness, enable scoped firewall logging, verify endpoint controls, and
+repeat the same permitted and denied paths before claiming closure.
 
 
 6.8 Joint Exercise Timeline
@@ -2592,7 +2826,7 @@ count or network-wide block rate.
 
 
 
-Confidential - Academic Lab Use Only                                                                     70 / 85
+Confidential - Academic Lab Use Only                                                                     75 / 90
 SECURETECH / CYS 4151                                                                      Penetration Testing Report
 
 
@@ -2653,7 +2887,7 @@ not from a scanner export or screenshot count.
 
 
 
-Confidential - Academic Lab Use Only                                                                            71 / 85
+Confidential - Academic Lab Use Only                                                                            76 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -2711,7 +2945,7 @@ errors. The operator report records a successful manual login, and the following
 administrator access and a simulated payment. The combined record corroborates the default-credential path
 without requiring the error-laden automation to be treated as reliable proof by itself.
 
-Confidential - Academic Lab Use Only                                                                   72 / 85
+Confidential - Academic Lab Use Only                                                                   77 / 90
 SECURETECH / CYS 4151                                                              Penetration Testing Report
 
 
@@ -2770,7 +3004,7 @@ a different enforcement point.
 Asset / evidence: 192.168.50.1; E001, E003. Severity: Medium. Status: Retest pending.
 
 
-Confidential - Academic Lab Use Only                                                                  73 / 85
+Confidential - Academic Lab Use Only                                                                  78 / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -2824,7 +3058,7 @@ coverage               failure                   the authorized scan before clai
 
 
 
-Confidential - Academic Lab Use Only                                                                     74 / 85
+Confidential - Academic Lab Use Only                                                                     79 / 90
 SECURETECH / CYS 4151                                                                       Penetration Testing Report
 
 
@@ -2856,7 +3090,7 @@ evidence of tested-safe assets.
 
 
 
-Confidential - Academic Lab Use Only                                                                            75 / 85
+Confidential - Academic Lab Use Only                                                                            80 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -2919,7 +3153,7 @@ the proposed transaction before confirming an upgrade and validate application f
 
 
 
-Confidential - Academic Lab Use Only                                                                         76 / 85
+Confidential - Academic Lab Use Only                                                                         81 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -2959,7 +3193,7 @@ change over an unqualified copy-paste block command.
 
 
 
-Confidential - Academic Lab Use Only                                                                   77 / 85
+Confidential - Academic Lab Use Only                                                                   82 / 90
 SECURETECH / CYS 4151                                                                     Penetration Testing Report
 
 
@@ -3002,7 +3236,7 @@ F08 awaits logged retesting.
 
 
 
-Confidential - Academic Lab Use Only                                                                          78 / 85
+Confidential - Academic Lab Use Only                                                                          83 / 90
 SECURETECH / CYS 4151                                                                   Penetration Testing Report
 
 
@@ -3063,7 +3297,7 @@ measured facts.
 
 
 
-Confidential - Academic Lab Use Only                                                                         79 / 85
+Confidential - Academic Lab Use Only                                                                         84 / 90
 SECURETECH / CYS 4151                                                              Penetration Testing Report
 
 
@@ -3093,7 +3327,7 @@ been manufactured.
 
 
 
-Confidential - Academic Lab Use Only                                                                  80 / 85
+Confidential - Academic Lab Use Only                                                                  85 / 90
 SECURETECH / CYS 4151                                                             Penetration Testing Report
 
 
@@ -3155,7 +3389,7 @@ D5     amina openvas.pdf, 10 pages. Amina’s incomplete Task5 assessment. Pages
 6. Netgate, Admin Access: safely restricting GUI/SSH access before disabling anti-lockout.
      https://docs.netgate.com/pfsense/en/latest/config/advanced-admin.html
 
-Confidential - Academic Lab Use Only                                                                 81 / 85
+Confidential - Academic Lab Use Only                                                                 86 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -3183,7 +3417,7 @@ scans were performed in preparing the report.
 
 
 
-Confidential - Academic Lab Use Only                                                                   82 / 85
+Confidential - Academic Lab Use Only                                                                   87 / 90
 SECURETECH / CYS 4151                                                                        Penetration Testing Report
 
 
@@ -3243,7 +3477,7 @@ the accompanying image inventory CSV.
                         3/vbox-metasploitable.png
 
 
-Confidential - Academic Lab Use Only                                                                            83 / 85
+Confidential - Academic Lab Use Only                                                                            88 / 90
 SECURETECH / CYS 4151                                                                 Penetration Testing Report
 
 
@@ -3302,7 +3536,7 @@ Confidential - Academic Lab Use Only                                            
                         2026-10-03 160458.png
 
 
-Confidential - Academic Lab Use Only                                                                     84 / 85
+Confidential - Academic Lab Use Only                                                                     89 / 90
 SECURETECH / CYS 4151                                                               Penetration Testing Report
 
 
@@ -3355,5 +3589,5 @@ Confidential - Academic Lab Use Only                                            
 
 
 
-Confidential - Academic Lab Use Only                                                                   85 / 85
+Confidential - Academic Lab Use Only                                                                   90 / 90
 
