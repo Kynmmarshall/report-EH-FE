@@ -13,59 +13,68 @@
 \contentsline {section}{\numberline {4}Laboratory Setup and Readiness}{6}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Shared Preparation and the Host-Only Failure}{6}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}PC1: Marshall's Router and Separate Sensor}{6}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}PC2: Fahdil's Windows 10 Workstation}{11}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}PC3: Rayan's Application and Target Guests}{13}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}PC4: Bruno's Kali Attack Workstation}{20}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}PC5: Amina's Kali/OpenVAS Scanner}{21}{subsection.4.6}%
-\contentsline {subsection}{\numberline {4.7}Problems Encountered and Lessons Applied}{25}{subsection.4.7}%
-\contentsline {section}{\numberline {5}From Discovery to Demonstrated Impact}{26}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Strategy and Initial Position}{26}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Reconnaissance: Establish the Asset Map}{26}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Enumeration: Turn Service Leads into Specific Tests}{29}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Initial Access: Validate the FTP Backdoor}{32}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Post-Exploitation: Demonstrate Account Control}{34}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Web Assessment: Reject One Path and Test Another}{37}{subsection.5.6}%
-\contentsline {subsection}{\numberline {5.7}Bounded Application Impact}{40}{subsection.5.7}%
-\contentsline {subsection}{\numberline {5.8}Where the Evidence Ends}{42}{subsection.5.8}%
-\contentsline {section}{\numberline {6}Detection, Investigation and Containment}{43}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Strategy: Observe First, Then Apply a Scoped Control}{43}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Start Monitoring Before the Red Team Runs a Test}{43}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Investigate EVE Parse Failures Without Losing Evidence}{46}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Contain Through the pfSense Web Portal}{48}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Verify the Specific Path That Was Tested}{50}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Recommended Completion of the Containment Test}{51}{subsection.6.6}%
-\contentsline {subsection}{\numberline {6.7}Packet Capture and Endpoint Corroboration}{52}{subsection.6.7}%
-\contentsline {subsection}{\numberline {6.8}Amina's OpenVAS Investigation and Its Outcome}{56}{subsection.6.8}%
-\contentsline {subsubsection}{\numberline {6.8.1}Open the Task List and Check Readiness}{56}{subsubsection.6.8.1}%
-\contentsline {subsubsection}{\numberline {6.8.2}Attempt Target Creation and Preserve Each Error}{57}{subsubsection.6.8.2}%
-\contentsline {subsubsection}{\numberline {6.8.3}Inspect Service Logs and Revisit Feed Status}{61}{subsubsection.6.8.3}%
-\contentsline {subsubsection}{\numberline {6.8.4}Synchronize and Measure Progress Without Assuming Completion}{63}{subsubsection.6.8.4}%
-\contentsline {subsection}{\numberline {6.9}Joint Exercise Timeline}{69}{subsection.6.9}%
-\contentsline {section}{\numberline {7}Vulnerability Findings and Risk Assessment}{70}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Rating Method and Scope of Conclusions}{70}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}F01 - Backdoored FTP Provides Root Access}{71}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}F02 - Anonymous Writable SMB Share}{71}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}F03 - Anonymous FTP Authentication}{71}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}F04 - Advertised Default VulnBank Administrator Credential}{71}{subsection.7.5}%
-\contentsline {subsection}{\numberline {7.6}F05 - Cleartext Web Application Listeners}{72}{subsection.7.6}%
-\contentsline {subsection}{\numberline {7.7}F06 - pfSense Default Administrator Password Warning}{72}{subsection.7.7}%
-\contentsline {subsection}{\numberline {7.8}F07 - Flat Subnet Limits Gateway Containment}{72}{subsection.7.8}%
-\contentsline {subsection}{\numberline {7.9}F08 - Block-Rule Logging Disabled in the Captured Configuration}{72}{subsection.7.9}%
-\contentsline {subsection}{\numberline {7.10}Additional Observations Not Counted as Confirmed Findings}{73}{subsection.7.10}%
-\contentsline {subsection}{\numberline {7.11}Threat Model and Scenario Impact}{73}{subsection.7.11}%
-\contentsline {section}{\numberline {8}Hardening, Recovery and Retesting}{75}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Prioritized Remediation Register}{75}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Verification Commands and Their Limits}{75}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Incident Response Workflow}{76}{subsection.8.3}%
-\contentsline {subsection}{\numberline {8.4}Red and Blue Team Handoffs}{77}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}Minimum Retest Record}{77}{subsection.8.5}%
-\contentsline {section}{\numberline {9}Outcomes, Coverage and Lessons Learned}{78}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Assessment Conclusion}{78}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}Examination Task Coverage}{78}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}Lessons for the Next Exercise}{79}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}Deliverable Completeness}{79}{subsection.9.4}%
-\contentsline {section}{\numberline {10}Source Documents and Technical References}{80}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Supplied PDFs}{80}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Public Technical References}{80}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Build and Verification Record}{81}{subsection.10.3}%
-\contentsline {section}{\numberline {A}Source Image Register}{82}{section.A}%
+\contentsline {subsection}{\numberline {4.3}PC2: Fahdil's Windows 10 Workstation}{12}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}PC3: Rayan's Application and Target Guests}{14}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}PC4: Bruno's Kali Attack Workstation}{22}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}PC5: Amina's Kali/OpenVAS Scanner}{23}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Problems Encountered and Lessons Applied}{28}{subsection.4.7}%
+\contentsline {section}{\numberline {5}From Reconnaissance to Demonstrated Impact}{29}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Strategy and Initial Position}{29}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Reconnaissance: Establish the Asset Map (Task 2)}{29}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Scanning and Service Enumeration (Task 3)}{30}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Scan the Selected Hosts Across the TCP Port Range}{32}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Fingerprint the Web Listeners}{33}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Validate Anonymous Service Access}{34}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Threat Modelling and Test Selection (Task 4)}{36}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Vulnerability Scanning: Amina's OpenVAS Attempt (Task 5)}{37}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Open the Task List and Check Readiness}{37}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}Attempt Target Creation and Preserve Each Error}{38}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}Inspect Service Logs and Revisit Feed Status}{42}{subsubsection.5.5.3}%
+\contentsline {subsubsection}{\numberline {5.5.4}Synchronize and Measure Progress Without Assuming Completion}{45}{subsubsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.6}Initial Access: Validate the FTP Backdoor (Task 6)}{50}{subsection.5.6}%
+\contentsline {subsubsection}{\numberline {5.6.1}Select the Matching Module}{50}{subsubsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.2}Configure and Review the Target}{51}{subsubsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.3}Run the Controlled Test}{52}{subsubsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.4}Verify the Resulting Identity}{53}{subsubsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.7}Web Application Assessment (Task 7)}{54}{subsection.5.7}%
+\contentsline {subsubsection}{\numberline {5.7.1}Credential Assessment (Task 8)}{55}{subsubsection.5.7.1}%
+\contentsline {subsubsection}{\numberline {5.7.2}Verify the Bounded Application Impact}{57}{subsubsection.5.7.2}%
+\contentsline {subsection}{\numberline {5.8}Post-Exploitation and Privilege Analysis (Tasks 9--10)}{59}{subsection.5.8}%
+\contentsline {subsection}{\numberline {5.9}Where the Evidence Ends}{61}{subsection.5.9}%
+\contentsline {section}{\numberline {6}Detection, Investigation and Containment (Tasks 11--12)}{62}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Strategy: Observe First, Then Apply a Scoped Control}{62}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Start Monitoring Before the Red Team Runs a Test}{62}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Investigate EVE Parse Failures Without Losing Evidence}{65}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Contain Through the pfSense Web Portal}{67}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Verify the Specific Path That Was Tested}{69}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Recommended Completion of the Containment Test}{70}{subsection.6.6}%
+\contentsline {subsection}{\numberline {6.7}Packet Capture and Endpoint Corroboration}{71}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.8}Joint Exercise Timeline}{75}{subsection.6.8}%
+\contentsline {section}{\numberline {7}Vulnerability Findings and Risk Assessment}{76}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Rating Method and Scope of Conclusions}{76}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}F01 - Backdoored FTP Provides Root Access}{77}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}F02 - Anonymous Writable SMB Share}{77}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}F03 - Anonymous FTP Authentication}{77}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}F04 - Advertised Default VulnBank Administrator Credential}{77}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}F05 - Cleartext Web Application Listeners}{78}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}F06 - pfSense Default Administrator Password Warning}{78}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}F07 - Flat Subnet Limits Gateway Containment}{78}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}F08 - Block-Rule Logging Disabled in the Captured Configuration}{78}{subsection.7.9}%
+\contentsline {subsection}{\numberline {7.10}Additional Observations Not Counted as Confirmed Findings}{79}{subsection.7.10}%
+\contentsline {subsection}{\numberline {7.11}Threat Model and Scenario Impact}{79}{subsection.7.11}%
+\contentsline {section}{\numberline {8}Hardening, Recovery and Retesting}{81}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Prioritized Remediation Register}{81}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Verification Commands and Their Limits}{81}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Incident Response Workflow}{82}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Red and Blue Team Handoffs}{83}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Minimum Retest Record}{83}{subsection.8.5}%
+\contentsline {section}{\numberline {9}Outcomes, Coverage and Lessons Learned}{84}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Assessment Conclusion}{84}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Examination Task Coverage}{84}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Lessons for the Next Exercise}{85}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Deliverable Completeness}{85}{subsection.9.4}%
+\contentsline {section}{\numberline {10}Source Documents and Technical References}{86}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Supplied PDFs}{86}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Public Technical References}{86}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Build and Verification Record}{87}{subsection.10.3}%
+\contentsline {section}{\numberline {A}Source Image Register}{88}{section.A}%
